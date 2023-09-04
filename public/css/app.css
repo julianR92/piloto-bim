@@ -1,0 +1,161 @@
+/* ESTILOS PROPIOS */
+
+@keyframes float {
+	0% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
+	50% {
+		box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+		transform: translatey(-20px);
+	}
+	100% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
+}
+
+.avatar-img {
+
+	overflow: hidden;
+	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+	
+}
+
+
+
+
+
+
+.gov-co-1{
+
+    background-color: #3366CC !important;
+
+}
+
+.border-radius-logo{
+border-radius: 162px 162px 162px 162px;
+-moz-border-radius: 162px 162px 162px 162px;
+-webkit-border-radius: 162px 162px 162px 162px;
+border: 3px solid #FFF;
+}
+
+
+
+/* footer */
+
+.page__footer {
+
+    padding-bottom: 20px!important;
+
+    padding-top: 77px;
+
+    margin-top: 1.8%;
+
+    background-color: #212529!important;
+
+    color: white !important;
+
+
+
+}
+
+
+
+.page__footer .container {
+
+    width: 100%;
+
+    max-width: inherit;
+
+    padding-right: 0;
+
+    padding-left: 0;
+
+}
+
+
+
+.border-right {
+
+    border-right: 1px solid #dee2e6!important;
+
+}
+
+
+
+.page__footer .container .footer-container .nav-footer {
+
+    flex-wrap: wrap;
+
+    flex-direction: row;
+
+}
+
+
+
+.font-weight-bold {
+
+    font-weight: 700!important;
+
+}
+
+.text-help{
+    color: red;
+}
+
+.cards{
+
+    transition: all 0.2s ease;
+    cursor: pointer;
+    }
+    
+.cards:hover{
+    
+    box-shadow: 5px 6px 6px 2px #1f2020;
+    transform: scale(0.9);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* query medias */
+
+@media (max-width: 800px) {
+
+    .logo-gov-co {
+
+        margin-bottom: 100px!important;
+
+    }
+
+    .navbar-brand img{ height: 28px!important;}
+
+    .img-imct{
+
+        margin-top:50px!important;
+
+        width: 100px!important;
+
+    }
+
+  }

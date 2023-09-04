@@ -1,0 +1,32 @@
+.button-activo {
+    color: #ecf0f1;
+    font-size: 12px;
+    background-color: #1bd81b;
+    border: 1px solid #2a8b17;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 6px 0px #c2e6b4;
+    transition: all .1s;
+   }
+   
+   .button-activo:active {
+    box-shadow: 0px 2px 0px #c2e6b4;
+    position: relative;
+    top: 2px;
+   }
+       .button-inactivo {
+    color: #ecf0f1;
+    font-size: 12px;
+    background-color: #e91414;
+    border: 1px solid #8f1111;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 6px 0px #ee5b5b;
+    transition: all .1s;
+   }
+   
+   .button-inactivo:active {
+    box-shadow: 0px 2px 0px #ee5b5b;
+    position: relative;
+    top: 2px;
+   }
