@@ -110,10 +110,7 @@
    @stack('scripts-profesionales')  
    @stack('scripts-clientes')  
    @stack('scripts-pagos')  
-<<<<<<< HEAD
    @stack('scripts-inventarios')  
-=======
->>>>>>> cd84de1 (v1)
 
 
    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -176,15 +173,11 @@
            'transferencias.index',
            'medios-pago.index',
            'cuentas-pagos.index',
-<<<<<<< HEAD
            'calificacion.index',
            'productos.index',
            'producto-semana.index',
            'producto-semana.buscar',
            'productos-servicios.index'
-=======
-           'calificacion.index'
->>>>>>> cd84de1 (v1)
            
 
        ]))
