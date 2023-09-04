@@ -40,8 +40,11 @@ class PreciosController extends Controller
             'servicio_id' => 'required',
             'talla_id' => 'required',
              "valor"=>['required','numeric',Rule::unique('precios')->where(function ($query) use ($request) { return $query->where('servicio_id',$request->servicio_id)->where('talla_id', $request->talla_id);})->ignore($request->id, 'id')],
+<<<<<<< HEAD
              'comision' => 'required|numeric',
 
+=======
+>>>>>>> cd84de1 (v1)
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +57,10 @@ class PreciosController extends Controller
             $precio->servicio_id = $request->servicio_id;
             $precio->talla_id = $request->talla_id;
             $precio->valor = $request->valor;
+<<<<<<< HEAD
             $precio->comision = $request->comision;
+=======
+>>>>>>> cd84de1 (v1)
             if ($precio->save()) {
                 $auditoria = Auditoria::create([
                     'usuario' => auth()->user()->first_name,
@@ -71,7 +77,10 @@ class PreciosController extends Controller
             $precio->servicio_id = $request->servicio_id;
             $precio->talla_id = $request->talla_id;
             $precio->valor = $request->valor;
+<<<<<<< HEAD
             $precio->comision = $request->comision;
+=======
+>>>>>>> cd84de1 (v1)
             if ($precio->save()) {
                 $auditoria = Auditoria::create([
                     'usuario' => auth()->user()->first_name,
