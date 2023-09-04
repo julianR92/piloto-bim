@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 10-05-2023 a las 13:36:02
+-- Tiempo de generación: 04-09-2023 a las 03:19:53
 -- Versión del servidor: 5.7.33
--- Versión de PHP: 7.4.19
+-- Versión de PHP: 8.0.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,7 +49,10 @@ CREATE TABLE `abonos` (
 
 INSERT INTO `abonos` (`id`, `cliente_id`, `valor`, `medio_pago_id`, `cuenta_pago_id`, `estado`, `verificado`, `referencia_pago`, `fecha_pago`, `observaciones`, `id_pago`, `created_at`, `updated_at`) VALUES
 (1, 1, 25000, 1, 1, 'APARTADO', 1, NULL, '2023-04-30', NULL, NULL, '2023-04-30 17:15:00', '2023-04-30 17:18:20'),
-(2, 2, 40000, 2, 2, 'DISPONIBLE', 1, '123123', '2023-04-30', NULL, NULL, '2023-04-30 17:16:19', '2023-04-30 17:18:52');
+(2, 2, 40000, 2, 2, 'APARTADO', 1, '123123', '2023-04-30', NULL, NULL, '2023-04-30 17:16:19', '2023-07-06 16:35:47'),
+(3, 1, 25000, 2, 2, 'APARTADO', 1, '123437892', '2023-08-15', NULL, NULL, '2023-08-15 15:09:31', '2023-08-15 15:35:44'),
+(4, 1, 30000, 2, 2, 'DISPONIBLE', 0, '12312333', '2023-08-08', NULL, NULL, '2023-08-15 15:09:31', '2023-08-15 15:09:31'),
+(5, 2, 20000, 2, 2, 'DISPONIBLE', 1, '3412132', '2023-08-15', NULL, NULL, '2023-08-15 15:40:26', '2023-08-15 15:42:41');
 
 -- --------------------------------------------------------
 
@@ -85,7 +88,49 @@ INSERT INTO `agenda` (`id`, `fecha`, `hora`, `tipo_servicio_id`, `servicio_id`, 
 (7, '2023-04-30', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-04-30 17:16:45', '2023-04-30 17:16:45'),
 (8, '2023-04-30', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-04-30 17:16:45', '2023-04-30 17:16:45'),
 (9, '2023-04-30', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-04-30 17:16:45', '2023-04-30 17:16:45'),
-(10, '2023-04-30', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-04-30 17:16:45', '2023-04-30 17:16:45');
+(10, '2023-04-30', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-04-30 17:16:45', '2023-04-30 17:16:45'),
+(11, '2023-07-06', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:57', '2023-07-06 16:33:57'),
+(12, '2023-07-06', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:57', '2023-07-06 16:33:57'),
+(13, '2023-07-06', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:57', '2023-07-06 16:33:57'),
+(14, '2023-07-06', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:57', '2023-07-06 16:33:57'),
+(15, '2023-07-06', '8:00am', 3, 2, 2, 2, 'AGENDADO', 'LLEGO TARRDE', '2023-07-06 16:33:57', '2023-07-06 16:35:47'),
+(16, '2023-07-06', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:57', '2023-07-06 16:33:57'),
+(17, '2023-07-06', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(18, '2023-07-06', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(19, '2023-07-06', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(20, '2023-07-07', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(21, '2023-07-07', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(22, '2023-07-07', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(23, '2023-07-07', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(24, '2023-07-07', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(25, '2023-07-07', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(26, '2023-07-07', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(27, '2023-07-07', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(28, '2023-07-07', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-07-06 16:33:58', '2023-07-06 16:33:58'),
+(29, '2023-08-15', '8:00am', 3, 2, 1, 3, 'AGENDADO', 'TIENE CABELLO IRRITADO', '2023-08-15 14:55:58', '2023-08-15 15:35:44'),
+(30, '2023-08-15', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(31, '2023-08-15', '8:00am', 3, 2, 2, 5, 'APLAZADO', 'NO PUDE IR', '2023-08-15 14:55:58', '2023-08-15 15:42:41'),
+(32, '2023-08-15', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(33, '2023-08-15', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(34, '2023-08-15', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(35, '2023-08-15', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(36, '2023-08-15', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(37, '2023-08-16', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(38, '2023-08-16', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(39, '2023-08-16', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(40, '2023-08-16', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(41, '2023-08-16', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(42, '2023-08-16', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(43, '2023-08-16', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(44, '2023-08-16', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(45, '2023-08-17', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(46, '2023-08-17', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(47, '2023-08-17', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(48, '2023-08-17', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(49, '2023-08-17', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(50, '2023-08-17', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(51, '2023-08-17', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58'),
+(52, '2023-08-17', '1:30pm', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, '2023-08-15 14:55:58', '2023-08-15 14:55:58');
 
 -- --------------------------------------------------------
 
@@ -322,7 +367,86 @@ INSERT INTO `auditoria` (`id`, `usuario`, `correo`, `observaciones`, `direccion_
 (212, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 2 verificado en la plataforma', '127.0.0.1', '2023-04-30 22:17:35', '2023-04-30 22:17:35'),
 (213, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #1 al cliente 2 en la plataforma', '127.0.0.1', '2023-04-30 22:17:49', '2023-04-30 22:17:49'),
 (214, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #3 al cliente 1 en la plataforma', '127.0.0.1', '2023-04-30 22:18:20', '2023-04-30 22:18:20'),
-(215, 'Julian', 'julianrincon9230@gmail.com', 'Edicion de cita #1 en la plataforma cambia a estado: APLAZADO', '127.0.0.1', '2023-04-30 22:18:52', '2023-04-30 22:18:52');
+(215, 'Julian', 'julianrincon9230@gmail.com', 'Edicion de cita #1 en la plataforma cambia a estado: APLAZADO', '127.0.0.1', '2023-04-30 22:18:52', '2023-04-30 22:18:52'),
+(216, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #15 al cliente 2 en la plataforma', '127.0.0.1', '2023-07-06 21:35:48', '2023-07-06 21:35:48'),
+(217, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 3 por valor de: 25000 para el cliente: ANDREA MUÑOZ', '127.0.0.1', '2023-08-15 20:09:31', '2023-08-15 20:09:31'),
+(218, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 4 por valor de: 30000 para el cliente: ANDREA MUÑOZ', '127.0.0.1', '2023-08-15 20:09:31', '2023-08-15 20:09:31'),
+(219, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 3 verificado en la plataforma', '127.0.0.1', '2023-08-15 20:10:34', '2023-08-15 20:10:34'),
+(220, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #29 al cliente 1 en la plataforma', '127.0.0.1', '2023-08-15 20:35:44', '2023-08-15 20:35:44'),
+(221, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 5 por valor de: 20000 para el cliente: HEIDY DAYANA', '127.0.0.1', '2023-08-15 20:40:26', '2023-08-15 20:40:26'),
+(222, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 5 verificado en la plataforma', '127.0.0.1', '2023-08-15 20:41:00', '2023-08-15 20:41:00'),
+(223, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #31 al cliente 2 en la plataforma', '127.0.0.1', '2023-08-15 20:41:54', '2023-08-15 20:41:54'),
+(224, 'Julian', 'julianrincon9230@gmail.com', 'Edicion de cita #31 en la plataforma cambia a estado: APLAZADO', '127.0.0.1', '2023-08-15 20:42:41', '2023-08-15 20:42:41'),
+(225, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de precio 400000 en la plataforma', '127.0.0.1', '2023-08-16 20:44:17', '2023-08-16 20:44:17'),
+(226, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de precio 400000 en la plataforma', '127.0.0.1', '2023-08-16 20:45:18', '2023-08-16 20:45:18'),
+(227, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de precio 20000 en la plataforma', '127.0.0.1', '2023-08-16 20:45:31', '2023-08-16 20:45:31'),
+(228, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de precio 20000 en la plataforma', '127.0.0.1', '2023-08-16 20:49:38', '2023-08-16 20:49:38'),
+(229, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de precio 25000 en la plataforma', '127.0.0.1', '2023-08-16 20:49:50', '2023-08-16 20:49:50'),
+(230, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de valor 25000 en la plataforma', '127.0.0.1', '2023-08-16 20:51:29', '2023-08-16 20:51:29'),
+(231, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de producto ADN en la plataforma', '127.0.0.1', '2023-08-17 02:29:40', '2023-08-17 02:29:40'),
+(232, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de producto ADN en la plataforma', '127.0.0.1', '2023-08-17 02:32:50', '2023-08-17 02:32:50'),
+(233, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de producto ADN 5000 en la plataforma', '127.0.0.1', '2023-08-17 02:33:07', '2023-08-17 02:33:07'),
+(234, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de producto ADN 5000 en la plataforma', '127.0.0.1', '2023-08-17 02:33:38', '2023-08-17 02:33:38'),
+(235, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de producto ADN 4000 en la plataforma', '127.0.0.1', '2023-08-17 02:34:57', '2023-08-17 02:34:57'),
+(236, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de valor ADN 4000 en la plataforma', '127.0.0.1', '2023-08-17 02:35:07', '2023-08-17 02:35:07'),
+(237, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de producto ADN 4000 en la plataforma', '127.0.0.1', '2023-08-17 02:35:29', '2023-08-17 02:35:29'),
+(238, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de producto LISO HD en la plataforma', '127.0.0.1', '2023-08-17 02:37:40', '2023-08-17 02:37:40'),
+(239, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de valor LISO HD en la plataforma', '127.0.0.1', '2023-08-17 02:37:49', '2023-08-17 02:37:49'),
+(240, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de Profesional Fabian Oswaldo Hernandez Murcia en la plataforma', '127.0.0.1', '2023-08-24 20:49:27', '2023-08-24 20:49:27'),
+(241, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 200 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-24 21:45:14', '2023-08-24 21:45:14'),
+(242, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 200 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-24 21:45:31', '2023-08-24 21:45:31'),
+(243, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 400 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-24 21:47:31', '2023-08-24 21:47:31'),
+(244, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 20000 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-24 21:48:17', '2023-08-24 21:48:17'),
+(245, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 5000 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-25 03:32:48', '2023-08-25 03:32:48'),
+(246, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 5000 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-27 17:01:03', '2023-08-27 17:01:03'),
+(247, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 2000 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-27 17:03:43', '2023-08-27 17:03:43'),
+(248, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 20000 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-27 17:04:45', '2023-08-27 17:04:45'),
+(249, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de inventario 2 en la plataforma', '127.0.0.1', '2023-08-27 17:10:53', '2023-08-27 17:10:53'),
+(250, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 7000 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-27 17:27:05', '2023-08-27 17:27:05'),
+(251, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 4000 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 03:58:03', '2023-08-28 03:58:03'),
+(252, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 2000 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 04:06:59', '2023-08-28 04:06:59'),
+(253, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 12000 tipo de inventario CIERRE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 05:14:23', '2023-08-28 05:14:23'),
+(254, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 4000 tipo de inventario FALTANTE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 05:14:23', '2023-08-28 05:14:23'),
+(255, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de Profesional OLFER EFRAIN OLAYA en la plataforma', '127.0.0.1', '2023-08-28 13:21:18', '2023-08-28 13:21:18'),
+(256, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de producto BOTULINICA 3000 en la plataforma', '127.0.0.1', '2023-08-28 13:22:51', '2023-08-28 13:22:51'),
+(257, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 5 con valor de 40000 tipo de inventario STOCK en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 13:23:39', '2023-08-28 13:23:39'),
+(258, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 5 con valor de 4000 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 13:24:00', '2023-08-28 13:24:00'),
+(259, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 5 con valor de 1000 tipo de inventario SALIDA en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 13:24:16', '2023-08-28 13:24:16'),
+(260, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 5 con valor de 5000 tipo de inventario CIERRE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 13:44:01', '2023-08-28 13:44:01'),
+(261, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 5 con valor de 38000 tipo de inventario FALTANTE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 13:44:01', '2023-08-28 13:44:01'),
+(262, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 1000 tipo de inventario STOCK en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 16:24:20', '2023-08-28 16:24:20'),
+(263, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 500 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 16:24:38', '2023-08-28 16:24:38'),
+(264, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 800 tipo de inventario SALIDA en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 16:25:02', '2023-08-28 16:25:02'),
+(265, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 500 tipo de inventario CIERRE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 16:25:39', '2023-08-28 16:25:39'),
+(266, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 200 tipo de inventario FALTANTE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 16:25:39', '2023-08-28 16:25:39'),
+(267, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 2000 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:09:11', '2023-08-28 19:09:11'),
+(268, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 500 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:09:34', '2023-08-28 19:09:34'),
+(269, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 500 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:09:56', '2023-08-28 19:09:56'),
+(270, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 600 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:10:40', '2023-08-28 19:10:40'),
+(271, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 2200 tipo de inventario CIERRE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:11:24', '2023-08-28 19:11:24'),
+(272, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de -300 tipo de inventario SOBRANTE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:11:24', '2023-08-28 19:11:24'),
+(273, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 3000 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:17:29', '2023-08-28 19:17:29'),
+(274, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 7000 tipo de inventario ENTRADA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:18:05', '2023-08-28 19:18:05'),
+(275, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 500 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:19:31', '2023-08-28 19:19:31'),
+(276, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 10000 tipo de inventario CIERRE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:20:04', '2023-08-28 19:20:04'),
+(277, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 500 tipo de inventario FALTANTE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:20:04', '2023-08-28 19:20:04'),
+(278, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 5000 tipo de inventario STOCK en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:22:02', '2023-08-28 19:22:02'),
+(279, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 4 con valor de 3000 tipo de inventario SALIDA en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:22:19', '2023-08-28 19:22:19'),
+(280, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 2500 tipo de inventario CIERRE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:22:51', '2023-08-28 19:22:51'),
+(281, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 4 con valor de 500 tipo de inventario SOBRANTE en el en la plataforma al profesional con ID 1', '127.0.0.1', '2023-08-28 19:22:51', '2023-08-28 19:22:51'),
+(282, 'Julian', 'julianrincon9230@gmail.com', 'Ingreso de  producto con ID: 5 con valor de 5000 tipo de inventario STOCK en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 19:26:54', '2023-08-28 19:26:54'),
+(283, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 5 con valor de 5000 tipo de inventario CIERRE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 21:04:56', '2023-08-28 21:04:56'),
+(284, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de  producto con ID: 5 con valor de 0 tipo de inventario SOBRANTE en el en la plataforma al profesional con ID 2', '127.0.0.1', '2023-08-28 21:04:56', '2023-08-28 21:04:56'),
+(285, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 01:56:24', '2023-09-04 01:56:24'),
+(286, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 01:58:45', '2023-09-04 01:58:45'),
+(287, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 01:59:29', '2023-09-04 01:59:29'),
+(288, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 02:00:12', '2023-09-04 02:00:12'),
+(289, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 02:01:17', '2023-09-04 02:01:17'),
+(290, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio x producto N° en la plataforma', '127.0.0.1', '2023-09-04 02:02:01', '2023-09-04 02:02:01'),
+(291, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de servicio x producto N° 2 en la plataforma', '127.0.0.1', '2023-09-04 02:11:29', '2023-09-04 02:11:29');
+INSERT INTO `auditoria` (`id`, `usuario`, `correo`, `observaciones`, `direccion_ip`, `created_at`, `updated_at`) VALUES
+(292, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de producto x servicio 2 en la plataforma', '127.0.0.1', '2023-09-04 02:11:47', '2023-09-04 02:11:47'),
+(293, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de precio 20000 en la plataforma', '127.0.0.1', '2023-09-04 02:43:11', '2023-09-04 02:43:11');
 
 -- --------------------------------------------------------
 
@@ -421,6 +545,24 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `inventario_productos`
+--
+
+CREATE TABLE `inventario_productos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `producto_id` bigint(20) NOT NULL,
+  `tipo_transaccion` enum('STOCK','ENTRADA','SALIDA','DESCUADRE','CIERRE') NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `destino` varchar(20) NOT NULL COMMENT 'venta, oficina, online',
+  `responsable` varchar(20) NOT NULL COMMENT 'cc interno o de cliente',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `medio_pago`
 --
 
@@ -496,7 +638,9 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 2),
-(2, 'App\\Models\\User', 4);
+(2, 'App\\Models\\User', 4),
+(3, 'App\\Models\\User', 6),
+(3, 'App\\Models\\User', 7);
 
 -- --------------------------------------------------------
 
@@ -514,11 +658,10 @@ CREATE TABLE `pago_procedimiento` (
   `abonos_id` bigint(20) NOT NULL,
   `valor_pagar` decimal(10,0) NOT NULL,
   `medio_pago` varchar(255) COLLATE utf8_spanish_ci NOT NULL COMMENT 'de tabla de medios de pago',
+  `estado` enum('CERRADO','ABIERTO') COLLATE utf8_spanish_ci NOT NULL COMMENT 'ESTADO por default ABIERTO',
   `realizo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `valor_comision` decimal(10,0) NOT NULL,
-  `cantidad_alisado` decimal(10,0) DEFAULT NULL,
-  `cantidad_recuperacion` decimal(10,0) DEFAULT NULL,
   `observaciones` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `comision` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -594,6 +737,7 @@ CREATE TABLE `precios` (
   `servicio_id` bigint(20) NOT NULL,
   `talla_id` bigint(20) NOT NULL,
   `valor` decimal(10,0) NOT NULL,
+  `comision` decimal(10,0) DEFAULT NULL COMMENT 'valor de la comision',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -602,10 +746,81 @@ CREATE TABLE `precios` (
 -- Volcado de datos para la tabla `precios`
 --
 
-INSERT INTO `precios` (`id`, `servicio_id`, `talla_id`, `valor`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, '7000', '2023-03-24 12:28:17', '2023-03-24 13:02:39'),
-(2, 2, 1, '20000', '2023-03-24 12:38:58', '2023-03-24 12:55:47'),
-(3, 2, 1, '4500', '2023-03-24 13:02:58', '2023-04-17 10:53:16');
+INSERT INTO `precios` (`id`, `servicio_id`, `talla_id`, `valor`, `comision`, `created_at`, `updated_at`) VALUES
+(3, 3, 1, '25000', '2500', '2023-08-16 15:49:50', '2023-08-16 15:51:29'),
+(4, 4, 1, '20000', '30000', '2023-09-03 21:43:11', '2023-09-03 21:43:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `procedimiento_profesional`
+--
+
+CREATE TABLE `procedimiento_profesional` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `profesional_id` bigint(20) NOT NULL,
+  `procedimiento_id` bigint(20) NOT NULL,
+  `comision` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `porcentaje` varchar(50) DEFAULT NULL COMMENT 'identificar compartido??',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto`
+--
+
+CREATE TABLE `producto` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `tipo` varchar(20) NOT NULL,
+  `presentacion` varchar(20) NOT NULL,
+  `valor_unitario` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`id`, `nombre`, `tipo`, `presentacion`, `valor_unitario`, `created_at`, `updated_at`) VALUES
+(4, 'LISO HD', 'Professional', '400ML', 5000, '2023-08-16 21:37:40', '2023-08-16 21:37:49'),
+(5, 'BOTULINICA 3000', 'Professional', '500ML', 50000, '2023-08-28 08:22:51', '2023-08-28 08:22:51');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto_semana`
+--
+
+CREATE TABLE `producto_semana` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `producto_id` bigint(20) UNSIGNED NOT NULL,
+  `profesional_id` bigint(20) NOT NULL,
+  `tipo_transaccion` enum('STOCK','ENTRADA','SALIDA','CIERRE','FALTANTE','SOBRANTE') NOT NULL,
+  `valor` int(11) NOT NULL COMMENT 'cantidad en gramos',
+  `fecha` date NOT NULL,
+  `procedimiento_id` bigint(20) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `producto_semana`
+--
+
+INSERT INTO `producto_semana` (`id`, `producto_id`, `profesional_id`, `tipo_transaccion`, `valor`, `fecha`, `procedimiento_id`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, 'STOCK', 5000, '2023-08-28', NULL, '2023-08-28 14:22:02', '2023-08-28 14:22:02'),
+(2, 4, 1, 'SALIDA', 3000, '2023-08-28', NULL, '2023-08-28 14:22:19', '2023-08-28 14:22:19'),
+(3, 4, 1, 'CIERRE', 2500, '2023-08-28', NULL, '2023-08-28 14:22:51', '2023-08-28 14:22:51'),
+(4, 4, 1, 'SOBRANTE', 500, '2023-08-28', NULL, '2023-08-28 14:22:51', '2023-08-28 14:22:51'),
+(5, 5, 2, 'STOCK', 5000, '2023-08-28', NULL, '2023-08-28 14:26:54', '2023-08-28 14:26:54'),
+(6, 5, 2, 'CIERRE', 5000, '2023-08-28', NULL, '2023-08-28 16:04:56', '2023-08-28 16:04:56'),
+(7, 5, 2, 'SOBRANTE', 0, '2023-08-28', NULL, '2023-08-28 16:04:56', '2023-08-28 16:04:56');
 
 -- --------------------------------------------------------
 
@@ -626,6 +841,14 @@ CREATE TABLE `profesionales` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `profesionales`
+--
+
+INSERT INTO `profesionales` (`id`, `documento`, `nombres`, `apellidos`, `correo`, `celular`, `direccion`, `cargo`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, '1098643625', 'Fabian Oswaldo', 'Hernandez Murcia', 'fabian.hernandez.murcia@gmail.com', '3161231232', 'Calle 20 # 31-12', 'LIDER', 6, '2023-08-24 15:49:27', '2023-08-24 15:49:27'),
+(2, '1098765468', 'OLFER EFRAIN', 'OLAYA', 'olfer.olaya@hotmail.com', '3175024300', 'calle 20#12 -12', 'PRODUCT MANAGER', 7, '2023-08-28 08:21:18', '2023-08-28 08:21:18');
 
 -- --------------------------------------------------------
 
@@ -677,25 +900,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `salario`
---
-
-CREATE TABLE `salario` (
-  `id` bigint(20) NOT NULL,
-  `procedimiento_id` bigint(20) DEFAULT NULL,
-  `profesional_id` bigint(20) NOT NULL,
-  `fecha` date NOT NULL,
-  `nombre_cliente` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `valor` decimal(10,0) NOT NULL,
-  `porcentaje` decimal(10,0) DEFAULT NULL,
-  `tipo_servicio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'para saber si es corte u otro procedimiento',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `servicio`
 --
 
@@ -720,6 +924,29 @@ INSERT INTO `servicio` (`id`, `tipo_servicio_id`, `servicio`, `created_at`, `upd
 (7, 4, 'ADN', '2023-04-27 11:58:24', '2023-04-27 11:58:24'),
 (8, 4, 'Terapia Capilar', '2023-04-27 11:58:48', '2023-04-27 11:58:48'),
 (9, 4, 'Curly', '2023-04-27 11:59:08', '2023-04-27 11:59:08');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicio_producto`
+--
+
+CREATE TABLE `servicio_producto` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `producto_id` bigint(20) UNSIGNED NOT NULL,
+  `servicio_id` bigint(20) NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `servicio_producto`
+--
+
+INSERT INTO `servicio_producto` (`id`, `producto_id`, `servicio_id`, `cantidad`, `created_at`, `updated_at`) VALUES
+(1, 4, 2, 60, '2023-09-03 21:00:12', '2023-09-03 21:00:12'),
+(3, 5, 2, 70, '2023-09-03 21:02:01', '2023-09-03 21:02:01');
 
 -- --------------------------------------------------------
 
@@ -794,9 +1021,44 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `gender`, `email`, `password`, `role_id`, `number`, `address`, `city`, `estado`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Admin', 'User', NULL, 'ojrincon@bucaramanga.gov.co', '$2y$10$LueqldPmcKdhoK7I9uMZzOpTUUQ71fSUd/w2TNXlrw7TAEC3x6ExC', NULL, NULL, NULL, NULL, 0, NULL, 'VZRMC0PaCZTVY0F7wJxPqbwhCvf2hJ8FAjJO0bhQr6v6aJ2Jea0845dzg87n', NULL, '2022-09-09 23:36:09', '2022-09-09 23:36:09'),
-(2, 'Julian', 'Rincon', 'Hombre', 'julianrincon9230@gmail.com', '$2y$10$f8.KTwlDO1e/X7I2LpmoC.zlpXiAPxPOP85zyq2MquTek1gJgoTK2', 1, '3219080690', 'calle 20 # 12-33', 'BUCARAMANGA', 1, NULL, 'WRTwg3rzmhGLupc3PbwhVmsBpMtFFchIvcpghnfKlKAJszPrljDPlm7wclpe', '2022-08-31 07:51:21', '2023-02-15 02:16:39', NULL),
+(2, 'Julian', 'Rincon', 'Hombre', 'julianrincon9230@gmail.com', '$2y$10$f8.KTwlDO1e/X7I2LpmoC.zlpXiAPxPOP85zyq2MquTek1gJgoTK2', 1, '3219080690', 'calle 20 # 12-33', 'BUCARAMANGA', 1, NULL, 'GWg7jwjpOEkBnrYrvPsPoQXd81Vfse0yYZy9Dm7LNQh3DYjJYnWLcVyVLBkZ', '2022-08-31 07:51:21', '2023-02-15 02:16:39', NULL),
 (4, 'Julian', 'Rincon', NULL, 'vitalfutclubbga@gmail.com', '$2y$10$g5BAX2rOZCTw1.ay.HxEm.XrZsgYyT8i7/21o1PM3iSqehHIMmSbW', 2, '3166107397', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2022-09-09 20:40:54', '2022-10-06 21:24:39', NULL),
-(5, NULL, NULL, NULL, 'prueba@gmail.com', '$2y$10$bQXljGzuTp4EjLfE6USsxu7bH8BAo74catHE3Td4FHaK8gec8Jr9G', NULL, NULL, NULL, NULL, NULL, NULL, 'GAIhFifseJjtSPg6irliesC8BH7tubXeMsQm8UoRVHD4SXVFixixtYkWPe7V', '2023-03-30 13:28:56', '2023-03-30 13:28:56', NULL);
+(5, NULL, NULL, NULL, 'prueba@gmail.com', '$2y$10$bQXljGzuTp4EjLfE6USsxu7bH8BAo74catHE3Td4FHaK8gec8Jr9G', NULL, NULL, NULL, NULL, NULL, NULL, 'GAIhFifseJjtSPg6irliesC8BH7tubXeMsQm8UoRVHD4SXVFixixtYkWPe7V', '2023-03-30 13:28:56', '2023-03-30 13:28:56', NULL),
+(6, 'Fabian Oswaldo', 'Hernandez Murcia', NULL, 'fabian.hernandez.murcia@gmail.com', '$2y$10$ttU7k.8PAiRGR.R7Y2jMGe1.GZQN55.4iiWIelaTuceFcT6QAoXai', 3, '3161231232', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2023-08-24 20:49:27', '2023-08-24 20:49:27', NULL),
+(7, 'OLFER EFRAIN', 'OLAYA', NULL, 'olfer.olaya@hotmail.com', '$2y$10$h4jXRmKLVc9mcEmClJbS3OZTcPTkFBh0321M2w9fv5EYLl7F5eQ0q', 3, '3175024300', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2023-08-28 13:21:18', '2023-08-28 13:21:18', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `venta`
+--
+
+CREATE TABLE `venta` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `cliente_id` bigint(20) NOT NULL,
+  `fecha` date NOT NULL,
+  `valor_total` int(11) NOT NULL,
+  `medio_pago` varchar(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `venta_detalle`
+--
+
+CREATE TABLE `venta_detalle` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `venta_id` bigint(20) UNSIGNED NOT NULL,
+  `producto_id` bigint(20) UNSIGNED NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `valor` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Índices para tablas volcadas
@@ -853,6 +1115,12 @@ ALTER TABLE `cuentas_pago`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indices de la tabla `inventario_productos`
+--
+ALTER TABLE `inventario_productos`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `medio_pago`
@@ -914,6 +1182,29 @@ ALTER TABLE `precios`
   ADD KEY `fk_precios_talla` (`talla_id`);
 
 --
+-- Indices de la tabla `procedimiento_profesional`
+--
+ALTER TABLE `procedimiento_profesional`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_prof_proc` (`procedimiento_id`),
+  ADD KEY `fk_profe_proc` (`profesional_id`);
+
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `producto_semana`
+--
+ALTER TABLE `producto_semana`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_prod_semana` (`producto_id`),
+  ADD KEY `fk_prod_prof` (`profesional_id`),
+  ADD KEY `fk_prodsem_proced` (`procedimiento_id`);
+
+--
 -- Indices de la tabla `profesionales`
 --
 ALTER TABLE `profesionales`
@@ -935,17 +1226,19 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indices de la tabla `salario`
---
-ALTER TABLE `salario`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `servicio`
 --
 ALTER TABLE `servicio`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_tipo_serv` (`tipo_servicio_id`);
+
+--
+-- Indices de la tabla `servicio_producto`
+--
+ALTER TABLE `servicio_producto`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipo_producto` (`producto_id`),
+  ADD KEY `fk_servicio_id` (`servicio_id`) USING BTREE;
 
 --
 -- Indices de la tabla `tallas`
@@ -969,6 +1262,18 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_remember_token_unique` (`remember_token`);
 
 --
+-- Indices de la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `venta_detalle`
+--
+ALTER TABLE `venta_detalle`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -976,19 +1281,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `abonos`
 --
 ALTER TABLE `abonos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacion`
@@ -1012,6 +1317,12 @@ ALTER TABLE `cuentas_pago`
 -- AUTO_INCREMENT de la tabla `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `inventario_productos`
+--
+ALTER TABLE `inventario_productos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1048,13 +1359,31 @@ ALTER TABLE `planes_dcto`
 -- AUTO_INCREMENT de la tabla `precios`
 --
 ALTER TABLE `precios`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `procedimiento_profesional`
+--
+ALTER TABLE `procedimiento_profesional`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `producto_semana`
+--
+ALTER TABLE `producto_semana`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `profesionales`
 --
 ALTER TABLE `profesionales`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1063,16 +1392,16 @@ ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `salario`
---
-ALTER TABLE `salario`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `servicio_producto`
+--
+ALTER TABLE `servicio_producto`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tallas`
@@ -1090,7 +1419,19 @@ ALTER TABLE `tipo_servicio`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `venta`
+--
+ALTER TABLE `venta`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `venta_detalle`
+--
+ALTER TABLE `venta_detalle`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -1139,6 +1480,21 @@ ALTER TABLE `precios`
   ADD CONSTRAINT `fk_precios_talla` FOREIGN KEY (`talla_id`) REFERENCES `tallas` (`id`) ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `procedimiento_profesional`
+--
+ALTER TABLE `procedimiento_profesional`
+  ADD CONSTRAINT `fk_prof_proc` FOREIGN KEY (`procedimiento_id`) REFERENCES `pago_procedimiento` (`id`),
+  ADD CONSTRAINT `fk_profe_proc` FOREIGN KEY (`profesional_id`) REFERENCES `profesionales` (`id`);
+
+--
+-- Filtros para la tabla `producto_semana`
+--
+ALTER TABLE `producto_semana`
+  ADD CONSTRAINT `fk_prod_prof` FOREIGN KEY (`profesional_id`) REFERENCES `profesionales` (`id`),
+  ADD CONSTRAINT `fk_prod_semana` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`),
+  ADD CONSTRAINT `fk_prodsem_proced` FOREIGN KEY (`procedimiento_id`) REFERENCES `pago_procedimiento` (`id`);
+
+--
 -- Filtros para la tabla `profesionales`
 --
 ALTER TABLE `profesionales`
@@ -1156,6 +1512,13 @@ ALTER TABLE `role_has_permissions`
 --
 ALTER TABLE `servicio`
   ADD CONSTRAINT `fk_tipo_serv` FOREIGN KEY (`tipo_servicio_id`) REFERENCES `tipo_servicio` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `servicio_producto`
+--
+ALTER TABLE `servicio_producto`
+  ADD CONSTRAINT `fk_producto_tipo` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`),
+  ADD CONSTRAINT `fk_tipo_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
