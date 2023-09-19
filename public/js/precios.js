@@ -22,12 +22,9 @@ doc.addEventListener("DOMContentLoaded",function(e){
             formatter:formatMoney
          },
          {
-<<<<<<< HEAD
             formatter:formatComision
          },
          {
-=======
->>>>>>> cd84de1 (v1)
             formatter: botones
          },
       ];
@@ -46,13 +43,10 @@ doc.addEventListener("DOMContentLoaded",function(e){
             let valueConversion = new Intl.NumberFormat("es-CO").format(row.valor);  
             return ['$'+valueConversion].join('')
         }
-<<<<<<< HEAD
         function formatComision(value, row, index){
             let valueConversion = new Intl.NumberFormat("es-CO").format(row.comision);  
             return ['$'+valueConversion].join('')
         }
-=======
->>>>>>> cd84de1 (v1)
       
     
     let $myForm = doc.getElementById('myForm');
@@ -158,13 +152,10 @@ doc.addEventListener("DOMContentLoaded",function(e){
         let valueConversion = new Intl.NumberFormat("es-CO").format(el.innerText);  
         el.innerText = `$ ${valueConversion}`
     })
-<<<<<<< HEAD
     document.querySelectorAll("#format2").forEach((el)=>{       
         let valueConversion = new Intl.NumberFormat("es-CO").format(el.innerText);  
         el.innerText = `$ ${valueConversion}`
     })
-=======
->>>>>>> cd84de1 (v1)
 
     // $('.valor_boleteria').each(function () {
     //     var input = $(this).text();

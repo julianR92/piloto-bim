@@ -25,6 +25,7 @@ use App\Http\Controllers\PruebasController;
 use App\Http\Controllers\CoevaluacionController;
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\MediosPagoController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfesionalController;
 use App\Http\Controllers\SemanarioController;
@@ -344,6 +345,30 @@ Route::middleware('auth')->group(function () {
            Route::post('/producto-semana/cierre', [SemanarioController::class, 'closeWeek'])->name('producto-semana.cierre');
            Route::get('/buscar-inventario', [SemanarioController::class, 'indexBuscar'])->name('producto-semana.buscar');
            Route::post('/producto-semana/buscar', [SemanarioController::class, 'queryAdmin'])->name('producto-semana.query-buscar');
+
+    });
+
+    Route::group(['middleware' => ['permission:control-total|procedimientos']], function () { 
+        Route::get('/procedimientos', [PagoController::class, 'index'])->name('procedimientos.index');
+        Route::get('/procedimientos/search/cliente/{documento}', [PagoController::class, 'searchCliente'])->name('procedimientos.search');
+        Route::get('/procedimientos/search/agenda/{documento}', [PagoController::class, 'searchAgenda'])->name('procedimientos.agenda');
+        Route::get('/procedimientos/payment/{id}', [PagoController::class, 'paymentProcedimiento'])->name('procedimientos.payment');
+        Route::get('/procedimientos/precio/{servicio_id}/{talla_id}', [PagoController::class, 'priceProcedimiento'])->name('procedimientos.payment');
+        Route::post('/procedimientos', [PagoController::class, 'store'])->name('procedimiento.store');
+
+        
+
+    });
+    Route::group(['middleware' => ['permission:control-total|procedimientos-cierre']], function () { 
+        Route::get('procedimiento-cierre', [PagoController::class, 'indexCloseProcedure'])->name('procedimientos.cierre.index');
+        Route::get('/procedimiento-cierre/search/{id}/{servicio_id}', [PagoController::class, 'searchProcedure'])->name('procedimientos.cierre.search');
+        Route::post('/procedimiento-cierre', [PagoController::class, 'storeCierre'])->name('procedimiento.cierre.store');
+        // Route::get('/procedimientos/search/agenda/{documento}', [PagoController::class, 'searchAgenda'])->name('procedimientos.agenda');
+        // Route::get('/procedimientos/payment/{id}', [PagoController::class, 'paymentProcedimiento'])->name('procedimientos.payment');
+        // Route::get('/procedimientos/precio/{servicio_id}/{talla_id}', [PagoController::class, 'priceProcedimiento'])->name('procedimientos.payment');
+        
+
+
 
     });
 

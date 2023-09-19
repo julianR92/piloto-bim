@@ -40,10 +40,7 @@
                             <th data-field="servicio" class="border-0">Servicio</th>
                             <th data-field="talla" class="border-0">Talla</th>
                             <th data-field="valor" class="border-0">Valor</th>
-<<<<<<< HEAD
                             <th data-field="comision" class="border-0">Comision</th>
-=======
->>>>>>> cd84de1 (v1)
                             <th class="border-0">Acciones</th>
                            
                         </tr>
@@ -55,10 +52,7 @@
                             <td>{{$price->servicio}}</td>
                             <td>{{$price->talla}}</td>
                             <td id="format">{{$price->valor}}</td>
-<<<<<<< HEAD
                             <td id="format2">{{$price->comision}}</td>
-=======
->>>>>>> cd84de1 (v1)
                             <td>
                             <button type="button" class="btn btn-success d-inline-flex align-items-center editarData" data-id="{{$price->id}}">
                                 <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83z"/></svg>Editar</button>
@@ -125,7 +119,6 @@
                                 @error('valor') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
                             </div> 
                         </div> 
-<<<<<<< HEAD
                         <div class="form-group mb-4">
                             <label for="permiso">Comision *</label>
                             <div class="input-group">
@@ -136,8 +129,6 @@
                                 @error('comision') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
                             </div> 
                         </div> 
-=======
->>>>>>> cd84de1 (v1)
                         <!-- End of Form -->                        
                         <div class="d-grid">
                             <input type="hidden" name="id" id="id">

@@ -111,6 +111,7 @@
    @stack('scripts-clientes')  
    @stack('scripts-pagos')  
    @stack('scripts-inventarios')  
+   @stack('scripts-procedimientos') 
 
 
    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -177,7 +178,9 @@
            'productos.index',
            'producto-semana.index',
            'producto-semana.buscar',
-           'productos-servicios.index'
+           'productos-servicios.index',
+           'procedimientos.index',
+           'procedimientos.cierre.index'
            
 
        ]))

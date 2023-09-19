@@ -58,7 +58,7 @@
 
     
 
-    &copy; <small>EMA - Instituto Municipal de Cultura y Turismo de Bucaramanga</small><br>
+    &copy; <small>SOS - HEIDY DAYANA</small><br>
 
     
 

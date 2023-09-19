@@ -40,14 +40,14 @@
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="first_name">Nombres*</label>
-                            <input name="nombres" onkeypress="return Letras(event)" type="text" class="form-control border-gray-300" placeholder="Ej: Andres" id="nombres"  autofocus required data-pristine-required-message="Campo Requerido" maxlength="20" @isset($datos) value="{{$datos->nombres}}"@endisset>
+                            <input name="nombres" onkeypress="return Letras(event)" type="text" class="form-control border-gray-300" placeholder="Ej: Andres" id="nombres" onkeyup="aMayusculas(this.value,this.id)"  autofocus required data-pristine-required-message="Campo Requerido" maxlength="20" @isset($datos) value="{{$datos->nombres}}"@endisset>
                         </div>
                         @error('nombres') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="last_name">Apellidos*</label>
-                            <input name="apellidos" onkeypress="return Letras(event)" type="text" class="form-control border-gray-300" placeholder="Ej: Perez" id="apellidos" required data-pristine-required-message="Campo Requerido" maxlength="20"  @isset($datos) value="{{$datos->apellidos}}"@endisset>
+                            <input name="apellidos" onkeypress="return Letras(event)" type="text" class="form-control border-gray-300" placeholder="Ej: Perez" id="apellidos" onkeyup="aMayusculas(this.value,this.id)" required data-pristine-required-message="Campo Requerido" maxlength="20"  @isset($datos) value="{{$datos->apellidos}}"@endisset>
                         </div>
                         @error('apellidos') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                     </div>
