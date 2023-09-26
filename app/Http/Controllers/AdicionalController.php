@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Servicio;
 use App\Models\Agenda;
-use App\Models\Talla;
-use App\Models\Precios;
-use App\Models\Cuentas;
 use App\Models\Pago;
 use App\Models\MedioPago;
 use App\Models\ServicioProducto;
 use App\Models\Profesional;
 use App\Models\Cliente;
+use App\Models\Cuentas;
+use App\Models\ServicioAdicional;
 use App\Models\Descuento;
 use App\Models\Auditoria;
 use Illuminate\Support\Facades\Validator;
@@ -21,78 +20,34 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class PagoController extends Controller
+class AdicionalController extends Controller
 {
 
     public function index()
     {
-        $tallas = Talla::all();
-        $servicios = Servicio::all();
-        $medios_pago = MedioPago::all();
+        $clientes = Cliente::all();
+        $profesionales = Profesional::where('id', '<>', 1)->orderBy('nombres', 'ASC')->get();
         $cuentas = Cuentas::where('estado',1)->get();
-        $descuentos = Descuento::where('estado', 1)->get();
-        return view('livewire.pagos.index', compact('servicios', 'tallas', 'descuentos', 'medios_pago', 'cuentas'));
-    }
-
-    public function searchCliente($documento)
-    {
-
-        $query = Cliente::select('documento', 'nombres', 'apellidos')->where('documento', 'LIKE', '%' . $documento . '%')->orderBy('apellidos', 'ASC')->get();
-
-        return response()->json(['success' => true, 'data' => $query]);
-    }
-    public function searchAgenda($documento)
-    {
-
-        $query = Agenda::select('agenda.id', 'agenda.fecha', 'agenda.hora', 'agenda.observacion', 'servicio.servicio', 'tipo_servicio.tipo_servicio', 'abonos.valor', 'clientes.nombres', 'clientes.apellidos', 'clientes.documento', 'abonos.valor', 'abonos.estado')->leftjoin('servicio', 'servicio.id', '=', 'agenda.servicio_id')->leftjoin('tipo_servicio', 'tipo_servicio.id', '=', 'agenda.tipo_servicio_id')->leftjoin('clientes', 'clientes.id', '=', 'agenda.cliente_id')->leftjoin('abonos', 'abonos.id', '=', 'agenda.abono_id')->where('clientes.documento', $documento)->where('agenda.estado', 'AGENDADO')->orderBy('agenda.id', 'DESC')->get();
-        if ($query->count() > 0) {
-            return response()->json(['success' => true, 'datos' => $query]);
-        } else {
-            return response()->json(['false' => true, 'message' => 'No se encontraron resultados para esta busqueda']);
-        }
-    }
-    public function paymentProcedimiento($id)
-    {
-
-        $query = Agenda::select('agenda.id', 'agenda.fecha', 'agenda.hora', 'agenda.observacion', 'agenda.servicio_id', 'agenda.cliente_id', 'agenda.abono_id', 'servicio.servicio', 'tipo_servicio.tipo_servicio', 'abonos.valor', 'clientes.nombres', 'clientes.apellidos', 'clientes.documento', 'abonos.estado')->leftjoin('servicio', 'servicio.id', '=', 'agenda.servicio_id')->leftjoin('tipo_servicio', 'tipo_servicio.id', '=', 'agenda.tipo_servicio_id')->leftjoin('clientes', 'clientes.id', '=', 'agenda.cliente_id')->leftjoin('abonos', 'abonos.id', '=', 'agenda.abono_id')->where('agenda.id', $id)->where('agenda.estado', 'AGENDADO')->where('abonos.estado', 'APARTADO')->orderBy('agenda.id', 'DESC')->get()->first();
-        if ($query->count() > 0) {
-            return response()->json(['success' => true, 'data' => $query]);
-        } else {
-            return response()->json(['false' => true, 'message' => 'No se encontraron resultados']);
-        }
-    }
-    public function priceProcedimiento($servicio_id, $talla_id)
-    {
-
-        $query = Precios::where('servicio_id', $servicio_id)->where('talla_id', $talla_id)->get()->first();
-        if (isset($query)) {
-            return response()->json(['success' => true, 'data' => $query]);
-        } else {
-            return response()->json(['false' => true, 'message' => 'Precio no ha sido configurado para este servicio']);
-        }
-    }
+        $servicios_adicionales = ServicioAdicional::all();
+        $medios_pago = MedioPago::all();       
+        return view('livewire.pagos.adicional', compact('servicios_adicionales', 'clientes', 'profesionales', 'medios_pago', 'cuentas'));
+    }  
+   
+      
     public function store(Request $request)
-    {    
-        $validator = Validator::make($request->all(), [
-            'datos.abonos_id' => 'required|unique:pago_procedimiento,abonos_id',
-            'datos.cliente_id' => 'required',
-            'datos.servicio_id' => 'required',
-            'datos.agenda_id' => 'required',
-            'datos.talla_id' => 'required',
-            'datos.comision' => 'required|numeric',
-            'datos.medio_pago_1' => 'required|max:20',
-            'datos.cuenta_pago_1' => 'required',
-            'datos.valor_precio' => 'required|numeric',
-            'datos.valor_pagar' => 'required|numeric',
-            'valores' => 'required|array|min:1',
-            'valores.*.medio' => 'required|string',
-            'valores.*.idMedio' => 'required|numeric',
-            'valores.*.cuenta' => 'required|numeric',
-            'valores.*.valor' => 'required|numeric',       
+    {
 
-        ], [
-            'abonos_id.unique' => 'Este abono ya fue utilizado en otro pago',
-            'talla_id.required' => 'Tiene que seleccionar la talla',
+        $validator = Validator::make($request->all(), [
+            'cliente_id' => 'required',
+            'servicio_adicional_id' => 'required',
+            'profesional_id' => 'required',          
+            'comision' => 'required|numeric',
+            'medio_pago_id' => 'required',
+            'cuenta_pago_id' => 'required',          
+            'valor_pagar' => 'required|numeric',
+            'medio_pago' => 'required|max:20',
+
+
 
         ]);
 
@@ -100,81 +55,68 @@ class PagoController extends Controller
             //devuelve errores a la vista
             return response()->json(['success' => false, 'errors' => $validator->errors()->all()]);
         }
-        try {
-        $plan = $request['datos']['planes_id'] ? $request->planes_id : null;
-        
+
        
 
         DB::beginTransaction();
 
-       
-            $pago_procedimiento_id =  DB::table('pago_procedimiento')->insertGetId([
-                'cliente_id' => $request['datos']['cliente_id'],
-                'servicio_id' => $request['datos']['servicio_id'],
-                'talla_id' => $request['datos']['talla_id'],
-                'precio' => $request['datos']['valor_precio'],
-                'planes_id' => $plan,
-                'abonos_id' => $request['datos']['abonos_id'],
-                'valor_pagar' => $request['datos']['valor_pagar'],
-                'medio_pago' => $request['datos']['medio_pago_1'],
-                'estado' => 'ABIERTO',
-                'realizo' => auth()->user()->first_name,
-                'observaciones' => $request['datos']['observaciones'],
-                'comision' => $request['datos']['comision'],
+        try {
+             $verificado = 0;
+            if($request->medio_pago_id == 1){
+                $verificado = 1;    
+            }
+
+            $pago_adicional_id =  DB::table('pago_adicionales')->insertGetId([
+                'cliente_id' => $request->cliente_id,
+                'servicio_adicional_id' => $request->servicio_adicional_id,             
+                'valor_pagar' => $request->valor_pagar,
+                'comision' => $request->comision,
+                'medio_pago' => $request->medio_pago,            
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
 
             ]);
-
-        if (!empty($request['valores']) && is_array($request['valores'])) {
-
-            foreach($request['valores'] as $pago){
-                $verificado = 0;
-                if($pago['medio'] == 'EFECTIVO'){
-                    $verificado = 1;
-        
-                }
+            if($request->medio_pago_id != 00){
             $trasferencias = DB::table('transferencias_pago')->insert([
-                'cliente_id'=>$request['datos']['cliente_id'],
-                'valor' => $pago['valor'],
-                'medio_pago_id'=>$pago['idMedio'],
-                'cuenta_pago_id'=>$pago['cuenta'],
-                'referencia_pago'=>$pago['referencia'],
+                'cliente_id'=>$request->cliente_id,
+                'valor' => $request->valor_pagar,
+                'medio_pago_id'=>$request->medio_pago_id,
+                'cuenta_pago_id'=>$request->cuenta_pago_id,
+                'referencia_pago'=>$request->referencia_pago,
                 'fecha'=>date('Y-m-d'),
-                'id_pago'=>$pago_procedimiento_id,
-                'tipo'=>'P',
+                'id_pago'=>$pago_adicional_id,
+                'tipo'=>'S',
                 'verificado'=>$verificado,
                 'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')        
-       
+                'updated_at' => date('Y-m-d H:i:s')
 
             ]);
-        }
-        }
-            $abonos = DB::table('abonos')->where('id', $request['datos']['abonos_id'])->update([
-                'estado' => 'GASTADO',
-                'id_pago' => $pago_procedimiento_id
+         }
 
-            ]);
-            $agenda = DB::table('agenda')->where('id', $request['datos']['agenda_id'])->update([
-                'estado' => 'FINALIZADO',
-                'id_pago' => $pago_procedimiento_id
 
-            ]);
+            $adicional_profesional = DB::table('adicional_profesional')->insert([
+                'profesional_id' => $request->profesional_id,
+                'adicional_id' => $pago_adicional_id,
+                'comision' => $request->comision,
+                'fecha'=>date('Y-m-d'),
+                'porcentaje' =>'100%',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
 
+            ]);          
 
             $auditoria = DB::table('auditoria')->insert(
                 [
                     'usuario' => auth()->user()->first_name,
                     'correo' => auth()->user()->email,
-                    'observaciones' => 'Creacion de pago de procedimiento # ' . $request->pago_procedimiento_id . ' en la plataforma',
+                    'observaciones' => 'Creacion de pago de servicios adicionales # ' . $request->pago_adicional_id . ' en la plataforma',
                     'direccion_ip' => $_SERVER['REMOTE_ADDR'],
 
                 ]
             );
 
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Pago Realizado Exitosamente!', 'valor' => $request['datos']['valor_pagar']]);
+            return response()->json(['success' => true, 'message' => 'Pago Realizado Exitosamente!', 'valor' => $request->valor_pagar]);
 
             // all good
         } catch (\Illuminate\Database\QueryException $e) {
@@ -182,7 +124,7 @@ class PagoController extends Controller
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             return response()->json(['success' => false, 'errors' => ["Se ha producido un error $errorCode en la base de datos"], 'errorMessage' => $errorMessage]);
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
 
             $response = [ 'success' => false,
                 'errors' =>[$e->getMessage()]

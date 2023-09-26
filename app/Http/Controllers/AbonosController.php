@@ -71,9 +71,9 @@ class AbonosController extends Controller
         if (!$request->id) {
 
             if($request->medio_pago_id== 2){ 
-                $verficado = 0;}
+                $verificado = 0;}
                 else{
-                 $verficado = 1;
+                 $verificado = 1;
             }            
              
             $abono = new Abono();
@@ -82,6 +82,7 @@ class AbonosController extends Controller
             $abono->medio_pago_id   = $request->medio_pago_id;
             $abono->cuenta_pago_id    = $request->cuenta_pago_id;
             $abono->estado  = $request->estado;
+            $abono->verificado  = $verificado;
             $abono->referencia_pago = $ref; 
             $abono->fecha_pago =  $request->fecha_pago; 
             $abono->observaciones =  $request->observaciones; 
@@ -102,9 +103,9 @@ class AbonosController extends Controller
              }
         }else{
             if($request->medio_pago_id== 2){ 
-                $verficado = 0;}
+                $verificado = 0;}
                 else{
-                 $verficado = 1;
+                 $verificado = 1;
             }    
 
             $abono = Abono::findOrFail($request->id);
@@ -113,7 +114,7 @@ class AbonosController extends Controller
             $abono->medio_pago_id   = $request->medio_pago_id;
             $abono->cuenta_pago_id    = $request->cuenta_pago_id;
             $abono->estado  = $request->estado;  
-            $abono->verificado =  $verficado;  
+            $abono->verificado =  $verificado;  
             $abono->referencia_pago = $ref; 
             $abono->fecha_pago =  $request->fecha_pago; 
             $abono->observaciones =  $request->observaciones;                       

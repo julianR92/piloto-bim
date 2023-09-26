@@ -14,6 +14,28 @@
   margin-bottom: 10px; /* Espacio inferior para separar del contenido */
   margin-left: 10px; /* Espacio inferior para separar del contenido */
 }
+.valor-neto {
+  font-size: 1.5rem; /* Tamaño de la letra */
+  font-weight: bold; /* Negrita */
+  color: #8d968f; /* Color del texto (puedes personalizarlo) */
+  margin-bottom: 10px; /* Espacio inferior para separar del contenido */
+  margin-left: 0px;
+  margin-right: 20px;/* Espacio inferior para separar del contenido */
+}
+.saldo {
+  font-size: 1rem; /* Tamaño de la letra */
+  font-weight: bold; /* Negrita */
+  color: #8d968f; /* Color del texto (puedes personalizarlo) */
+  margin-bottom: 10px; /* Espacio inferior para separar del contenido */
+  margin-left: 0px;
+  margin-right: 20px;/* Espacio inferior para separar del contenido */
+}
+.linea-divisoria {
+  border: none; /* Quitamos el borde predeterminado */
+  height: 3px; /* Grosor deseado */
+  background-color: #000; /* Color de fondo (puedes cambiarlo) */
+  margin: 10px 0; /* Margen superior e inferior opcional */
+}
 </style>
 <div>
     {{-- Be like water. --}}
@@ -88,7 +110,7 @@
             <form action="#" method="" id="myForm" class="d-none">                      
             <div class="row">  
                 <div class="col-md-6 mt-2 mb-2">
-                <h3>Pago de Servicios</h3> 
+                <h3>Pago de Procedimientos</h3> 
                </div> 
                  <div class="col-md-6">
                     <div class="d-flex justify-content-end">                      
@@ -139,7 +161,7 @@
                     </div>
                 </div>               
                 <div class="col-md-3">
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label for="permiso">Precio *</label>
                     <div class="input-group">
                         <span class="input-group-text border-gray-300" id="basic-addon3">
@@ -179,22 +201,81 @@
                 </div> 
                 </div>
                 <div class="col-md-3">
+                <div class="form-group mb-4">
+                    <label for="permiso">Observaciones</label>
+                    <div class="input-group">                       
+                        <textarea name="observaciones" rows="3" type="text" class="form-control border-gray-300 " id="observaciones"  onkeypress="return NumDoc(event)" style="resize:none;" ></textarea>
+                        @error('observaciones') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                    </div> 
+                </div> 
+                </div>
+                <p><b>Metodos de Pago </b></p>
+                <hr class="hr">
+                <div class="row clonar"> 
+               <div class="col-md-2">
                     <div class="form-group mb-2">
-                        <label for="medio_pago">Medio de pago*</label>
+                        <label for="medio_pago_1">Medio de pago*</label>
                         <div>
                         <div class="input-group">                                
-                            <select name="medio_pago" id="medio_pago" class="form-control form-select  select" required data-pristine-required-message="Campo Requerido">
+                            <select name="medio_pago_1" id="medio_pago_1" class="form-control form-select  select medioPago" required data-pristine-required-message="Campo Requerido">
                                 <option value="">Seleccione..</option>
                                 @foreach($medios_pago as $metodo)
-                                <option value={{$metodo->medio_pago}}>{{ $metodo->medio_pago}}</option>
+                                <option value={{$metodo->medio_pago}} data-idMedio={{$metodo->id}}>{{ $metodo->medio_pago}}</option>
                             @endforeach
                             </select>
-                            @error('medio_pago') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            @error('medio_pago_1') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                         </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="cuenta_pago_1">Cuenta*</label>
+                        <div>
+                        <div class="input-group">                                
+                            <select name="cuenta_pago_1" id="cuenta_pago_1" class="form-control form-select  select cuentaPago" required data-pristine-required-message="Campo Requerido">
+                                <option value="">Seleccione..</option>
+                                @foreach($cuentas as $cuenta)
+                                <option value={{$cuenta->id}} data-medioId={{$cuenta->medio_pago_id }}>{{ $cuenta->entidad}} - {{ $cuenta->numero_cuenta}}</option>
+                            @endforeach
+                            </select>
+                            @error('cuenta_pago_1') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group mb-4">
+                        <label for="permiso">Valor Pago*</label>
+                        <div class="input-group">                            
+                            <input name="valor_pago_1" type="text" class="form-control border-gray-300 input-money valorPago" id="valor_pago_1" required data-pristine-required-message="Campo Requerido" onkeypress="return Numeros(event)">
+                            @error('valor_pago_1') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                        </div> 
+                    </div> 
+                    </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="referencia_pago_1">Referencia de Pago</label>
+                        <div>
+                        <div class="input-group">                                
+                            <input name="referencia_pago_1" id="referencia_pago_1" class="form-control" maxlength="20" onkeypress="return NumDoc(event)" >                              
+                            @error('referencia_pago_1') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="margin-top: 31px;">
+                    <button type="button" class="btn btn-secondary btnAdd" title="añadir otro metodo de pago">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#f3f2f2" d="M17 13h-4v4h-2v-4H7v-2h4V7h2v4h4m-5-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12 text-end mr-4">
+                <p class="valor-neto"> Valor Neto: <span id="valor-neto" class="valor-neto"></span></p>
+                <p class="saldo"> Saldo a pagar: <span id="saldo" class="saldo"></span></p>
+
+            </div>
+                <div class="col-md-12 mt-4">
                     <div class="form-group mb-2">
                         <label for="presentacion"><h3>Total:</h3><span id="total_cuenta" class="total-factura"></span></label>
                         <div>                      
@@ -205,7 +286,7 @@
                                             
                     <!-- End of Form -->                        
                     <div class="d-grid">
-                        <input type="hidden" name="cliente_id" id="cliente_id" required>                        
+                        <input type="hidden" name="cliente_id" id="cliente_id" required>               
                         <input type="hidden" name="agenda_id" id="agenda_id" required>                        
                         <input type="hidden" name="comision" id="comision" required>                   
                         <input type="hidden" name="valor_precio" id="valor_precio" required>                       
@@ -215,6 +296,7 @@
                         <button type="submit" class="btn btn-primary btnModal">Generar Pago</button>
                     </div>
                 </div>
+               </div>
             </form>
         </div>
     </div>

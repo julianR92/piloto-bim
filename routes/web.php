@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbonosController;
+use App\Http\Controllers\AdicionalController;
 use App\Http\Controllers\AdmitidosController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ClientesController;
@@ -28,7 +29,9 @@ use App\Http\Controllers\MediosPagoController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfesionalController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SemanarioController;
+use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\ServiciosProductosController;
 use App\Http\Controllers\TransferenciasController;
 use App\Http\Livewire\BootstrapTables;
@@ -231,6 +234,11 @@ Route::middleware('auth')->group(function () {
         //  Route::delete('/delete/abono/{id}', [TransferenciasController::class, 'delete'])->name('transferencias.delete');
          Route::post('/transferencias', [TransferenciasController::class, 'store'])->name('transferencias.store');
 
+         //validacion de transferencias
+         Route::get('/transferencias-validaciones/verify/{id}', [TransferenciasController::class, 'verificarPagoTransferencias'])->name('transferencias-validaciones.verify');
+         Route::get('/transferencias-validaciones/unverify/{id}', [TransferenciasController::class, 'unVerificarPagoTrasnferencias'])->name('transferencias-validaciones.unverify');
+               
+
           //medio-pago
         Route::get('/medios-pago', [MediosPagoController::class, 'index'])->name('medios-pago.index');
         Route::get('/edit/medios-pago/{id}', [MediosPagoController::class, 'edit'])->name('medios-pago.editar');
@@ -253,46 +261,43 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/productos-servicios/{id}', [ServiciosProductosController::class, 'edit'])->name('productos-servicios.editar');
         Route::delete('/delete/productos-servicios/{id}', [ServiciosProductosController::class, 'delete'])->name('productos-servicios.delete');
         Route::post('/productos-servicios', [ServiciosProductosController::class, 'store'])->name('productos-servicios.store');
-
-
-
-        //instrumentos
-        Route::get('/instrumentos', [InstrumentosController::class, 'index'])->name('instrumentos.index');
-        Route::get('/edit/instrumentos/{id}', [InstrumentosController::class, 'edit'])->name('instrumentos.editar');
-        Route::delete('/delete/instrumentos/{id}', [InstrumentosController::class, 'delete'])->name('instrumentos.delete');
-        Route::post('/instrumentos', [InstrumentosController::class, 'store'])->name('instrumentos.store');
-        //asignaturas
-        Route::get('/asignaturas', [AsignaturasController::class, 'index'])->name('asignaturas.index');
-        Route::get('/asignaturas/{id}', [AsignaturasController::class, 'areaAsignaturas'])->name('asignaturas.areas');        
-        Route::post('/asignaturas', [AsignaturasController::class, 'store'])->name('asignaturas.store');
-        Route::get('/edit/asignatura/{id}', [AsignaturasController::class, 'edit'])->name('asignaturas.editar');
-        Route::get('/activate/asignatura/{id}', [AsignaturasController::class, 'changeState'])->name('asignaturas.estado');
-        Route::delete('/delete/asignatura/{id}', [AsignaturasController::class, 'delete'])->name('asignaturas.delete');
-        //docentes
-        Route::get('/docentes',[ProfesorController::class, 'index'])->name('profesor.index');
-        Route::get('/docentes/create',[ProfesorController::class, 'create'])->name('profesor.create');
-        Route::get('/docentes/{id}/edit',[ProfesorController::class, 'edit'])->name('profesor.edit');
-        Route::post('/docentes',[ProfesorController::class, 'store'])->name('profesor.store');
-        Route::delete('/delete/docente/{id}',[ProfesorController::class, 'delete'])->name('profesor.delete');
-        //audicion
-        Route::get('/pruebas',[PruebasController::class, 'index'])->name('pruebas.index');
-        Route::get('/pruebas/{id}',[PruebasController::class, 'areaPrueba'])->name('pruebas.areas');
-        Route::post('/pruebas',[PruebasController::class, 'store'])->name('pruebas.store');
-        Route::get('/edit/prueba/{id}',[PruebasController::class, 'edit'])->name('pruebas.editar');
-        Route::get('/indicadores/prueba/{id}',[PruebasController::class, 'indicadores'])->name('pruebas.indicadores');
-        Route::post('/indicadores',[PruebasController::class, 'storeIndicador'])->name('pruebas.indicador-store');
-        Route::get('/edit/indicador/{id}',[PruebasController::class, 'editIndicador'])->name('pruebas.editar-indicador');
-        Route::delete('/delete/indicador/{id}',[PruebasController::class, 'deleteIndicador'])->name('pruebas.delete-indicador');
-        Route::delete('/delete/prueba/{id}',[PruebasController::class, 'delete'])->name('pruebas.delete');
-        //evaluadores
-        Route::get('/evaluadores',[EvaluadoresController::class, 'index'])->name('evaluadores.index');
-        Route::post('/evaluadores',[EvaluadoresController::class, 'store'])->name('evaluadores.store');
-        Route::get('/edit/evaluador/{id}',[EvaluadoresController::class, 'edit'])->name('evaluadores.editar');
-        Route::delete('/delete/evaluador/{id}',[EvaluadoresController::class, 'delete'])->name('evaluadores.delete');
         
-        // Route::get('/mallas/colectivos/{id}',[MallaController::class, 'mallaColectivos'])->name('mallas.colectivos');
-        // Route::get('/mallas/asignaturas/{id}/{area_id}',[MallaController::class, 'mallaAsignaturas'])->name('mallas.asignaturas');
+        //servicio Adicionales        
+         Route::get('/servicio-adicional', [ServicioAdicionalController::class, 'index'])->name('servicio-adicional.index');
+         Route::get('/edit/servicio-adicional/{id}', [ServicioAdicionalController::class, 'edit'])->name('servicio-adicional.editar');
+         Route::delete('/delete/servicio-adicional/{id}', [ServicioAdicionalController::class, 'delete'])->name('servicio-adicional.delete');
+         Route::post('/servicio-adicional', [ServicioAdicionalController::class, 'store'])->name('servicio-adicional.store');
+
+        //reportes
+        Route::get('/reportes-comision', [ReportesController::class, 'index'])->name('reportes-comision.index');
+        Route::post('/reportes-comision/query', [ReportesController::class, 'queryComision'])->name('reportes-comision.query');
+        Route::get('/reportes-comision-agrupado', [ReportesController::class, 'indexAgrupado'])->name('reportes-comision-agrupado.index');
+        Route::post('/reportes-comision-agrupado/query', [ReportesController::class, 'queryComisionAgrupada'])->name('reportes-comision-agrupada.query');
+
+        Route::get('/reportes-comision-adicionales', [ReportesController::class, 'indexAdicionales'])->name('reportes-comision-adicionales.index');
+        Route::post('/reportes-comision-adicionales/query', [ReportesController::class, 'queryComisionAdicionales'])->name('reportes-comision.query');
         
+        Route::get('/reportes-procedimientos', [ReportesController::class, 'indexProcedimientos'])->name('reportes-procedimientos.index');
+        Route::post('/reportes-procedimientos/query', [ReportesController::class, 'reporteProcedimientos'])->name('reportes-procedimientos.query');
+
+        Route::get('/reportes-servicios', [ReportesController::class, 'indexServicios'])->name('reportes-servicios.index');
+        Route::post('/reportes-servicios/query', [ReportesController::class, 'reporteServicios'])->name('reportes-servicios.query');
+
+
+
+
+
+
+        
+        
+    });
+
+    Route::group(['middleware' => ['permission:control-total|validacion-transferencias']], function () { 
+      //Validacion de transferencias
+      Route::get('/transferencias-validaciones', [TransferenciasController::class, 'indexTransferencias'])->name('transferencias-validaciones.index');
+     
+     
+
     });
     
     //permisos para pruebas
@@ -360,17 +365,24 @@ Route::middleware('auth')->group(function () {
 
     });
     Route::group(['middleware' => ['permission:control-total|procedimientos-cierre']], function () { 
-        Route::get('procedimiento-cierre', [PagoController::class, 'indexCloseProcedure'])->name('procedimientos.cierre.index');
+        Route::get('/procedimiento-cierre', [PagoController::class, 'indexCloseProcedure'])->name('procedimientos.cierre.index');
         Route::get('/procedimiento-cierre/search/{id}/{servicio_id}', [PagoController::class, 'searchProcedure'])->name('procedimientos.cierre.search');
         Route::post('/procedimiento-cierre', [PagoController::class, 'storeCierre'])->name('procedimiento.cierre.store');
-        // Route::get('/procedimientos/search/agenda/{documento}', [PagoController::class, 'searchAgenda'])->name('procedimientos.agenda');
-        // Route::get('/procedimientos/payment/{id}', [PagoController::class, 'paymentProcedimiento'])->name('procedimientos.payment');
-        // Route::get('/procedimientos/precio/{servicio_id}/{talla_id}', [PagoController::class, 'priceProcedimiento'])->name('procedimientos.payment');
-        
+           
+   });
+    Route::group(['middleware' => ['permission:control-total|procedimientos-adicional']], function () { 
+        Route::get('/procedimientos-adicionales', [AdicionalController::class, 'index'])->name('procedimientos.adicionales.index');
+        Route::post('/procedimientos-adicionales', [AdicionalController::class, 'store'])->name('procedimientos.adicionales.store');
+        // Route::get('/procedimiento-cierre/search/{id}/{servicio_id}', [AdicionalController::class, 'searchProcedure'])->name('procedimientos.cierre.search');
+           
+   });
 
-
-
-    });
+    Route::group(['middleware' => ['permission:control-total|cierre-caja']], function () { 
+        Route::get('/reporte-cierre', [ReportesController::class, 'indexCierre'])->name('reporte-cierre.index');
+        Route::post('/reporte-cierre/query', [ReportesController::class, 'queryCierre'])->name('reporte-cierre.query');
+        // Route::get('/procedimiento-cierre/search/{id}/{servicio_id}', [AdicionalController::class, 'searchProcedure'])->name('procedimientos.cierre.search');
+           
+   });
 
     //pruebas
     

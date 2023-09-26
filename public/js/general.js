@@ -27,15 +27,7 @@ export function initTableAgenda(dataTable,columnas,data){
       sortable:true,
 
       pageSize:25,
-
-   //    rowStyle :  function(row, index) {
-   //       if(row.estado ==='AGENDADO')
-   //       return {
-   //        classes: 'text-nowrap another-class',
-   //        css: {"background": "#A1FAB2"}
-   //       };
-   //   }
-
+   
 })
 }
 
@@ -44,18 +36,7 @@ export function initTableAgenda(dataTable,columnas,data){
 export function getData(form) {
 
    var formData = new FormData(form);
-
-
-
-   //   for (var pair of formData.entries()) {
-
-   //   console.log(pair[0] + ": " + pair[1]);
-
-   //   }
-
-
-
-   let data =Object.fromEntries(formData);
+  let data =Object.fromEntries(formData);
 
    return data;
 

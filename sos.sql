@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 19-09-2023 a las 15:11:22
+-- Tiempo de generación: 26-09-2023 a las 19:53:30
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 8.0.22
 
@@ -51,9 +51,59 @@ INSERT INTO `abonos` (`id`, `cliente_id`, `valor`, `medio_pago_id`, `cuenta_pago
 (1, 1, 25000, 1, 1, 'GASTADO', 1, NULL, '2023-04-30', NULL, 5, '2023-04-30 17:15:00', '2023-04-30 17:18:20'),
 (2, 2, 40000, 2, 2, 'GASTADO', 1, '123123', '2023-04-30', NULL, 6, '2023-04-30 17:16:19', '2023-09-15 15:11:04'),
 (3, 1, 20000, 2, 2, 'GASTADO', 1, '123437892', '2023-08-15', NULL, 4, '2023-08-15 15:09:31', '2023-08-15 15:35:44'),
-(4, 1, 30000, 2, 2, 'DISPONIBLE', 0, '12312333', '2023-08-08', NULL, NULL, '2023-08-15 15:09:31', '2023-08-15 15:09:31'),
-(5, 2, 20000, 2, 2, 'APARTADO', 1, '3412132', '2023-08-15', NULL, NULL, '2023-08-15 15:40:26', '2023-09-18 23:51:14'),
-(6, 2, 50000, 1, 1, 'GASTADO', 1, NULL, '2023-09-18', NULL, 7, '2023-09-18 23:44:57', '2023-09-18 23:46:07');
+(4, 1, 30000, 2, 2, 'GASTADO', 1, '12312333', '2023-08-08', NULL, 13, '2023-08-15 15:09:31', '2023-09-21 10:41:32'),
+(5, 2, 20000, 2, 2, 'GASTADO', 1, '3412132', '2023-08-15', NULL, 10, '2023-08-15 15:40:26', '2023-09-18 23:51:14'),
+(6, 2, 50000, 1, 1, 'GASTADO', 1, NULL, '2023-09-18', NULL, 7, '2023-09-18 23:44:57', '2023-09-18 23:46:07'),
+(7, 5, 70000, 1, 1, 'GASTADO', 1, NULL, '2023-09-19', NULL, 9, '2023-09-19 21:38:25', '2023-09-19 21:39:45'),
+(8, 1, 70000, 1, 1, 'GASTADO', 1, NULL, '2023-09-19', NULL, 11, '2023-09-19 21:38:45', '2023-09-19 21:39:26'),
+(9, 2, 20000, 1, 1, 'GASTADO', 1, NULL, '2023-09-19', NULL, 8, '2023-09-19 21:39:08', '2023-09-19 21:40:19'),
+(10, 5, 25000, 1, 1, 'GASTADO', 1, NULL, '2023-09-21', NULL, 15, '2023-09-21 12:27:08', '2023-09-21 12:27:57'),
+(11, 4, 40000, 2, 3, 'GASTADO', 1, '21312312312', '2023-09-21', NULL, 14, '2023-09-21 12:27:35', '2023-09-21 12:29:27'),
+(12, 2, 25000, 1, 1, 'GASTADO', 1, NULL, '2023-09-21', NULL, 16, '2023-09-21 14:35:29', '2023-09-21 14:35:44'),
+(13, 5, 20000, 2, 2, 'GASTADO', 1, '123123123123', '2023-09-21', NULL, 19, '2023-09-21 17:10:04', '2023-09-26 14:11:22'),
+(14, 6, 200000, 1, 1, 'GASTADO', 1, NULL, '2023-09-01', 'loquisho', 18, '2023-09-26 00:53:35', '2023-09-26 14:05:56'),
+(15, 6, 25000, 1, 1, 'GASTADO', 1, NULL, '2023-09-26', NULL, 17, '2023-09-26 00:56:03', '2023-09-26 00:56:27'),
+(16, 5, 40000, 1, 1, 'GASTADO', 1, NULL, '2023-09-26', NULL, 21, '2023-09-26 14:10:36', '2023-09-26 14:40:28'),
+(17, 4, 70000, 1, 1, 'GASTADO', 1, NULL, '2023-09-26', NULL, 20, '2023-09-26 14:15:12', '2023-09-26 14:15:38'),
+(18, 6, 90000, 1, 1, 'DISPONIBLE', 1, NULL, '2023-09-01', NULL, NULL, '2023-09-26 14:23:35', '2023-09-26 14:23:35'),
+(19, 3, 70000, 2, 2, 'GASTADO', 1, '12312333sss', '2023-09-26', NULL, 22, '2023-09-26 14:26:11', '2023-09-26 14:47:47');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `adicional_profesional`
+--
+
+CREATE TABLE `adicional_profesional` (
+  `id` bigint(20) NOT NULL,
+  `profesional_id` bigint(20) NOT NULL COMMENT 'llave de la tabla profesionales',
+  `adicional_id` bigint(20) NOT NULL COMMENT 'llave de la tabla pago_adicionales',
+  `comision` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `porcentaje` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `adicional_profesional`
+--
+
+INSERT INTO `adicional_profesional` (`id`, `profesional_id`, `adicional_id`, `comision`, `fecha`, `porcentaje`, `created_at`, `updated_at`) VALUES
+(1, 4, 6, 7000, '2023-09-20', '100%', '2023-09-20 16:16:30', '2023-09-20 16:16:30'),
+(2, 4, 7, 7000, '2023-09-20', '100%', '2023-09-20 16:22:30', '2023-09-20 16:22:30'),
+(3, 4, 8, 6000, '2023-09-20', '100%', '2023-09-20 16:23:26', '2023-09-20 16:23:26'),
+(4, 4, 9, 7000, '2023-09-20', '100%', '2023-09-20 16:26:33', '2023-09-20 16:26:33'),
+(6, 3, 11, 10000, '2023-09-20', '100%', '2023-09-20 16:35:27', '2023-09-20 16:35:27'),
+(7, 4, 12, 7000, '2023-09-21', '100%', '2023-09-21 12:46:00', '2023-09-21 12:46:00'),
+(8, 4, 13, 7000, '2023-09-21', '100%', '2023-09-21 14:23:33', '2023-09-21 14:23:33'),
+(9, 2, 14, 6000, '2023-09-21', '100%', '2023-09-21 14:39:42', '2023-09-21 14:39:42'),
+(10, 4, 15, 7000, '2023-09-21', '100%', '2023-09-21 16:12:31', '2023-09-21 16:12:31'),
+(11, 3, 16, 6000, '2023-09-21', '100%', '2023-09-21 16:14:12', '2023-09-21 16:14:12'),
+(12, 4, 17, 6000, '2023-09-21', '100%', '2023-09-21 16:15:07', '2023-09-21 16:15:07'),
+(13, 3, 18, 6000, '2023-09-21', '100%', '2023-09-21 16:21:22', '2023-09-21 16:21:22'),
+(14, 4, 19, 10000, '2023-09-21', '100%', '2023-09-21 16:23:10', '2023-09-21 16:23:10'),
+(15, 3, 20, 7000, '2023-09-21', '100%', '2023-09-21 16:31:08', '2023-09-21 16:31:08');
 
 -- --------------------------------------------------------
 
@@ -136,10 +186,30 @@ INSERT INTO `agenda` (`id`, `fecha`, `hora`, `tipo_servicio_id`, `servicio_id`, 
 (53, '2023-09-15', '8:00am', 3, 2, 2, 2, 'FINALIZADO', NULL, 6, '2023-09-15 15:10:42', '2023-09-15 15:11:04'),
 (54, '2023-09-15', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-15 15:10:42', '2023-09-15 15:10:42'),
 (55, '2023-09-18', '8:00am', 3, 3, 2, 6, 'FINALIZADO', NULL, 7, '2023-09-18 23:45:35', '2023-09-18 23:46:07'),
-(56, '2023-09-18', '8:00am', 3, 4, 2, 5, 'AGENDADO', NULL, NULL, '2023-09-18 23:45:35', '2023-09-18 23:51:14'),
+(56, '2023-09-18', '8:00am', 3, 4, 2, 5, 'FINALIZADO', NULL, 10, '2023-09-18 23:45:35', '2023-09-18 23:51:14'),
 (57, '2023-09-18', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-18 23:45:35', '2023-09-18 23:45:35'),
 (58, '2023-09-18', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-18 23:45:35', '2023-09-18 23:45:35'),
-(59, '2023-09-18', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-18 23:45:35', '2023-09-18 23:45:35');
+(59, '2023-09-18', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-18 23:45:35', '2023-09-18 23:45:35'),
+(60, '2023-09-19', '8:00am', 3, 4, 2, 9, 'FINALIZADO', NULL, 8, '2023-09-19 21:37:50', '2023-09-19 21:40:19'),
+(61, '2023-09-19', '8:00am', 3, 2, 5, 7, 'FINALIZADO', NULL, 9, '2023-09-19 21:37:50', '2023-09-19 21:39:45'),
+(62, '2023-09-19', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-19 21:37:50', '2023-09-19 21:37:50'),
+(63, '2023-09-19', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-19 21:37:50', '2023-09-19 21:37:50'),
+(64, '2023-09-19', '8:00am', 3, 2, 1, 8, 'FINALIZADO', NULL, 11, '2023-09-19 21:37:50', '2023-09-19 21:39:26'),
+(65, '2023-09-21', '8:00am', 3, 3, 1, 4, 'FINALIZADO', NULL, 13, '2023-09-21 10:40:08', '2023-09-21 10:41:32'),
+(66, '2023-09-21', '8:00am', 3, 2, 5, 10, 'FINALIZADO', NULL, 15, '2023-09-21 10:40:08', '2023-09-21 12:27:57'),
+(67, '2023-09-21', '8:00am', 3, 2, 2, 12, 'FINALIZADO', NULL, 16, '2023-09-21 10:40:08', '2023-09-21 14:35:44'),
+(68, '2023-09-21', '8:00am', 3, 3, 4, 11, 'FINALIZADO', NULL, 14, '2023-09-21 10:40:08', '2023-09-21 12:29:27'),
+(69, '2023-09-21', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-21 10:40:08', '2023-09-21 10:40:08'),
+(70, '2023-09-26', '8:00am', 3, 2, 6, 15, 'FINALIZADO', NULL, 17, '2023-09-26 00:52:43', '2023-09-26 00:56:27'),
+(71, '2023-09-26', '9:30am', 4, 6, 6, 14, 'FINALIZADO', NULL, 18, '2023-09-26 00:52:43', '2023-09-26 14:05:56'),
+(72, '2023-09-26', '8:00am', 3, 2, 5, 13, 'FINALIZADO', NULL, 19, '2023-09-26 00:52:43', '2023-09-26 14:11:22'),
+(73, '2023-09-26', '8:00am', 3, 2, 4, 17, 'FINALIZADO', NULL, 20, '2023-09-26 00:52:43', '2023-09-26 14:15:38'),
+(74, '2023-09-26', '8:00am', 3, 2, 5, 16, 'FINALIZADO', NULL, 21, '2023-09-26 00:52:43', '2023-09-26 14:40:28'),
+(75, '2023-09-26', '8:00am', 3, 2, 3, 19, 'FINALIZADO', NULL, 22, '2023-09-26 14:47:37', '2023-09-26 14:47:47'),
+(76, '2023-09-26', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-26 14:47:37', '2023-09-26 14:47:37'),
+(77, '2023-09-26', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-26 14:47:37', '2023-09-26 14:47:37'),
+(78, '2023-09-26', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-26 14:47:37', '2023-09-26 14:47:37'),
+(79, '2023-09-26', '8:00am', 3, NULL, NULL, NULL, 'DISPONIBLE', NULL, NULL, '2023-09-26 14:47:37', '2023-09-26 14:47:37');
 
 -- --------------------------------------------------------
 
@@ -497,7 +567,117 @@ INSERT INTO `auditoria` (`id`, `usuario`, `correo`, `observaciones`, `direccion_
 (344, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #6 en el procedimiento_profesional', '127.0.0.1', '2023-09-19 04:48:39', '2023-09-19 04:48:39'),
 (345, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #7 en el procedimiento_profesional', '127.0.0.1', '2023-09-19 04:48:39', '2023-09-19 04:48:39'),
 (346, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 7 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-19 04:48:39', '2023-09-19 04:48:39'),
-(347, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #56 al cliente 2 en la plataforma', '127.0.0.1', '2023-09-19 04:51:14', '2023-09-19 04:51:14');
+(347, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #56 al cliente 2 en la plataforma', '127.0.0.1', '2023-09-19 04:51:14', '2023-09-19 04:51:14'),
+(348, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 7 por valor de: 70000 para el cliente: FABIANA HERNANDEZ', '127.0.0.1', '2023-09-20 02:38:25', '2023-09-20 02:38:25'),
+(349, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 8 por valor de: 70000 para el cliente: ANDREA MUÑOZ', '127.0.0.1', '2023-09-20 02:38:45', '2023-09-20 02:38:45'),
+(350, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 9 por valor de: 20000 para el cliente: HEIDY DAYANA', '127.0.0.1', '2023-09-20 02:39:08', '2023-09-20 02:39:08'),
+(351, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #64 al cliente 1 en la plataforma', '127.0.0.1', '2023-09-20 02:39:26', '2023-09-20 02:39:26'),
+(352, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #61 al cliente 5 en la plataforma', '127.0.0.1', '2023-09-20 02:39:45', '2023-09-20 02:39:45'),
+(353, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #60 al cliente 2 en la plataforma', '127.0.0.1', '2023-09-20 02:40:19', '2023-09-20 02:40:19'),
+(354, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(355, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(356, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(357, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida19 en  el producto semana', '127.0.0.1', '2023-09-20 02:44:49', '2023-09-20 02:44:49'),
+(358, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #8 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:44:49', '2023-09-20 02:44:49'),
+(359, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 10 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-20 02:44:49', '2023-09-20 02:44:49'),
+(360, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida20 en  el producto semana', '127.0.0.1', '2023-09-20 02:45:26', '2023-09-20 02:45:26'),
+(361, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #9 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:45:26', '2023-09-20 02:45:26'),
+(362, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 5 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-20 02:45:26', '2023-09-20 02:45:26'),
+(363, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida21 en  el producto semana', '127.0.0.1', '2023-09-20 02:45:58', '2023-09-20 02:45:58'),
+(364, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida22 en  el producto semana', '127.0.0.1', '2023-09-20 02:45:58', '2023-09-20 02:45:58'),
+(365, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #10 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:45:58', '2023-09-20 02:45:58'),
+(366, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #11 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:45:58', '2023-09-20 02:45:58'),
+(367, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 9 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-20 02:45:58', '2023-09-20 02:45:58'),
+(368, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida23 en  el producto semana', '127.0.0.1', '2023-09-20 02:46:23', '2023-09-20 02:46:23'),
+(369, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #12 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:46:23', '2023-09-20 02:46:23'),
+(370, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 8 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-20 02:46:23', '2023-09-20 02:46:23'),
+(371, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida24 en  el producto semana', '127.0.0.1', '2023-09-20 02:46:47', '2023-09-20 02:46:47'),
+(372, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida25 en  el producto semana', '127.0.0.1', '2023-09-20 02:46:47', '2023-09-20 02:46:47'),
+(373, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #13 en el procedimiento_profesional', '127.0.0.1', '2023-09-20 02:46:47', '2023-09-20 02:46:47'),
+(374, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 4 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-20 02:46:47', '2023-09-20 02:46:47'),
+(375, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio adicional CORTE 3000 en la plataforma', '127.0.0.1', '2023-09-20 15:47:27', '2023-09-20 15:47:27'),
+(376, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de servicio Adicional 1 en la plataforma', '127.0.0.1', '2023-09-20 15:47:45', '2023-09-20 15:47:45'),
+(377, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio adicional DESPUNTADA en la plataforma', '127.0.0.1', '2023-09-20 15:48:17', '2023-09-20 15:48:17'),
+(378, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio adicional CORTE LOCO en la plataforma', '127.0.0.1', '2023-09-20 15:49:16', '2023-09-20 15:49:16'),
+(379, 'Julian', 'julianrincon9230@gmail.com', 'Eliminación de servicio Adicional 3 en la plataforma', '127.0.0.1', '2023-09-20 15:49:25', '2023-09-20 15:49:25'),
+(380, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(381, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(382, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(383, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(384, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(385, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(386, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de servicio adicional CORTE PLUS en la plataforma', '127.0.0.1', '2023-09-20 21:35:04', '2023-09-20 21:35:04'),
+(387, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(388, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 4 verificado en la plataforma', '127.0.0.1', '2023-09-21 15:40:52', '2023-09-21 15:40:52'),
+(389, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #65 al cliente 1 en la plataforma', '127.0.0.1', '2023-09-21 15:41:32', '2023-09-21 15:41:32'),
+(390, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de cuenta de pago 12414124 en la plataforma', '127.0.0.1', '2023-09-21 16:13:37', '2023-09-21 16:13:37'),
+(391, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(392, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 10 por valor de: 25000 para el cliente: FABIANA HERNANDEZ', '127.0.0.1', '2023-09-21 17:27:08', '2023-09-21 17:27:08'),
+(393, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 11 por valor de: 40000 para el cliente: DORIS VARGAS', '127.0.0.1', '2023-09-21 17:27:35', '2023-09-21 17:27:35'),
+(394, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #66 al cliente 5 en la plataforma', '127.0.0.1', '2023-09-21 17:27:57', '2023-09-21 17:27:57'),
+(395, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 11 verificado en la plataforma', '127.0.0.1', '2023-09-21 17:28:35', '2023-09-21 17:28:35'),
+(396, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #68 al cliente 4 en la plataforma', '127.0.0.1', '2023-09-21 17:29:27', '2023-09-21 17:29:27'),
+(397, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(398, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(399, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(400, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de permiso procedimientos-adicional en la plataforma', '127.0.0.1', '2023-09-21 17:55:13', '2023-09-21 17:55:13'),
+(401, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de permiso procedimientos-cierre en la plataforma', '127.0.0.1', '2023-09-21 17:55:38', '2023-09-21 17:55:38'),
+(402, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 3 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:22:11', '2023-09-21 19:22:11'),
+(403, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 1 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:23:08', '2023-09-21 19:23:08'),
+(404, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(405, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 5 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:30:14', '2023-09-21 19:30:14'),
+(406, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia # 5 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:31:25', '2023-09-21 19:31:25'),
+(407, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 5 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:33:28', '2023-09-21 19:33:28'),
+(408, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 12 por valor de: 25000 para el cliente: HEIDY DAYANA', '127.0.0.1', '2023-09-21 19:35:29', '2023-09-21 19:35:29'),
+(409, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #67 al cliente 2 en la plataforma', '127.0.0.1', '2023-09-21 19:35:44', '2023-09-21 19:35:44'),
+(410, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(411, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 6 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:39:05', '2023-09-21 19:39:05'),
+(412, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(413, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 7 verificado en la plataforma', '127.0.0.1', '2023-09-21 19:40:05', '2023-09-21 19:40:05'),
+(414, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia # 7 verificado en la plataforma', '127.0.0.1', '2023-09-21 20:02:37', '2023-09-21 20:02:37'),
+(415, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 7 verificado en la plataforma', '127.0.0.1', '2023-09-21 20:03:22', '2023-09-21 20:03:22'),
+(416, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de permiso validacion-transferencias en la plataforma', '127.0.0.1', '2023-09-21 20:03:40', '2023-09-21 20:03:40'),
+(417, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de rol ADMIN en la plataforma', '127.0.0.1', '2023-09-21 20:09:45', '2023-09-21 20:09:45'),
+(418, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(419, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(420, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(421, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(422, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(423, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de servicios adicionales #  en la plataforma', '127.0.0.1', NULL, NULL),
+(424, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de permiso cierre-caja en la plataforma', '127.0.0.1', '2023-09-21 21:37:57', '2023-09-21 21:37:57'),
+(425, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 13 por valor de: 20000 para el cliente: FABIANA HERNANDEZ', '127.0.0.1', '2023-09-21 22:10:04', '2023-09-21 22:10:04'),
+(426, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de servicio  en la plataforma', '127.0.0.1', '2023-09-24 20:41:01', '2023-09-24 20:41:01'),
+(427, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de servicio  en la plataforma', '127.0.0.1', '2023-09-24 20:42:12', '2023-09-24 20:42:12'),
+(428, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de servicio  en la plataforma', '127.0.0.1', '2023-09-24 20:42:29', '2023-09-24 20:42:29'),
+(429, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de cliente 123456789 en la plataforma', '127.0.0.1', '2023-09-25 03:31:12', '2023-09-25 03:31:12'),
+(430, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacion de cliente 123456789 en la plataforma', '127.0.0.1', '2023-09-25 03:31:51', '2023-09-25 03:31:51'),
+(431, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 25000 a cliente 6 en la plataforma', '127.0.0.1', '2023-09-26 05:53:35', '2023-09-26 05:53:35'),
+(432, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 13 verificado en la plataforma', '127.0.0.1', '2023-09-26 05:54:11', '2023-09-26 05:54:11'),
+(433, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 15 por valor de: 25000 para el cliente: OLFERA OLAYA', '127.0.0.1', '2023-09-26 05:56:03', '2023-09-26 05:56:03'),
+(434, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #70 al cliente 6 en la plataforma', '127.0.0.1', '2023-09-26 05:56:27', '2023-09-26 05:56:27'),
+(435, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(436, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida26 en  el producto semana', '127.0.0.1', '2023-09-26 19:05:28', '2023-09-26 19:05:28'),
+(437, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de salida27 en  el producto semana', '127.0.0.1', '2023-09-26 19:05:28', '2023-09-26 19:05:28'),
+(438, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de procedimiento profesional #14 en el procedimiento_profesional', '127.0.0.1', '2023-09-26 19:05:28', '2023-09-26 19:05:28'),
+(439, 'Julian', 'julianrincon9230@gmail.com', 'Actualizacio de pago de procedimiento # 17 en la plataforma a estado CERRADO', '127.0.0.1', '2023-09-26 19:05:28', '2023-09-26 19:05:28'),
+(440, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #71 al cliente 6 en la plataforma', '127.0.0.1', '2023-09-26 19:05:57', '2023-09-26 19:05:57'),
+(441, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(442, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 16 por valor de: 40000 para el cliente: FABIANA HERNANDEZ', '127.0.0.1', '2023-09-26 19:10:36', '2023-09-26 19:10:36'),
+(443, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #72 al cliente 5 en la plataforma', '127.0.0.1', '2023-09-26 19:11:22', '2023-09-26 19:11:22'),
+(444, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(445, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 17 por valor de: 70000 para el cliente: DORIS VARGAS', '127.0.0.1', '2023-09-26 19:15:12', '2023-09-26 19:15:12'),
+(446, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #73 al cliente 4 en la plataforma', '127.0.0.1', '2023-09-26 19:15:38', '2023-09-26 19:15:38'),
+(447, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(448, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 90000 a cliente 6 en la plataforma', '127.0.0.1', '2023-09-26 19:23:35', '2023-09-26 19:23:35'),
+(449, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de abono 70000 a cliente 3 en la plataforma', '127.0.0.1', '2023-09-26 19:26:11', '2023-09-26 19:26:11'),
+(450, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 16 verificado en la plataforma', '127.0.0.1', '2023-09-26 19:27:00', '2023-09-26 19:27:00'),
+(451, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 14 verificado en la plataforma', '127.0.0.1', '2023-09-26 19:27:08', '2023-09-26 19:27:08'),
+(452, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #74 al cliente 5 en la plataforma', '127.0.0.1', '2023-09-26 19:40:28', '2023-09-26 19:40:28'),
+(453, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(454, 'Julian', 'julianrincon9230@gmail.com', 'Abono # 19 verificado en la plataforma', '127.0.0.1', '2023-09-26 19:46:01', '2023-09-26 19:46:01'),
+(455, 'Julian', 'julianrincon9230@gmail.com', 'Asignacion de cita #75 al cliente 3 en la plataforma', '127.0.0.1', '2023-09-26 19:47:47', '2023-09-26 19:47:47'),
+(456, 'Julian', 'julianrincon9230@gmail.com', 'Creacion de pago de procedimiento #  en la plataforma', '127.0.0.1', NULL, NULL),
+(457, 'Julian', 'julianrincon9230@gmail.com', 'Transferencia  # 19 verificado en la plataforma', '127.0.0.1', '2023-09-26 19:49:04', '2023-09-26 19:49:04');
 
 -- --------------------------------------------------------
 
@@ -538,6 +718,7 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date DEFAULT NULL COMMENT 'fecha de nacimiento',
   `whatsapp` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `instagram` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `direccion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `estado` int(2) NOT NULL,
   `observacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `calificacion_id` bigint(20) DEFAULT NULL COMMENT 'id de calificacion id',
@@ -549,12 +730,13 @@ CREATE TABLE `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `documento`, `nombres`, `apellidos`, `telefono`, `fecha_nacimiento`, `whatsapp`, `instagram`, `estado`, `observacion`, `calificacion_id`, `created_at`, `updated_at`) VALUES
-(1, '1098699832', 'ANDREA', 'MUÑOZ', '3166107397', '1991-02-03', NULL, NULL, 1, NULL, 4, '2023-04-30 17:14:32', '2023-04-30 17:15:35'),
-(2, '123456', 'HEIDY', 'DAYANA', '3168706182', '1998-02-12', NULL, NULL, 1, NULL, 1, '2023-04-30 17:15:25', '2023-04-30 17:15:25'),
-(3, '13841854', 'LUZ MARINA', 'VARGAS', '3168706182', '1995-03-03', '3168706182', NULL, 1, NULL, 1, '2023-09-12 22:18:24', '2023-09-12 22:18:24'),
-(4, '27790008', 'DORIS', 'VARGAS', '3219080690', '1958-05-10', '3219080690', NULL, 1, NULL, 1, '2023-09-12 22:21:24', '2023-09-12 22:21:24'),
-(5, '1098643625', 'FABIANA', 'HERNANDEZ', '3125178877', NULL, '3125178877', '@fabian9230', 1, 'un bello', 1, '2023-09-12 22:22:38', '2023-09-12 22:22:38');
+INSERT INTO `clientes` (`id`, `documento`, `nombres`, `apellidos`, `telefono`, `fecha_nacimiento`, `whatsapp`, `instagram`, `direccion`, `estado`, `observacion`, `calificacion_id`, `created_at`, `updated_at`) VALUES
+(1, '1098699832', 'ANDREA', 'MUÑOZ', '3166107397', '1991-02-03', NULL, NULL, NULL, 1, NULL, 4, '2023-04-30 17:14:32', '2023-04-30 17:15:35'),
+(2, '123456', 'HEIDY', 'DAYANA', '3168706182', '1998-02-12', NULL, NULL, NULL, 1, NULL, 1, '2023-04-30 17:15:25', '2023-04-30 17:15:25'),
+(3, '13841854', 'LUZ MARINA', 'VARGAS', '3168706182', '1995-03-03', '3168706182', NULL, NULL, 1, NULL, 1, '2023-09-12 22:18:24', '2023-09-12 22:18:24'),
+(4, '27790008', 'DORIS', 'VARGAS', '3219080690', '1958-05-10', '3219080690', NULL, NULL, 1, NULL, 1, '2023-09-12 22:21:24', '2023-09-12 22:21:24'),
+(5, '1098643625', 'FABIANA', 'HERNANDEZ', '3125178877', NULL, '3125178877', '@fabian9230', NULL, 1, 'un bello', 1, '2023-09-12 22:22:38', '2023-09-12 22:22:38'),
+(6, '123456789', 'OLFERA', 'OLAYA', '3216173123', '1995-03-23', NULL, NULL, 'CARRERA 27 NO.54-10 APTO 2370', 1, NULL, 1, '2023-09-24 22:31:12', '2023-09-24 22:31:51');
 
 -- --------------------------------------------------------
 
@@ -578,7 +760,8 @@ CREATE TABLE `cuentas_pago` (
 
 INSERT INTO `cuentas_pago` (`id`, `medio_pago_id`, `entidad`, `numero_cuenta`, `estado`, `created_at`, `updated_at`) VALUES
 (1, 1, 'CAJA MENOR', '0000000', 1, '2023-04-21 15:11:14', '2023-04-21 15:11:14'),
-(2, 2, 'NEQUI', '3173639222', 1, '2023-04-21 15:11:25', '2023-04-21 15:11:42');
+(2, 2, 'NEQUI', '3173639222', 1, '2023-04-21 15:11:25', '2023-04-21 15:11:42'),
+(3, 2, 'BANCOLOMBIA', '12414124', 1, '2023-09-21 11:13:37', '2023-09-21 11:13:37');
 
 -- --------------------------------------------------------
 
@@ -701,6 +884,44 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pago_adicionales`
+--
+
+CREATE TABLE `pago_adicionales` (
+  `id` bigint(20) NOT NULL,
+  `cliente_id` bigint(20) NOT NULL COMMENT 'llave de la tabla clientes',
+  `servicio_adicional_id` bigint(20) NOT NULL COMMENT 'llave de la tabla servicio adicional',
+  `valor_pagar` decimal(10,0) NOT NULL,
+  `comision` varchar(50) NOT NULL,
+  `medio_pago` varchar(50) NOT NULL,
+  `observaciones` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pago_adicionales`
+--
+
+INSERT INTO `pago_adicionales` (`id`, `cliente_id`, `servicio_adicional_id`, `valor_pagar`, `comision`, `medio_pago`, `observaciones`, `created_at`, `updated_at`) VALUES
+(6, 2, 1, '35000', '7000', 'EFECTIVO', NULL, '2023-09-20 16:16:30', '2023-09-20 16:16:30'),
+(7, 4, 1, '35000', '7000', 'SIN PAGO', NULL, '2023-09-20 16:22:30', '2023-09-20 16:22:30'),
+(8, 2, 2, '40000', '6000', 'TRANSFERENCIA', NULL, '2023-09-20 16:23:26', '2023-09-20 16:23:26'),
+(9, 2, 1, '35000', '7000', 'SIN PAGO', NULL, '2023-09-20 16:26:33', '2023-09-20 16:26:33'),
+(11, 3, 4, '0', '10000', 'EFECTIVO', NULL, '2023-09-20 16:35:27', '2023-09-20 16:35:27'),
+(12, 3, 1, '35000', '7000', 'EFECTIVO', NULL, '2023-09-21 12:46:00', '2023-09-21 12:46:00'),
+(13, 2, 1, '35000', '7000', 'TRANSFERENCIA', NULL, '2023-09-21 14:23:33', '2023-09-21 14:23:33'),
+(14, 3, 2, '40000', '6000', 'TRANSFERENCIA', NULL, '2023-09-21 14:39:42', '2023-09-21 14:39:42'),
+(15, 4, 1, '35000', '7000', 'SIN-PAGO', NULL, '2023-09-21 16:12:31', '2023-09-21 16:12:31'),
+(16, 3, 2, '40000', '6000', 'EFECTIVO', NULL, '2023-09-21 16:14:12', '2023-09-21 16:14:12'),
+(17, 3, 2, '40000', '6000', 'SIN-PAGO', NULL, '2023-09-21 16:15:07', '2023-09-21 16:15:07'),
+(18, 3, 2, '40000', '6000', 'EFECTIVO', NULL, '2023-09-21 16:21:22', '2023-09-21 16:21:22'),
+(19, 3, 4, '0', '10000', 'SIN-PAGO', NULL, '2023-09-21 16:23:10', '2023-09-21 16:23:10'),
+(20, 3, 1, '35000', '7000', 'EFECTIVO', NULL, '2023-09-21 16:31:08', '2023-09-21 16:31:08');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pago_procedimiento`
 --
 
@@ -727,10 +948,23 @@ CREATE TABLE `pago_procedimiento` (
 --
 
 INSERT INTO `pago_procedimiento` (`id`, `cliente_id`, `servicio_id`, `talla_id`, `precio`, `planes_id`, `abonos_id`, `valor_pagar`, `medio_pago`, `estado`, `realizo`, `observaciones`, `comision`, `created_at`, `updated_at`) VALUES
-(4, 1, 2, 1, '200000', 1, 3, '162000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-15 12:22:30', '2023-09-15 12:22:30'),
-(5, 1, 3, 1, '140000', NULL, 1, '115000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '30000', '2023-09-15 12:24:26', '2023-09-15 12:24:26'),
+(4, 1, 2, 1, '200000', 1, 3, '162000', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '50000', '2023-09-15 12:22:30', '2023-09-19 21:46:47'),
+(5, 1, 3, 1, '140000', NULL, 1, '115000', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '30000', '2023-09-15 12:24:26', '2023-09-19 21:45:26'),
 (6, 2, 2, 1, '200000', 1, 2, '144000', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '50000', '2023-09-15 15:11:59', '2023-09-18 21:12:31'),
-(7, 2, 3, 2, '240000', 1, 6, '171000', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '2500', '2023-09-18 23:47:25', '2023-09-18 23:48:39');
+(8, 2, 4, 1, '140000', NULL, 9, '120000', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '30000', '2023-09-19 21:42:48', '2023-09-19 21:46:23'),
+(9, 5, 2, 1, '200000', NULL, 7, '130000', 'TRANSFERENCIA', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '50000', '2023-09-19 21:43:21', '2023-09-19 21:45:58'),
+(10, 2, 4, 2, '100000', NULL, 5, '80000', 'TRANSFERENCIA', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '5000', '2023-09-19 21:43:53', '2023-09-19 21:44:49'),
+(11, 1, 2, 1, '200000', 1, 8, '117000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-20 16:33:01', '2023-09-20 16:33:01'),
+(13, 1, 3, 1, '50000', NULL, 4, '20000', 'TRANSFERENCIA', 'ABIERTO', 'Julian', NULL, '2500', '2023-09-21 12:24:14', '2023-09-21 12:24:14'),
+(14, 4, 3, 1, '50000', NULL, 11, '10000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '2500', '2023-09-21 12:30:59', '2023-09-21 12:30:59'),
+(15, 5, 2, 1, '200000', NULL, 10, '175000', 'TRANSFERENCIA', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-21 12:32:32', '2023-09-21 12:32:32'),
+(16, 2, 2, 1, '200000', NULL, 12, '175000', 'TRANSFERENCIA', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-21 14:38:47', '2023-09-21 14:38:47'),
+(17, 6, 2, 1, '200000', NULL, 15, '157500', 'EFECTIVO', 'CERRADO', 'Julian', 'Procedimiento cerrado en la plataforma', '50000', '2023-09-26 14:02:22', '2023-09-26 14:05:28'),
+(18, 6, 2, 1, '200000', NULL, 14, '0', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-26 14:07:36', '2023-09-26 14:07:36'),
+(19, 5, 2, 1, '200000', NULL, 13, '180000', 'TRANSFERENCIA', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-26 14:12:04', '2023-09-26 14:12:04'),
+(20, 4, 2, 1, '200000', NULL, 17, '117000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-26 14:16:21', '2023-09-26 14:16:21'),
+(21, 5, 2, 1, '200000', NULL, 16, '160000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-26 14:42:58', '2023-09-26 14:42:58'),
+(22, 3, 2, 1, '200000', NULL, 19, '130000', 'EFECTIVO', 'ABIERTO', 'Julian', NULL, '50000', '2023-09-26 14:48:46', '2023-09-26 14:48:46');
 
 -- --------------------------------------------------------
 
@@ -769,7 +1003,11 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (4, 'servicios-profesionales', 'web', '2022-09-09 16:50:33', '2023-02-15 02:26:04'),
 (5, 'ver-informacion', 'web', '2022-12-02 00:59:00', '2023-02-15 02:25:42'),
 (6, 'inventario', 'web', '2023-09-11 03:40:04', '2023-09-11 03:40:04'),
-(7, 'procedimientos', 'web', '2023-09-11 03:40:27', '2023-09-11 03:40:27');
+(7, 'procedimientos', 'web', '2023-09-11 03:40:27', '2023-09-11 03:40:27'),
+(8, 'procedimientos-adicional', 'web', '2023-09-21 17:55:13', '2023-09-21 17:55:13'),
+(9, 'procedimientos-cierre', 'web', '2023-09-21 17:55:38', '2023-09-21 17:55:38'),
+(10, 'validacion-transferencias', 'web', '2023-09-21 20:03:40', '2023-09-21 20:03:40'),
+(11, 'cierre-caja', 'web', '2023-09-21 21:37:57', '2023-09-21 21:37:57');
 
 -- --------------------------------------------------------
 
@@ -791,7 +1029,7 @@ CREATE TABLE `planes_dcto` (
 --
 
 INSERT INTO `planes_dcto` (`id`, `plan`, `descuento`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 'PROMO GOLD', '10', 1, '2023-03-25 11:16:37', '2023-09-14 23:09:31'),
+(1, 'PROMO GOLDS', '10', 1, '2023-03-25 11:16:37', '2023-09-24 15:42:29'),
 (3, 'PROMO MES MUJER', '40', 0, '2023-03-25 11:19:56', '2023-09-14 23:09:37'),
 (4, 'MES DEL AMOR Y LA AMISTAD', '20', 1, '2023-09-14 23:10:48', '2023-09-14 23:10:48');
 
@@ -846,8 +1084,13 @@ CREATE TABLE `procedimiento_profesional` (
 
 INSERT INTO `procedimiento_profesional` (`id`, `profesional_id`, `procedimiento_id`, `comision`, `fecha`, `porcentaje`, `created_at`, `updated_at`) VALUES
 (5, 4, 6, 50000, '2023-09-18', '100%', '2023-09-18 21:12:31', '2023-09-18 21:12:31'),
-(6, 4, 7, 1250, '2023-09-18', '50%', '2023-09-18 23:48:39', '2023-09-18 23:48:39'),
-(7, 3, 7, 1250, '2023-09-18', '50%', '2023-09-18 23:48:39', '2023-09-18 23:48:39');
+(8, 4, 10, 5000, '2023-09-19', '100%', '2023-09-19 21:44:49', '2023-09-19 21:44:49'),
+(9, 4, 5, 30000, '2023-09-19', '100%', '2023-09-19 21:45:26', '2023-09-19 21:45:26'),
+(10, 4, 9, 25000, '2023-09-19', '50%', '2023-09-19 21:45:58', '2023-09-19 21:45:58'),
+(11, 2, 9, 25000, '2023-09-19', '50%', '2023-09-19 21:45:58', '2023-09-19 21:45:58'),
+(12, 2, 8, 30000, '2023-09-19', '100%', '2023-09-19 21:46:23', '2023-09-19 21:46:23'),
+(13, 4, 4, 50000, '2023-09-19', '100%', '2023-09-19 21:46:47', '2023-09-19 21:46:47'),
+(14, 4, 17, 50000, '2023-09-26', '100%', '2023-09-26 14:05:28', '2023-09-26 14:05:28');
 
 -- --------------------------------------------------------
 
@@ -905,7 +1148,15 @@ INSERT INTO `producto_semana` (`id`, `producto_id`, `profesional_id`, `tipo_tran
 (7, 5, 2, 'SOBRANTE', 0, '2023-08-28', NULL, '2023-08-28 16:04:56', '2023-08-28 16:04:56'),
 (16, 4, 4, 'SALIDA', 70, '2023-09-18', 6, '2023-09-18 21:12:31', '2023-09-18 21:12:31'),
 (17, 5, 4, 'SALIDA', 70, '2023-09-18', 6, '2023-09-18 21:12:31', '2023-09-18 21:12:31'),
-(18, 5, 1, 'SALIDA', 60, '2023-09-18', 7, '2023-09-18 23:48:39', '2023-09-18 23:48:39');
+(19, 5, 4, 'SALIDA', 59, '2023-09-19', 10, '2023-09-19 21:44:49', '2023-09-19 21:44:49'),
+(20, 5, 1, 'SALIDA', 50, '2023-09-19', 5, '2023-09-19 21:45:26', '2023-09-19 21:45:26'),
+(21, 4, 1, 'SALIDA', 70, '2023-09-19', 9, '2023-09-19 21:45:58', '2023-09-19 21:45:58'),
+(22, 5, 1, 'SALIDA', 70, '2023-09-19', 9, '2023-09-19 21:45:58', '2023-09-19 21:45:58'),
+(23, 5, 2, 'SALIDA', 60, '2023-09-19', 8, '2023-09-19 21:46:23', '2023-09-19 21:46:23'),
+(24, 4, 4, 'SALIDA', 50, '2023-09-19', 4, '2023-09-19 21:46:47', '2023-09-19 21:46:47'),
+(25, 5, 4, 'SALIDA', 80, '2023-09-19', 4, '2023-09-19 21:46:47', '2023-09-19 21:46:47'),
+(26, 4, 1, 'SALIDA', 50, '2023-09-26', 17, '2023-09-26 14:05:28', '2023-09-26 14:05:28'),
+(27, 5, 1, 'SALIDA', 60, '2023-09-26', 17, '2023-09-26 14:05:28', '2023-09-26 14:05:28');
 
 -- --------------------------------------------------------
 
@@ -978,9 +1229,7 @@ CREATE TABLE `role_has_permissions` (
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
 (3, 1),
-(2, 2),
-(3, 2),
-(4, 2),
+(10, 2),
 (4, 3),
 (5, 3);
 
@@ -1011,6 +1260,30 @@ INSERT INTO `servicio` (`id`, `tipo_servicio_id`, `servicio`, `created_at`, `upd
 (7, 4, 'ADN', '2023-04-27 11:58:24', '2023-04-27 11:58:24'),
 (8, 4, 'Terapia Capilar', '2023-04-27 11:58:48', '2023-04-27 11:58:48'),
 (9, 4, 'Curly', '2023-04-27 11:59:08', '2023-04-27 11:59:08');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicios_adicionales`
+--
+
+CREATE TABLE `servicios_adicionales` (
+  `id` bigint(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL COMMENT 'nombre del servicio',
+  `valor` decimal(10,0) NOT NULL COMMENT 'valor del servicio',
+  `comision` decimal(10,0) NOT NULL COMMENT 'comisión del servicio',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `servicios_adicionales`
+--
+
+INSERT INTO `servicios_adicionales` (`id`, `nombre`, `valor`, `comision`, `created_at`, `updated_at`) VALUES
+(1, 'CORTE 3000', '35000', '7000', '2023-09-20 10:47:27', '2023-09-20 10:47:45'),
+(2, 'DESPUNTADA', '40000', '6000', '2023-09-20 10:48:17', '2023-09-20 10:48:17'),
+(4, 'CORTE PLUS', '0', '10000', '2023-09-20 16:35:04', '2023-09-20 16:35:04');
 
 -- --------------------------------------------------------
 
@@ -1082,6 +1355,52 @@ INSERT INTO `tipo_servicio` (`id`, `tipo_servicio`, `created_at`, `updated_at`) 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `transferencias_pago`
+--
+
+CREATE TABLE `transferencias_pago` (
+  `id` bigint(20) NOT NULL,
+  `cliente_id` bigint(20) NOT NULL,
+  `valor` decimal(10,0) NOT NULL,
+  `medio_pago_id` bigint(20) DEFAULT NULL,
+  `cuenta_pago_id` bigint(20) DEFAULT NULL,
+  `referencia_pago` varchar(50) DEFAULT NULL,
+  `fecha` date NOT NULL COMMENT 'fecha de pago',
+  `id_pago` bigint(20) DEFAULT NULL COMMENT 'id de referencia puede ser de dos tablas depende del tipo',
+  `tipo` enum('P','S') DEFAULT NULL COMMENT 'TIPO P PROCEDIMIENTOS S SERVICIO',
+  `verificado` int(1) NOT NULL COMMENT 'casilla verificacion 1 o 0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `transferencias_pago`
+--
+
+INSERT INTO `transferencias_pago` (`id`, `cliente_id`, `valor`, `medio_pago_id`, `cuenta_pago_id`, `referencia_pago`, `fecha`, `id_pago`, `tipo`, `verificado`, `created_at`, `updated_at`) VALUES
+(1, 1, '20000', 2, 3, NULL, '2023-09-21', 13, 'P', 1, '2023-09-21 12:24:14', '2023-09-21 14:23:08'),
+(2, 4, '10000', 1, 1, NULL, '2023-09-21', 14, 'P', 1, '2023-09-21 12:30:59', '2023-09-21 12:30:59'),
+(3, 5, '175000', 2, 3, '12312333', '2023-09-21', 15, 'P', 1, '2023-09-21 12:32:32', '2023-09-21 14:22:11'),
+(4, 3, '35000', 1, 1, NULL, '2023-09-01', 12, 'S', 1, '2023-09-21 12:46:00', '2023-09-21 12:46:00'),
+(5, 2, '35000', 2, 2, NULL, '2023-09-01', 13, 'S', 1, '2023-09-21 14:23:33', '2023-09-21 14:33:28'),
+(6, 2, '175000', 2, 2, NULL, '2023-09-21', 16, 'P', 1, '2023-09-21 14:38:47', '2023-09-21 14:39:05'),
+(7, 3, '40000', 2, 3, '333333', '2023-09-01', 14, 'S', 1, '2023-09-21 14:39:42', '2023-09-21 15:03:22'),
+(8, 3, '40000', 1, 1, NULL, '2023-09-01', 16, 'S', 1, '2023-09-21 16:14:12', '2023-09-21 16:14:12'),
+(9, 3, '40000', 1, 1, NULL, '2023-09-21', 18, 'S', 1, '2023-09-21 16:21:22', '2023-09-21 16:21:22'),
+(10, 3, '35000', 1, 1, NULL, '2023-09-01', 20, 'S', 1, '2023-09-21 16:31:08', '2023-09-21 16:31:08'),
+(11, 6, '70000', 1, 1, NULL, '2023-09-26', 17, 'P', 1, '2023-09-26 14:02:22', '2023-09-26 14:02:22'),
+(12, 6, '87500', 2, 3, NULL, '2023-09-26', 17, 'P', 1, '2023-09-26 14:02:22', '2023-09-26 14:02:22'),
+(13, 6, '0', 1, 1, NULL, '2023-09-26', 18, 'P', 1, '2023-09-26 14:07:36', '2023-09-26 14:07:36'),
+(14, 5, '180000', 2, 2, NULL, '2023-09-26', 19, 'P', 1, '2023-09-26 14:12:04', '2023-09-26 14:27:08'),
+(15, 4, '100000', 1, 1, NULL, '2023-09-26', 20, 'P', 1, '2023-09-26 14:16:21', '2023-09-26 14:16:21'),
+(16, 4, '17000', 2, 3, NULL, '2023-09-26', 20, 'P', 1, '2023-09-26 14:16:21', '2023-09-26 14:27:00'),
+(17, 5, '160000', 1, 1, NULL, '2023-09-26', 21, 'P', 1, '2023-09-26 14:42:58', '2023-09-26 14:42:58'),
+(18, 3, '100000', 1, 1, NULL, '2023-09-26', 22, 'P', 1, '2023-09-26 14:48:46', '2023-09-26 14:48:46'),
+(19, 3, '30000', 2, 2, NULL, '2023-09-26', 22, 'P', 1, '2023-09-26 14:48:46', '2023-09-26 14:49:04');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -1110,8 +1429,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `gender`, `email`, `password`, `role_id`, `number`, `address`, `city`, `estado`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Admin', 'User', NULL, 'ojrincon@bucaramanga.gov.co', '$2y$10$LueqldPmcKdhoK7I9uMZzOpTUUQ71fSUd/w2TNXlrw7TAEC3x6ExC', NULL, NULL, NULL, NULL, 0, NULL, 'VZRMC0PaCZTVY0F7wJxPqbwhCvf2hJ8FAjJO0bhQr6v6aJ2Jea0845dzg87n', NULL, '2022-09-09 23:36:09', '2022-09-09 23:36:09'),
-(2, 'Julian', 'Rincon', 'Hombre', 'julianrincon9230@gmail.com', '$2y$10$f8.KTwlDO1e/X7I2LpmoC.zlpXiAPxPOP85zyq2MquTek1gJgoTK2', 1, '3219080690', 'calle 20 # 12-33', 'BUCARAMANGA', 1, NULL, 'v5VzdpUxAgPWQlMPlTCjPwLeo1D0Q2m9YVQX0NGwEg6UVuNhGxY3A6TbtW19', '2022-08-31 07:51:21', '2023-02-15 02:16:39', NULL),
-(4, 'Julian', 'Rincon', NULL, 'vitalfutclubbga@gmail.com', '$2y$10$g5BAX2rOZCTw1.ay.HxEm.XrZsgYyT8i7/21o1PM3iSqehHIMmSbW', 2, '3166107397', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2022-09-09 20:40:54', '2022-10-06 21:24:39', NULL),
+(2, 'Julian', 'Rincon', 'Hombre', 'julianrincon9230@gmail.com', '$2y$10$f8.KTwlDO1e/X7I2LpmoC.zlpXiAPxPOP85zyq2MquTek1gJgoTK2', 1, '3219080690', 'calle 20 # 12-33', 'BUCARAMANGA', 1, NULL, 'fKkbUZJ8CrUYCZIuoPtMZPzcergLqQt3VA0OBMrAx7L0rXUApywraJUl5y4u', '2022-08-31 07:51:21', '2023-02-15 02:16:39', NULL),
+(4, 'Richart', 'Reatiga', NULL, 'vitalfutclubbga@gmail.com', '$2y$10$f8.KTwlDO1e/X7I2LpmoC.zlpXiAPxPOP85zyq2MquTek1gJgoTK2', 2, '3166107397', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2022-09-09 20:40:54', '2022-10-06 21:24:39', NULL),
 (5, NULL, NULL, NULL, 'prueba@gmail.com', '$2y$10$bQXljGzuTp4EjLfE6USsxu7bH8BAo74catHE3Td4FHaK8gec8Jr9G', NULL, NULL, NULL, NULL, NULL, NULL, 'GAIhFifseJjtSPg6irliesC8BH7tubXeMsQm8UoRVHD4SXVFixixtYkWPe7V', '2023-03-30 13:28:56', '2023-03-30 13:28:56', NULL),
 (6, 'Producto compartido', NULL, NULL, 'compartido@gmail.com', '$2y$10$ttU7k.8PAiRGR.R7Y2jMGe1.GZQN55.4iiWIelaTuceFcT6QAoXai', 3, '3161231232', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2023-08-24 20:49:27', '2023-08-24 20:49:27', NULL),
 (7, 'OLFER EFRAIN', 'OLAYA', NULL, 'olfer.olaya@hotmail.com', '$2y$10$h4jXRmKLVc9mcEmClJbS3OZTcPTkFBh0321M2w9fv5EYLl7F5eQ0q', 3, '3175024300', NULL, 'BUCARAMANGA', 1, NULL, NULL, '2023-08-28 13:21:18', '2023-08-28 13:21:18', NULL),
@@ -1163,6 +1482,14 @@ ALTER TABLE `abonos`
   ADD KEY `fk_abono_cliente` (`cliente_id`),
   ADD KEY `medio_pago_id` (`medio_pago_id`),
   ADD KEY `cuenta_pago_id` (`cuenta_pago_id`);
+
+--
+-- Indices de la tabla `adicional_profesional`
+--
+ALTER TABLE `adicional_profesional`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_adicional_pago` (`adicional_id`),
+  ADD KEY `fk_adicional_profesional` (`profesional_id`);
 
 --
 -- Indices de la tabla `agenda`
@@ -1240,10 +1567,22 @@ ALTER TABLE `model_has_roles`
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
+-- Indices de la tabla `pago_adicionales`
+--
+ALTER TABLE `pago_adicionales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_cliente_adicional` (`cliente_id`),
+  ADD KEY `fk_servicio_adicional` (`servicio_adicional_id`);
+
+--
 -- Indices de la tabla `pago_procedimiento`
 --
 ALTER TABLE `pago_procedimiento`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_cliente_pago` (`cliente_id`),
+  ADD KEY `fk_servicio_pago` (`servicio_id`),
+  ADD KEY `fk_talla_pago` (`talla_id`),
+  ADD KEY `fk_abono_pago` (`abonos_id`);
 
 --
 -- Indices de la tabla `password_resets`
@@ -1324,6 +1663,12 @@ ALTER TABLE `servicio`
   ADD KEY `fk_tipo_serv` (`tipo_servicio_id`);
 
 --
+-- Indices de la tabla `servicios_adicionales`
+--
+ALTER TABLE `servicios_adicionales`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `servicio_producto`
 --
 ALTER TABLE `servicio_producto`
@@ -1342,6 +1687,15 @@ ALTER TABLE `tallas`
 --
 ALTER TABLE `tipo_servicio`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `transferencias_pago`
+--
+ALTER TABLE `transferencias_pago`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_trasferencia_cliente` (`cliente_id`),
+  ADD KEY `fk_trasferencia_medio` (`medio_pago_id`),
+  ADD KEY `fk_trasferencia_cuenta` (`cuenta_pago_id`);
 
 --
 -- Indices de la tabla `users`
@@ -1372,19 +1726,25 @@ ALTER TABLE `venta_detalle`
 -- AUTO_INCREMENT de la tabla `abonos`
 --
 ALTER TABLE `abonos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de la tabla `adicional_profesional`
+--
+ALTER TABLE `adicional_profesional`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=458;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacion`
@@ -1396,13 +1756,13 @@ ALTER TABLE `calificacion`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `cuentas_pago`
 --
 ALTER TABLE `cuentas_pago`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -1429,16 +1789,22 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `pago_adicionales`
+--
+ALTER TABLE `pago_adicionales`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT de la tabla `pago_procedimiento`
 --
 ALTER TABLE `pago_procedimiento`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `planes_dcto`
@@ -1456,7 +1822,7 @@ ALTER TABLE `precios`
 -- AUTO_INCREMENT de la tabla `procedimiento_profesional`
 --
 ALTER TABLE `procedimiento_profesional`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -1468,7 +1834,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `producto_semana`
 --
 ALTER TABLE `producto_semana`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `profesionales`
@@ -1489,6 +1855,12 @@ ALTER TABLE `servicio`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `servicios_adicionales`
+--
+ALTER TABLE `servicios_adicionales`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `servicio_producto`
 --
 ALTER TABLE `servicio_producto`
@@ -1505,6 +1877,12 @@ ALTER TABLE `tallas`
 --
 ALTER TABLE `tipo_servicio`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `transferencias_pago`
+--
+ALTER TABLE `transferencias_pago`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
@@ -1537,6 +1915,13 @@ ALTER TABLE `abonos`
   ADD CONSTRAINT `fk_medio_pago` FOREIGN KEY (`medio_pago_id`) REFERENCES `medio_pago` (`id`);
 
 --
+-- Filtros para la tabla `adicional_profesional`
+--
+ALTER TABLE `adicional_profesional`
+  ADD CONSTRAINT `fk_adicional_pago` FOREIGN KEY (`adicional_id`) REFERENCES `pago_adicionales` (`id`),
+  ADD CONSTRAINT `fk_adicional_profesional` FOREIGN KEY (`profesional_id`) REFERENCES `profesionales` (`id`);
+
+--
 -- Filtros para la tabla `agenda`
 --
 ALTER TABLE `agenda`
@@ -1562,6 +1947,22 @@ ALTER TABLE `model_has_permissions`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `pago_adicionales`
+--
+ALTER TABLE `pago_adicionales`
+  ADD CONSTRAINT `fk_cliente_adicional_up` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `fk_servicio_adicional` FOREIGN KEY (`servicio_adicional_id`) REFERENCES `servicios_adicionales` (`id`);
+
+--
+-- Filtros para la tabla `pago_procedimiento`
+--
+ALTER TABLE `pago_procedimiento`
+  ADD CONSTRAINT `fk_abono_pago` FOREIGN KEY (`abonos_id`) REFERENCES `abonos` (`id`),
+  ADD CONSTRAINT `fk_cliente_pago` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `fk_servicio_pago` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`),
+  ADD CONSTRAINT `fk_talla_pago` FOREIGN KEY (`talla_id`) REFERENCES `tallas` (`id`);
 
 --
 -- Filtros para la tabla `precios`
@@ -1610,6 +2011,14 @@ ALTER TABLE `servicio`
 ALTER TABLE `servicio_producto`
   ADD CONSTRAINT `fk_producto_tipo` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`),
   ADD CONSTRAINT `fk_tipo_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`);
+
+--
+-- Filtros para la tabla `transferencias_pago`
+--
+ALTER TABLE `transferencias_pago`
+  ADD CONSTRAINT `fk_trasferencia_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `fk_trasferencia_cuenta` FOREIGN KEY (`cuenta_pago_id`) REFERENCES `cuentas_pago` (`id`),
+  ADD CONSTRAINT `fk_trasferencia_medio` FOREIGN KEY (`medio_pago_id`) REFERENCES `medio_pago` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

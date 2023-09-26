@@ -5,13 +5,81 @@ const valorAbonoInput = document.getElementById("valor_abono");
 const planesSelect = document.getElementById("planes_id");
 const valorPagarInput = document.getElementById("valor_pagar");
 const totalCuenta = document.getElementById("total_cuenta");
+const valorNeto = document.getElementById("valor-neto");
+const saldo = document.getElementById("saldo");
+let totalNeto = 0;
+let $myForm = doc.getElementById("myForm");
+var elementos = $myForm.elements;
+
+// const medioPagoSelect = document.getElementById('medio_pago');
+// const cuentaPagoSelect = document.getElementById('cuenta_pago_id');
+// const medioPagoId = document.getElementById('medio_pago_id');
 
 doc.addEventListener("DOMContentLoaded", function (e) {
-    totalCuenta.innerText =  `$${0}`
+    let pristineForm = new Pristine($myForm);
+    const btnAdd = document.querySelector(".btnAdd");
+    const clonableDiv = document.querySelector(".clonar");
+    const pagos = [];
+    let contador = 0;
+
+    btnAdd.addEventListener("click", function () {
+        contador++;
+
+        const clonedDiv = clonableDiv.cloneNode(true); // Clonar el div con todos sus elementos
+
+        // Modificar los atributos name e id de los elementos clonados
+        clonedDiv.querySelectorAll("[name], [id]").forEach(function (elemento) {
+            const nombreOriginal = elemento.getAttribute("name");
+            const idOriginal = elemento.getAttribute("id");
+            // Reemplazar cualquier número en el nombre con el valor actual del
+
+            const matches = nombreOriginal.match(/(\d+)$/);
+            if (matches) {
+                const numeroOriginal = parseInt(matches[0]);
+                const nuevoNumero = numeroOriginal + contador;
+                const nuevoNombre = nombreOriginal.replace(
+                    numeroOriginal,
+                    nuevoNumero
+                );
+                const nuevoId = idOriginal.replace(numeroOriginal, nuevoNumero);
+
+                elemento.setAttribute("name", nuevoNombre);
+                elemento.setAttribute("id", nuevoId);
+                elemento.removeAttribute("data-pristine-required-message");
+                elemento.removeAttribute("required");
+            }
+        });
+        // Limpiar los valores en los campos clonados
+        clonedDiv.querySelectorAll("input, select").forEach(function (input) {
+            input.value = ""; // Establecer el valor en blanco
+        });
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.type = "button";
+        btnEliminar.className = "btn btn-danger";
+        btnEliminar.title = "Eliminar Fila";
+        btnEliminar.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#f3f2f2" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>`;
+        btnEliminar.addEventListener("click", function () {
+            clonedDiv.remove(); // Eliminar el elemento clonado
+            recalcularSumatoria();
+        });
+
+        clonedDiv.querySelector(".col-md-1").innerHTML = ""; // Limpiar el contenido del último div
+        clonedDiv.querySelector(".col-md-1").appendChild(btnEliminar); // Agregar el botón de eliminar
+
+        clonableDiv.parentElement.insertBefore(
+            clonedDiv,
+            clonableDiv.nextSibling
+        ); // Agregar el clon justo debajo del original
+    });
+
+    totalCuenta.innerText = `$${0}`;
+    valorNeto.innerText = `$${0}`;
+    saldo.innerText = `$${0}`;
     const autocompleteInput = document.getElementById("documento");
     const suggestions = document.getElementById("suggestions");
     const divTable = document.querySelector(".div-table");
-   
+
     //escucha los eventos
     valorPrecioInput.addEventListener("change", calcularPrecioFinal);
     valorAbonoInput.addEventListener("change", calcularPrecioFinal);
@@ -107,79 +175,149 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         return [row.tipo_servicio + "-" + row.servicio].join("");
     }
 
-    let $myForm = doc.getElementById("myForm");
-    let pristine = new Pristine($myForm);
     $myForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        let valid = pristine.validate();
+        let valid = pristineForm.validate();
         if (valid) {
             let datos = getData(e.target);
-            console.log(datos);
-            axios
-                .post("/procedimientos", datos)
-                .then(function (response) {
-                    if (response.data.success) {
-                        console.log('entre')
-                        Swal.fire(
-                            response.data.message,
-                            `Valor Pagado: ${moneyFormat(response.data.valor)}`,
-                            'success'
-                          ) 
-                          $myForm.reset();
-                          $myForm.classList.add("d-none");
-                          console.log('entre')
-                          setTimeout(()=>{
-                            location.reload();
-                           },10000)
+            const form = new FormData(e.target);
+            const valores = [];
+            // Crear un objeto temporal para almacenar los datos de un conjunto de campos
+            let tempValores = {};
+            let camposInvalidos = [];
+            let sumaValorPago = 0;
 
+            for (const [nombre, valor] of form.entries()) {
+                if (
+                    nombre.startsWith("medio_pago_") ||
+                    nombre.startsWith("cuenta_pago_") ||
+                    nombre.startsWith("referencia_pago_") ||
+                    nombre.startsWith("valor_pago_")
+                ) {
+                    const campo = nombre.split("_")[0]; // Obtener el nombre del campo
+                    const numero = nombre.split("_")[2]; // Obtener el número del campo
 
-                        
-                    } else {
-                        console.log(response.data.errorMessage)
-                        response.data.errors.forEach((el) => {
-                            notyfError.open({
-                                type: "error",
-                                message: el,
-                                duration: 8000,
-                            });
-                        });
+                    if (!tempValores[numero]) {
+                        tempValores[numero] = {};
                     }
-                })
-                .catch(function (error) {
-                    console.log(error.response);
+
+                   tempValores[numero][campo] = valor;
+                    
+
+                }
+                if (nombre.startsWith("medio_pago_")) {
+                    const numero = nombre.split("_")[2]; // Obtener el número del campo
+                    let medioPagoSelect = document.querySelector(
+                        `select[name="medio_pago_${numero}"]`
+                    );
+                    const idMedio =
+                        medioPagoSelect.options[
+                            medioPagoSelect.selectedIndex
+                        ].getAttribute("data-idMedio");
+                    tempValores[numero]["idMedio"] = idMedio;  // Agregar el valor al objeto valores
+                }
+                if (
+                    !valor &&
+                    !nombre.startsWith("referencia_pago_") &&
+                    !nombre.endsWith("planes_id") &&
+                    !nombre.endsWith("observaciones")
+                ) {
+                    camposInvalidos.push(nombre);
+                }
+                if (nombre.startsWith("valor_pago_")) {
+                    // Convertir el valor a número y sumarlo
+                    const valorNumerico = parseFloat(valor);
+                    if (!isNaN(valorNumerico)) {
+                        sumaValorPago += valorNumerico;
+                    }
+                }
+            }
+
+            // Comprobar si hay campos inválidos
+            if (camposInvalidos.length > 0) {
+                camposInvalidos.forEach((el) => {
+                    notyfError.open({
+                        type: "error",
+                        message: `el campo ${el} es requerido`,
+                        duration: 8000,
+                    });
                 });
+                return;
+            }
+            if (sumaValorPago !== parseFloat(datos.valor_pagar)) {
+                Swal.fire(
+                    "Cuidado!",
+                    "Los valores a pagar no coinciden!",
+                    "error"
+                );
+                return;
+            }
+            for (const numero in tempValores) {
+                if (tempValores.hasOwnProperty(numero)) {
+                    valores.push(tempValores[numero]);
+                }
+            }
+            console.log(datos, valores);
+            Swal.fire({
+                title: "¿Esta seguro de realizar esta transaccion?",
+                text: "No se podra parar el pago",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, confirmar!",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios
+                        .post("/procedimientos", { datos, valores })
+                        .then(function (response) {
+                            console.log(response);
+            if (response.data.success) {
+                Swal.fire(
+                    response.data.message,
+                    `Valor Pagado: ${moneyFormat(response.data.valor)}`,
+                    'success'
+                  )
+                  $myForm.reset();
+                  $myForm.classList.add("d-none");
+                  document.querySelector('.divReferencia').classList.add('d-none');
+                  totalCuenta.innerText =  `$${0}`
+                  valorNeto.innerText = `$${0}`;
+                  saldo.innerText = `$${0}`
+                  saldo.classList.remove('text-success')
+                  saldo.classList.remove('text-danger')
+                  setTimeout(()=>{
+                    location.reload();
+                   },3000)
+
+            } else {
+                response.data.errors.forEach((el) => {
+                    notyfError.open({
+                        type: "error",
+                        message: el,
+                        duration: 8000,
+                    });
+                });
+            }
+                        })
+                        .catch(function (error) {
+                            if (error) {
+                                response.data.errors.forEach((el) => {
+                                    notyfError.open({
+                                        type: "error",
+                                        message: el,
+                                        duration: 8000,
+                                    });
+                                });
+                            }
+                        });
+                }
+            });
         }
     });
 
     document.addEventListener("click", (e) => {
-        if (e.target.matches(".editarData")) {
-            axios
-                .get(`/edit/productos/${e.target.dataset.id}`)
-                .then(function (response) {
-                    let myModalEl = new bootstrap.Modal(
-                        document.getElementById("modalSignIn"),
-                        {
-                            keyboard: false,
-                        }
-                    );
-                    console.log(response.data.data);
-                    myModalEl.show();
-                    document.querySelector(".titulo-modal").textContent =
-                        "Editar Productos";
-                    document.querySelector(".btnModal").textContent = "Editar";
-                    document.getElementById("nombre").value =
-                        response.data.data.nombre;
-                    document.getElementById("tipo").value =
-                        response.data.data.tipo;
-                    document.getElementById("presentacion").value =
-                        response.data.data.presentacion;
-                    document.getElementById("valor_unitario").value =
-                        response.data.data.valor_unitario;
-                    document.getElementById("id").value = response.data.data.id;
-                })
-                .catch(function (error) {});
-        }
-
         if (e.target.matches(".btnClose")) {
             Swal.fire({
                 title: "¿Esta seguro de parar esta transaccion?",
@@ -194,17 +332,16 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                 if (result.isConfirmed) {
                     $myForm.reset();
                     $myForm.classList.add("d-none");
+                    document
+                        .querySelector(".divReferencia")
+                        .classList.add("d-none");
+                    totalCuenta.innerText = `$${0}`;
+                    valorNeto.innerText = `$${0}`;
+                    saldo.innerText = `$${0}`;
+                    saldo.classList.remove("text-success");
+                    saldo.classList.remove("text-danger");
                 }
             });
-        }
-
-        if (e.target.matches(".btn-modal") || e.target.matches(".btn-cerrar")) {
-            $myForm.reset();
-            pristine.reset();
-            document.querySelector(".titulo-modal").textContent =
-                "Crear Producto";
-            document.querySelector(".btnModal").textContent = "Crear";
-            document.getElementById("id").value = "";
         }
 
         if (e.target.matches(".btnSearch")) {
@@ -245,7 +382,6 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                 .get(`/procedimientos/payment/${e.target.dataset.id}`)
                 .then(function (response) {
                     if (response.data.success) {
-                        
                         document.getElementById(
                             "nombre"
                         ).value = `${response.data.data.nombres} ${response.data.data.apellidos}`;
@@ -269,7 +405,6 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                         divTable.classList.add("d-none");
                         dataTable.bootstrapTable("destroy");
                         $myForm.classList.remove("d-none");
-                        
                     }
                 })
                 .catch(function (error) {});
@@ -277,13 +412,79 @@ doc.addEventListener("DOMContentLoaded", function (e) {
     });
 
     document.addEventListener("change", (e) => {
+        let selectedMedioId;
         if (e.target.matches("#servicio_id")) {
             calcularPrecio();
-            
         }
         if (e.target.matches("#talla_id")) {
             calcularPrecio();
-            
+        }
+        if (e.target.matches(".medioPago")) {
+            for (var i = 0; i < 9; i++) {
+                if (e.target.id == `medio_pago_${i}`) {
+                    let cuentaPagoSelect = document.getElementById(
+                        `cuenta_pago_${i}`
+                    );
+                    cuentaPagoSelect.value = "";
+                    let medioPagoSelect = document.getElementById(
+                        `medio_pago_${i}`
+                    );
+                    selectedMedioId =
+                        medioPagoSelect.options[
+                            medioPagoSelect.selectedIndex
+                        ].getAttribute("data-idMedio");
+
+                    for (let i = 0; i < cuentaPagoSelect.options.length; i++) {
+                        const option = cuentaPagoSelect.options[i];
+                        const optionMedioId =
+                            option.getAttribute("data-medioId");
+
+                        if (
+                            optionMedioId === selectedMedioId ||
+                            !selectedMedioId
+                        ) {
+                            option.style.display = ""; // Muestra la opción
+                        } else {
+                            option.style.display = "none"; // Oculta la opción que no coincide
+                        }
+                    }
+                    if (e.target.value == "EFECTIVO") {
+                        document.getElementById(
+                            `referencia_pago_${i}`
+                        ).readOnly = true;
+                    } else {
+                        document.getElementById(
+                            `referencia_pago_${i}`
+                        ).readOnly = false;
+                    }
+                }
+            }
+        }
+        if (e.target.matches(".cuentaPago")) {
+            for (var i = 0; i < 9; i++) {
+                if (e.target.id == `cuenta_pago_${i}`) {
+                    let cuentaPagoSelect = document.getElementById(
+                        `cuenta_pago_${i}`
+                    );
+                    let medioPagoSelect = document.getElementById(
+                        `medio_pago_${i}`
+                    );
+                    let selectedCuenta =
+                        cuentaPagoSelect.options[
+                            cuentaPagoSelect.selectedIndex
+                        ].getAttribute("data-medioId");
+                    let optionMedio =
+                        medioPagoSelect.options[
+                            medioPagoSelect.selectedIndex
+                        ].getAttribute("data-idMedio");
+                    if (selectedCuenta != optionMedio) {
+                        medioPagoSelect.value = "";
+                    }
+                }
+            }
+        }
+        if (e.target.matches(".valorPago")) {
+            recalcularSumatoria();
         }
     });
 
@@ -293,40 +494,6 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         );
         el.innerText = `$ ${valueConversion}`;
     });
-
-    // $('.valor_boleteria').each(function () {
-    //     var input = $(this).text();
-    //    var valor_convertido =  new Intl.NumberFormat("es-CO").format(input);
-    //    $(this).text('$'+valor_convertido);
-
-    // });
-
-    //   if(e.target.matches('.btnEstado')){
-
-    //     Swal.fire({
-    //         title: '¿Esta seguro de cambiar el estado del colectivo?',
-    //         text: "Si se desactiva ya no sera visible en la creacion de oferta",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Si, confirmar!',
-    //         cancelButtonText: 'Cancelar',
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             axios.get(`/activate/colectivos/${e.target.dataset.id}`).then(function(response){
-    //                 notifications('Proceso exitoso!',response.data.message,'success');
-    //                 setTimeout(()=>{
-    //                  location.reload();
-    //                 },2000)
-
-    //            }).catch(function(error){
-    //            })
-
-    //         }
-    //     })
-
-    //   }
 });
 
 function moneyFormat(value) {
@@ -334,15 +501,16 @@ function moneyFormat(value) {
     return valueConversion;
 }
 
-
 async function calcularPrecio() {
     let servicioValue = document.getElementById("servicio_id").value;
     let tallaValue = document.getElementById("talla_id").value;
 
     if (servicioValue !== "" && tallaValue !== "") {
         try {
-            const response = await axios.get(`/procedimientos/precio/${servicioValue}/${tallaValue}`);
-            
+            const response = await axios.get(
+                `/procedimientos/precio/${servicioValue}/${tallaValue}`
+            );
+
             if (response.data.success) {
                 document.getElementById(
                     "precio_mostrar"
@@ -369,18 +537,14 @@ async function calcularPrecio() {
     calcularPrecioFinal();
 }
 
-
-
-
 function calcularPrecioFinal() {
     const valorPrecio = parseFloat(valorPrecioInput.value) || 0;
     const valorAbono = parseFloat(valorAbonoInput.value) || 0;
     const planSeleccionado = planesSelect.options[planesSelect.selectedIndex];
-    const descuento =   parseFloat(planSeleccionado.getAttribute("data-descuento")) || 0;
-    
-  
-    let precioFinal = valorPrecio - valorAbono;   
-  
+    const descuento =
+        parseFloat(planSeleccionado.getAttribute("data-descuento")) || 0;
+
+    let precioFinal = valorPrecio - valorAbono;
 
     // Aplica el descuento si existe
     if (descuento > 0) {
@@ -390,10 +554,35 @@ function calcularPrecioFinal() {
 
     if (isNaN(precioFinal) || precioFinal < 0) {
         precioFinal = 0;
-    }    
-   
-   
+    }
+
     valorPagarInput.value = precioFinal;
-    totalCuenta.innerText =  ''
-    totalCuenta.innerText =  `$${moneyFormat(precioFinal)}`
+    totalCuenta.innerText = "";
+    totalCuenta.innerText = `$${moneyFormat(precioFinal)}`;
+    recalcularSumatoria();
+}
+
+function recalcularSumatoria() {
+    totalNeto = 0;
+    for (var i = 0; i < elementos.length; i++) {
+        var elemento = elementos[i];
+        if (elemento.name && elemento.name.startsWith("valor_pago_")) {
+            var valor = parseFloat(elemento.value);
+            if (!isNaN(valor)) {
+                totalNeto += valor;
+            }
+        }
+    }
+    let substract = parseFloat(valorPagarInput.value) - parseFloat(totalNeto);
+    saldo.classList.remove("text-success");
+    saldo.classList.remove("text-danger");
+    if (substract === 0) {
+        saldo.classList.add("text-success");
+    } else if (substract < 0) {
+        saldo.classList.add("text-danger");
+    }
+    valorNeto.innerText = isNaN(totalNeto)
+        ? `$${0}`
+        : `$${moneyFormat(totalNeto)}`;
+    saldo.innerText = isNaN(substract) ? `$${0}` : `$${moneyFormat(substract)}`;
 }

@@ -60,6 +60,7 @@ class ClientesController extends Controller
             $cliente->whatsapp = $request->whatsapp;
             $cliente->calificacion_id  = $request->calificacion_id;
             $cliente->instagram = $request->instagram;
+            $cliente->direccion = $request->direccion;
             $cliente->observacion = $request->observacion;
             $cliente->estado = 1;
             if ($cliente->save()) {
@@ -83,6 +84,7 @@ class ClientesController extends Controller
             $cliente->whatsapp = $request->whatsapp;
             $cliente->calificacion_id  = $request->calificacion_id;
             $cliente->instagram = $request->instagram;
+            $cliente->direccion = $request->direccion;
             $cliente->observacion = $request->observacion;
             if ($cliente->save()) {
                 $auditoria = Auditoria::create([

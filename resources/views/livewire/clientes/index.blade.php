@@ -161,7 +161,18 @@
                             </div>
                             </div>
                         </div>
-                       </div>  
+                       </div> 
+                       <div class="row">
+                        <div class="form-group mb-2 col-md-12">
+                            <label for="direccion">Direccion</label>
+                            <div>
+                            <div class="input-group">                                
+                                <input name="direccion" type="text" class="form-control border-gray-300" placeholder="Ej: Cra 28 # 19 - 19" id="direccion" onkeyup="aMayusculas(this.value,this.id)" onkeypress="return Direccion(event)">
+                                @error('direccion') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
+                            </div>
+                        </div>
+                        </div> 
                        <div class="row">
                         <div class="form-group mb-3 col-md-12">
                             <label for="calificacion_id">Calificacion*</label>

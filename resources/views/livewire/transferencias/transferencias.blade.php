@@ -14,17 +14,15 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">Pagos</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Validacion de Abonos</li>
+                <li class="breadcrumb-item active" aria-current="page">Admin Transferencias</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Validacion de Abonos</h1>
+                <h1 class="h4">Admin Transferencias</h1>
             </div>   
             <div>
-                {{-- <a type="button" href="" class="btn btn-outline-gray-600 d-inline-flex align-items-center btn-modal" data-bs-toggle="modal" data-bs-target="#modalSignIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m1.39 18.36l1.77-1.76L4.58 18l1.06-1.05l-1.42-1.41l1.42-1.42l2.47 2.48l1.06-1.06l-2.47-2.48l1.41-1.41l1.42 1.41L10.59 12l-1.42-1.41l1.42-1.42l2.47 2.48l1.06-1.06l-2.47-2.48l1.41-1.41l1.41 1.41l1.07-1.06l-1.42-1.41l1.42-1.42L18 6.7l1.07-1.06l-2.47-2.48l1.76-1.77l4.25 4.25L5.64 22.61l-4.25-4.25Z"/></svg>Crear Tallas
-                </a> --}}
+             
             </div>         
         </div>
     </div>
@@ -37,13 +35,12 @@
                     <thead class="thead-light">
                         <tr>
                             <th data-field="id" data-sortable="true" class="border-0 rounded-start">#</th>
-                            <th data-field="nombres" class="border-0">Nombres</th>
-                            <th data-field="documento" class="border-0">Documento</th>
+                            <th data-field="nombres" class="border-0">Cliente</th>                        
                             <th data-field="valor" class="border-0">Valor</th>
                             <th data-field="referencia" class="border-0">Referencia</th>
-                            <th data-field="fecha_pago" class="border-0">Fecha de pago</th>
+                            <th data-field="fecha" class="border-0">Fecha de pago</th>
                             <th data-field="verificado" class="border-0">Verificado</th>
-                            <th data-field="fecha" class="border-0">Fecha de creacion</th>
+                            <th data-field="tipo" class="border-0">Tipo</th>
                             
                             <th class="border-0">Acciones</th>
                            
@@ -53,14 +50,22 @@
                         @foreach($transferencias as $tra)
                          <tr>
                             <td>{{$tra->id}}</td>
-                            <td>{{$tra->nombres}} {{$tra->nombres}}</td>                          
-                            <td>{{$tra->documento}}</td>                          
+                            <td><p>{{$tra->nombres}} {{$tra->nombres}}<br>
+                                {{$tra->documento}}</p></td>                        
+                                                  
                             <td id="format">{{$tra->valor}}</td>                          
-                           <td>{{$tra->referencia_pago?$tra->referencia_pago: 'SIN REFERENCIA' }}</td> 
-                           <td>{{$tra->fecha_pago}}</td>                           
+                           <td><p>{{$tra->referencia_pago?$tra->referencia_pago: 'SIN REFERENCIA' }}<br>
+                            {{$tra->entidad}}</p></td> 
+                           <td>{{$tra->fecha}}</td>                           
                             <td>{{$tra->verificado ? 'Verficado ✔️': 'No Verficado⛔'}}</td>                          
-                            <td>{{$tra->created_at}}</td>                       
+                            <td>@if($tra->tipo =='P')
+                                 PROCEDIMIENTO
+                                 @else
+                                 SERVICIO ADICIONAL
+                                 @endif
+                            </td>                       
                             <td>
+                            @canany(['control-total'])    
                               @if($tra->verificado)                          
 
                               <button type="button" class="btn btn-danger d-inline-flex align-items-center noVerficarPay verificarPay" data-id="{{$tra->id}}">
@@ -70,6 +75,7 @@
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ebe5e5" d="m10.6 16.6l7.05-7.05l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4l4.25 4.25ZM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>Verificar Pago</button>            
                           
                             @endif
+                            @endcanany
                             </td>
                          </tr>
                         @endforeach
@@ -80,41 +86,11 @@
         </div>
     </div>
     {{-- MODAL --}}
-    <div class="modal fade" id="modalSignIn" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="btn-close btn-cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-md-5">
-                    <h2 class="h4 text-center titulo-modal">Crear Talla</h2>
-                    <form action="#" method="" id="myForm">                        
-                    
-                        <div class="form-group mb-4">
-                            <label for="talla">Talla *</label>
-                            <div class="input-group">
-                                <span class="input-group-text border-gray-300" id="basic-addon3">
-                                    <svg width="16" height="16" viewBox="0 0 256 256"><path fill="currentColor" d="M172 120a44 44 0 1 1-44-44a44 44 0 0 1 44 44Zm60 8A104 104 0 1 1 128 24a104.2 104.2 0 0 1 104 104Zm-16 0a88 88 0 1 0-153.8 58.4a81.3 81.3 0 0 1 24.5-23a59.7 59.7 0 0 0 82.6 0a81.3 81.3 0 0 1 24.5 23A87.6 87.6 0 0 0 216 128Z"/></svg>
-                                </span>
-                                <input name="talla" type="text" class="form-control border-gray-300" placeholder="Ej: Xs" id="talla" required data-pristine-required-message="Campo Requerido" onkeyup="aMayusculas(this.value,this.id)">
-                                @error('talla') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
-                            </div> 
-                        </div> 
-                        <!-- End of Form -->                        
-                        <div class="d-grid">
-                            <input type="hidden" name="id" id="id">
-                            <button type="submit" class="btn btn-primary btnModal">Crear Talla</button>
-                        </div>
-                   </form>          
-                                  
-                </div>
-            </div>
-        </div>
-    </div>    
+       
 </div>
 </div>
 @push('scripts-pagos')
-<script src="{{asset('js/transferencias.js')}}" type="module"></script>
+<script src="{{asset('js/validacion-transferencias.js')}}" type="module"></script>
 @endpush
 
 

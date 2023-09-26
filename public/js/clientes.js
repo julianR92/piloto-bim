@@ -241,6 +241,8 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                         response.data.data.whatsapp;
                     document.getElementById("instagram").value =
                         response.data.data.instagram;
+                    document.getElementById("direccion").value =
+                        response.data.data.direccion;
                     document.getElementById("observacion").value =
                         response.data.data.observacion;
                     document.getElementById("calificacion_id").value =

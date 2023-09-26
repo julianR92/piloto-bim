@@ -112,6 +112,7 @@
    @stack('scripts-pagos')  
    @stack('scripts-inventarios')  
    @stack('scripts-procedimientos') 
+   @stack('scripts-reportes') 
 
 
    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -180,7 +181,17 @@
            'producto-semana.buscar',
            'productos-servicios.index',
            'procedimientos.index',
-           'procedimientos.cierre.index'
+           'procedimientos.cierre.index',
+           'reportes-comision.index',
+           'reportes-comision-agrupado.index',
+           'servicio-adicional.index',
+           'procedimientos.adicionales.index',
+           'reportes-comision-adicionales.index',
+           'transferencias-validaciones.index',
+           'reporte-cierre.index',
+           'reportes-procedimientos.index',
+           'reportes-servicios.index'
+
            
 
        ]))

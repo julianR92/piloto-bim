@@ -204,6 +204,11 @@
                            <span class="sidebar-text">Productos x servicio</span>
                         </a>
                      </li>                  
+                     <li class="nav-item {{ Request::segment(1) == 'servicio-adicional' ? 'active' : '' }}">
+                        <a href="/servicio-adicional" class="nav-link">
+                           <span class="sidebar-text">Servicios Adicionales</span>
+                        </a>
+                     </li>                  
                   </ul>
                </div>
             </li>
@@ -237,7 +242,7 @@
                </div>
             </li>
          @endcanany
-         @canany(['control-total'])
+         @canany(['control-total','validacion-transferencias'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-pagos" aria-expanded="false">
@@ -254,8 +259,10 @@
                            clip-rule="evenodd"></path>
                      </svg></span>
                </span>
+              
                <div class="multi-level collapse" role="list" id="submenu-laravel2-pagos" aria-expanded="false">
-                  <ul class="flex-column nav">                                        
+                  <ul class="flex-column nav">     
+                      @canany(['control-total'])                                   
                      <li class="nav-item {{ Request::segment(1) == 'medios-pago' ? 'active' : '' }}">
                         <a href="/medios-pago" class="nav-link">
                            <span class="sidebar-text">Medios de Pago</span>
@@ -268,7 +275,13 @@
                      </li>  
                      <li class="nav-item {{ Request::segment(1) == 'transferencias' ? 'active' : '' }}">
                         <a href="/transferencias" class="nav-link">
-                           <span class="sidebar-text">Admin Trasferencias</span>
+                           <span class="sidebar-text">Validar Abonos</span>
+                        </a>
+                     </li>  
+                     @endcanany                  
+                     <li class="nav-item {{ Request::segment(1) == 'transferencias-validaciones' ? 'active' : '' }}">
+                        <a href="/transferencias-validaciones" class="nav-link">
+                           <span class="sidebar-text">Admin Transferencias</span>
                         </a>
                      </li>                    
                   </ul>
@@ -415,6 +428,17 @@
                </ul>
             </div>
             @endcanany
+            @canany(['control-total', 'procedimientos-adicional'])
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-procedimiento" aria-expanded="false">
+               <ul class="flex-column nav">
+                  <li class="nav-item {{ Request::segment(2) == 'procedimientos-adicionales' ? 'active' : '' }}">
+                     <a href="/procedimientos-adicionales" class="nav-link">
+                        <span class="sidebar-text">Pago Adicionales</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>
+            @endcanany
             {{-- <div class="multi-level collapse" role="list" id="submenu-laravel2-inventario" aria-expanded="false">
                <ul class="flex-column nav">              
                   <li class="nav-item {{ Request::segment(1) == 'producto-semana' ? 'active' : '' }}">
@@ -433,6 +457,82 @@
                   </li>                                     
                </ul>
             </div> --}}
+         </li>
+         @endcanany
+         @canany(['control-total','cierre-caja'])
+         <li class="nav-item">
+            <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
+               data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-reportes" aria-expanded="false">
+               <span>
+                  <span class="sidebar-icon">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 19v1h18v2H2V2h2v15c3 0 6-2 8.1-5.6c3-5 6.3-7.4 9.9-7.4v2c-2.8 0-5.5 2.1-8.1 6.5C11.3 16.6 7.7 19 4 19Z"/></svg>
+                  </span>
+                  <span class="sidebar-text">Reportes</span>
+               </span>
+               <span class="link-arrow">
+                  <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                  </svg></span>
+            </span>
+            @canany(['control-total'])
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">              
+                  <li class="nav-item {{ Request::segment(1) == '/reportes-comision' ? 'active' : '' }}">
+                     <a href="/reportes-comision" class="nav-link">
+                        <span class="sidebar-text" style="font-size:15.5px;">Comision Procedimientos</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">              
+                  <li class="nav-item {{ Request::segment(1) == '/reportes-comision-adicionales' ? 'active' : '' }}">
+                     <a href="/reportes-comision-adicionales" class="nav-link">
+                        <span class="sidebar-text">Comision Adicionales</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>
+           
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">
+                  <li class="nav-item {{ Request::segment(2) == 'reportes-comision-agrupado' ? 'active' : '' }}">
+                     <a href="/reportes-comision-agrupado" class="nav-link">
+                        <span class="sidebar-text">Comision Agrupada</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>   
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">
+                  <li class="nav-item {{ Request::segment(2) == 'reportes-procedimientos' ? 'active' : '' }}">
+                     <a href="/reportes-procedimientos" class="nav-link">
+                        <span class="sidebar-text">Reporte Procedimientos</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>   
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">
+                  <li class="nav-item {{ Request::segment(2) == 'reportes-servicios' ? 'active' : '' }}">
+                     <a href="/reportes-servicios" class="nav-link">
+                        <span class="sidebar-text">Reporte Servicios</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>   
+            @endcanany
+
+            <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
+               <ul class="flex-column nav">
+                  <li class="nav-item {{ Request::segment(2) == 'reporte-cierre' ? 'active' : '' }}">
+                     <a href="/reporte-cierre" class="nav-link">
+                        <span class="sidebar-text">Cierre Diario</span>
+                     </a>
+                  </li>                                     
+               </ul>
+            </div>       
          </li>
          @endcanany
 
