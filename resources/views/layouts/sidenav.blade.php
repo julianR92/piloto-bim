@@ -1,4 +1,4 @@
-<nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
+<nav id="sidebarMenu" class="sidebar d-lg-block bg-white text-white collapse" data-simplebar>
    <div class="sidebar-inner px-2 pt-3">
       <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
          <div class="d-flex align-items-center">
@@ -35,14 +35,18 @@
          <li class="nav-item">
             <a href="/dashboard" class="nav-link text-center">
                <span class="sidebar-icon me-3 center-block">
-                  <img src="/assets/img/sos/logo-sos-4.png" height="90" width="90" alt="SOS" class="rounded-circle center-block">
+                  <img src="https://robohash.org/{{ Session::get('avatar') }}.png" height="90" width="90" alt="Robotito" class="rounded-circle center-block border-avatar rounded">
+                  <h2 class="h5 mt-1 text-gray-800" style="white-space: normal; word-wrap: break-word;">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h2>
+                  @foreach (auth()->user()->roles as $role)
+                  <p class="h6 mt-1 text-gray-800">{{ $role->name }}</p>
+               @endforeach
                </span>
                {{-- <span class="mt-1 ms-1 sidebar-text">
          
           </span> --}}
             </a>
          </li>
-         @canany(['control-total','servicios-profesionales'])
+        
             <li class="nav-item {{ Request::segment(1) == 'dashboard' ? 'active' : '' }}">
                <a href="/dashboard" class="nav-link">
                   <span class="sidebar-icon"> <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -53,8 +57,8 @@
                   <span class="sidebar-text">Inicio</span>
                </a>
             </li>
-         @endcan
-         @can('control-total')
+     
+         @canany(['control-total','admin-camara'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel" aria-expanded="false">
@@ -63,7 +67,7 @@
                            <path fill="currentColor"
                               d="M16.5 12A2.5 2.5 0 0 0 19 9.5A2.5 2.5 0 0 0 16.5 7A2.5 2.5 0 0 0 14 9.5a2.5 2.5 0 0 0 2.5 2.5M9 11a3 3 0 0 0 3-3a3 3 0 0 0-3-3a3 3 0 0 0-3 3a3 3 0 0 0 3 3m7.5 3c-1.83 0-5.5.92-5.5 2.75V19h11v-2.25c0-1.83-3.67-2.75-5.5-2.75M9 13c-2.33 0-7 1.17-7 3.5V19h7v-2.25c0-.85.33-2.34 2.37-3.47C10.5 13.1 9.66 13 9 13Z" />
                         </svg></span>
-                     <span class="sidebar-text">Usuarios</span>
+                     <span class="sidebar-text text-link">Modulo Administracion</span>
                   </span>
                   <span class="link-arrow"><svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -74,27 +78,64 @@
                </span>
                <div class="multi-level collapse" role="list" id="submenu-laravel" aria-expanded="false">
                   <ul class="flex-column nav">
+                     @canany(['control-total'])
                      <li class="nav-item {{ Request::segment(1) == 'roles' ? 'active' : '' }}">
                         <a href="/roles" class="nav-link">
-                           <span class="sidebar-text">Roles</span>
+                           <span class="sidebar-text text-link">Roles</span>
                         </a>
                      </li>
+                     @endcan
+                     @canany(['control-total'])
                      <li class="nav-item {{ Request::segment(1) == 'permission' ? 'active' : '' }}">
                         <a href="/permission" class="nav-link">
-                           <span class="sidebar-text">Permisos</span>
+                           <span class="sidebar-text text-link">Permisos</span>
                         </a>
                      </li>
+                     @endcan                    
+                     @canany(['control-total', 'admin-camara'])
                      <li class="nav-item {{ Request::segment(1) == 'users' ? 'active' : '' }}">
                         <a href="/users" class="nav-link">
-                           <span class="sidebar-text">Admin Usuarios</span>
+                           <span class="sidebar-text text-link">Admin Usuarios</span>
                         </a>
                      </li>
+                     @endcan
+                  </ul>
+               </div>
+            </li>
+         @endcan
+         @canany(['empresa-usuarios'])
+            <li class="nav-item">
+               <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
+                  data-bs-toggle="collapse" data-bs-target="#submenu-laravel-company" aria-expanded="false">
+                  <span>
+                     <span class="sidebar-icon"><svg width="24" height="24" viewBox="0 0 24 24">
+                           <path fill="currentColor"
+                              d="M16.5 12A2.5 2.5 0 0 0 19 9.5A2.5 2.5 0 0 0 16.5 7A2.5 2.5 0 0 0 14 9.5a2.5 2.5 0 0 0 2.5 2.5M9 11a3 3 0 0 0 3-3a3 3 0 0 0-3-3a3 3 0 0 0-3 3a3 3 0 0 0 3 3m7.5 3c-1.83 0-5.5.92-5.5 2.75V19h11v-2.25c0-1.83-3.67-2.75-5.5-2.75M9 13c-2.33 0-7 1.17-7 3.5V19h7v-2.25c0-.85.33-2.34 2.37-3.47C10.5 13.1 9.66 13 9 13Z" />
+                        </svg></span>
+                     <span class="sidebar-text text-link">Modulo Administracion</span>
+                  </span>
+                  <span class="link-arrow"><svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                           d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                           clip-rule="evenodd"></path>
+                     </svg></span>
+               </span>
+               <div class="multi-level collapse" role="list" id="submenu-laravel-company" aria-expanded="false">
+                  <ul class="flex-column nav">                                        
+                     @canany(['control-total', 'empresa-usuarios'])
+                     <li class="nav-item {{ Request::segment(1) == 'users-company' ? 'active' : '' }}">
+                        <a href="/users-company" class="nav-link">
+                           <span class="sidebar-text text-link">Mis usuarios</span>
+                        </a>
+                     </li>
+                     @endcan
                   </ul>
                </div>
             </li>
          @endcan
 
-         {{-- @canany(['control-total', 'ver-configuracion'])
+         @canany(['control-total', 'admin-camara', 'empresa-gestion', 'empresa-usuarios'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel2" aria-expanded="false">
@@ -103,7 +144,7 @@
                            <path fill="currentColor"
                               d="M17.875 21.425L11.1 14.6q-.5.2-1.012.3Q9.575 15 9 15q-2.5 0-4.25-1.75T3 9q0-.9.25-1.713q.25-.812.7-1.537L7.6 9.4l1.8-1.8l-3.65-3.65q.725-.45 1.537-.7Q8.1 3 9 3q2.5 0 4.25 1.75T15 9q0 .575-.1 1.087q-.1.513-.3 1.013l6.825 6.775Z" />
                         </svg></span>
-                     <span class="sidebar-text">Configuracion</span>
+                     <span class="sidebar-text text-link">Modulo de Gestión</span>
                   </span>
                   <span class="link-arrow"><svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -114,12 +155,28 @@
                </span>
                <div class="multi-level collapse" role="list" id="submenu-laravel2" aria-expanded="false">
                   <ul class="flex-column nav">
-                     <li class="nav-item {{ Request::segment(1) == 'areas' ? 'active' : '' }}">
-                        <a href="/areas" class="nav-link">
-                           <span class="sidebar-text">Areas</span>
+                      @canany(['control-total', 'admin-camara', 'empresa-gestion', 'empresa-usuarios', 'admin-camara'])
+                     <li class="nav-item {{ Request::segment(1) == 'fases' ? 'active' : '' }}">
+                        <a href="/fases" class="nav-link">
+                           <span class="sidebar-text text-link">Fases</span>
                         </a>
                      </li>
-                     <li class="nav-item {{ Request::segment(1) == 'procesos' ? 'active' : '' }}">
+                     @endcanany
+                      @canany(['control-total', 'admin-camara', 'empresa-gestion', 'empresa-usuarios', 'admin-camara'])
+                     <li class="nav-item {{ Request::segment(1) == 'hitos' ? 'active' : '' }}">
+                        <a href="/hitos" class="nav-link">
+                           <span class="sidebar-text text-link">Hitos</span>
+                        </a>
+                     </li>
+                     @endcanany
+                      @canany(['control-total', 'admin-camara', 'empresa-gestion', 'empresa-usuarios', 'admin-camara'])
+                     <li class="nav-item {{ Request::segment(1) == 'indicadores' ? 'active' : '' }}">
+                        <a href="/indicadores" class="nav-link">
+                           <span class="sidebar-text text-link">Indicadores</span>
+                        </a>
+                     </li>
+                     @endcanany
+                     {{-- <li class="nav-item {{ Request::segment(1) == 'procesos' ? 'active' : '' }}">
                         <a href="/procesos" class="nav-link">
                            <span class="sidebar-text">Procesos</span>
                         </a>
@@ -138,18 +195,14 @@
                         <a href="/mallas" class="nav-link">
                            <span class="sidebar-text">Mallas</span>
                         </a>
-                     </li>
-                     {{-- <li class="nav-item {{ Request::segment(1) == 'users' ? 'active' : '' }}">
-              <a href="/users" class="nav-link">
-                <span class="sidebar-text">Admin Usuarios</span>
-              </a>
-            </li> 
+                     </li> --}}
                   </ul>
                </div>
             </li>
-         @endcanany --}}
+              
+         @endcanany
 
-         @canany(['control-total'])
+         {{-- @canany(['control-total'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel3" aria-expanded="false">
@@ -212,9 +265,9 @@
                   </ul>
                </div>
             </li>
-         @endcanany
+         @endcanany --}}
 
-         @canany(['control-total'])
+         {{-- @canany(['control-total'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-convo" aria-expanded="false">
@@ -241,8 +294,8 @@
                   </ul>
                </div>
             </li>
-         @endcanany
-         @canany(['control-total','validacion-transferencias'])
+         @endcanany --}}
+         {{-- @canany(['control-total','validacion-transferencias'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-pagos" aria-expanded="false">
@@ -272,23 +325,23 @@
                         <a href="/cuentas-pagos" class="nav-link">
                            <span class="sidebar-text">Cuentas de pago</span>
                         </a>
-                     </li>  
-                     <li class="nav-item {{ Request::segment(1) == 'transferencias' ? 'active' : '' }}">
-                        <a href="/transferencias" class="nav-link">
-                           <span class="sidebar-text">Validar Abonos</span>
-                        </a>
-                     </li>  
-                     @endcanany                  
+                     </li> 
+                      @endcanany                  
                      <li class="nav-item {{ Request::segment(1) == 'transferencias-validaciones' ? 'active' : '' }}">
                         <a href="/transferencias-validaciones" class="nav-link">
                            <span class="sidebar-text">Admin Transferencias</span>
                         </a>
-                     </li>                    
+                     </li>    
+                     <li class="nav-item {{ Request::segment(1) == 'transferencias' ? 'active' : '' }}">
+                        <a href="/transferencias" class="nav-link">
+                           <span class="sidebar-text">Validar Abonos</span>
+                        </a>
+                     </li>                
                   </ul>
                </div>
             </li>
-         @endcanany
-         @canany(['control-total', 'agenda'])
+         @endcanany --}}
+         {{-- @canany(['control-total', 'agenda'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-clientes" aria-expanded="false">
@@ -312,7 +365,7 @@
                      </li>                                     
                   </ul>
                </div>
-               @canany(['control-total', 'agenda'])
+               @canany(['control-total'])
                <div class="multi-level collapse" role="list" id="submenu-laravel2-clientes" aria-expanded="false">
                   <ul class="flex-column nav">              
                      <li class="nav-item {{ Request::segment(1) == 'abonos' ? 'active' : '' }}">
@@ -348,8 +401,8 @@
                   </ul>
                </div>
             </li>
-         @endcanany
-         @canany(['control-total', 'inventario'])
+         @endcanany --}}
+         {{-- @canany(['control-total', 'inventario'])
          <li class="nav-item">
             <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-inventario" aria-expanded="false">
@@ -392,8 +445,8 @@
                </ul>
             </div>
          </li>
-         @endcanany
-         @canany(['control-total', 'procedimientos'])
+         @endcanany --}}
+         {{-- @canany(['control-total', 'procedimientos'])
          <li class="nav-item">
             <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-procedimiento" aria-expanded="false">
@@ -456,10 +509,10 @@
                      </a>
                   </li>                                     
                </ul>
-            </div> --}}
+            </div> -
          </li>
-         @endcanany
-         @canany(['control-total','cierre-caja'])
+         @endcanany --}}
+         {{-- @canany(['control-total','cierre-caja', 'ver-informacion'])
          <li class="nav-item">
             <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
                data-bs-toggle="collapse" data-bs-target="#submenu-laravel2-reportes" aria-expanded="false">
@@ -485,6 +538,8 @@
                   </li>                                     
                </ul>
             </div>
+          
+            
             <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
                <ul class="flex-column nav">              
                   <li class="nav-item {{ Request::segment(1) == '/reportes-comision-adicionales' ? 'active' : '' }}">
@@ -503,7 +558,9 @@
                      </a>
                   </li>                                     
                </ul>
-            </div>   
+            </div>
+            @endcanany    
+            @canany(['control-total', 'ver-informacion'])
             <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
                <ul class="flex-column nav">
                   <li class="nav-item {{ Request::segment(2) == 'reportes-procedimientos' ? 'active' : '' }}">
@@ -521,9 +578,10 @@
                      </a>
                   </li>                                     
                </ul>
-            </div>   
+            </div> 
+          
             @endcanany
-
+            @canany(['control-total', 'cierre-caja'])
             <div class="multi-level collapse" role="list" id="submenu-laravel2-reportes" aria-expanded="false">
                <ul class="flex-column nav">
                   <li class="nav-item {{ Request::segment(2) == 'reporte-cierre' ? 'active' : '' }}">
@@ -532,9 +590,11 @@
                      </a>
                   </li>                                     
                </ul>
-            </div>       
+            </div> 
+            @endcanany      
          </li>
-         @endcanany
+         
+         @endcanany --}}
 
 
          {{-- <li class="nav-item {{ Request::segment(1) == 'transactions' ? 'active' : '' }}">

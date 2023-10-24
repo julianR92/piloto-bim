@@ -15,6 +15,7 @@
 
 */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,700;1,200;1,300;1,600&display=swap');
 .datepicker {
   display: none; }
   .datepicker.active {
@@ -798,7 +799,7 @@
     left: 0; }
 
 :root {
-  --bs-blue: #2361ce;
+  --bs-blue: #1466bf;
   --bs-indigo: #4F46E5;
   --bs-purple: #7C3AED;
   --bs-pink: #EF4683;
@@ -833,7 +834,7 @@
   --bs-gray-700: #374151;
   --bs-gray-800: #1F2937;
   --bs-gray-900: #111827;
-  --bs-font-sans-serif: "Inter", sans-serif;
+  --bs-font-sans-serif: 'Montserrat', sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); }
 
@@ -2930,7 +2931,7 @@ textarea.form-control-lg {
     outline: 0;
     box-shadow: 0 0 0 0.18rem rgba(31, 41, 55, 0.25); }
   .form-check-input:checked {
-    background-color: #1F2937;
+    background-color: #2361ce;
     border-color: #1F2937; }
     .form-check-input:checked[type="checkbox"] {
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e"); }
@@ -7167,6 +7168,8 @@ textarea.form-control-lg {
 
 .border {
   border: 0.0625rem solid #E5E7EB !important; }
+.border-avatar {
+  border: 2px solid #000 !important; }
 
 .border-0 {
   border: 0 !important; }
@@ -14177,7 +14180,7 @@ textarea.form-control-lg {
     left: auto; }
   .navbar-nav .dropdown-menu-center {
     left: 50%;
-    transform: translateX(-50%); }
+    transform: translateX(-80%); }
   .navbar-nav .dropdown-menu.show,
   .navbar-nav .dropdown-megamenu.show,
   .navbar-nav .dropdown-megamenu-md.show {
@@ -14514,13 +14517,13 @@ textarea.form-control-lg {
     margin-bottom: .2rem; }
     .sidebar .nav-item.active > .nav-link {
       color: #F2F4F6;
-      background-color: #374151; }
+      background-color: #2361ce; }
     .sidebar .nav-item .nav-link {
-      color: #ffffff;
+      color: #000;
       cursor: pointer; }
       .sidebar .nav-item .nav-link:hover {
         color: #F2F4F6;
-        background-color: #374151; }
+        background-color: #2361ce; }
   .sidebar .nav-link + .multi-level {
     margin-top: .2rem; }
   .sidebar .nav-link {
@@ -14544,6 +14547,9 @@ textarea.form-control-lg {
     color: #F2F4F6; }
   .sidebar .multi-level .nav-link {
     padding-left: 53px; }
+    .text-link{
+      font-size: 14px;
+    }
   .sidebar .sidebar-text,
   .sidebar .link-arrow,
   .sidebar .badge,
@@ -14565,7 +14571,7 @@ textarea.form-control-lg {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      font-size: .7rem;
+      font-size: .5rem;
       padding: .2rem; }
     .sidebar.contracted .nav-item {
       position: relative; }
@@ -14608,7 +14614,8 @@ textarea.form-control-lg {
 
 .content {
   overflow: hidden;
-  padding: 0 1rem 0 1rem;
+  height: 100vh;;
+  /* padding: 0 1rem 0 1rem; */
   transition: all 0.3s; }
   @media (prefers-reduced-motion: reduce) {
     .content {
@@ -16668,6 +16675,8 @@ label {
     height: 1.25rem; }
   .icon.icon-sm {
     height: 1.5rem; }
+  .icon.icon-md {
+    height: 2.5rem; }
   .icon.icon-lg {
     height: 3.5rem; }
   .icon.icon-xl {
@@ -16762,14 +16771,21 @@ label {
 
 .notification-bell.unread::before {
   position: absolute;
-  content: "";
+  /* content: "14"; */
   background-color: #E11D48;
   right: 12px;
-  top: 7px;
-  height: 0.75rem;
-  width: 0.75rem;
+  top: 3px;
+  height: 1.3rem;
+  width: 1.3rem;
   border-radius: 50%;
-  border: 2px solid #F2F4F6; }
+  border: 2px solid #F2F4F6; 
+  font-size: 12px;
+  color: white;
+  display: flex; /* Habilita el modelo de caja flexible */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+
+}
 
 .bootstrap-big-icon {
   position: absolute;
@@ -18407,7 +18423,7 @@ label {
  */
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Inter", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500; }
 
 p, ol li, ul li, .p {

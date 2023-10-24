@@ -25,8 +25,12 @@ class ChangePassword extends Component
     public function rules() {
 
         return [
-            'password_now' => 'required',
-            'password' => 'required|min:6',
+            'password_now' => [
+                'required',
+                'min:6'
+                
+            ],
+            'password' => 'required|min:6|regex:/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+.,-])[A-Za-z\d!@#$%^&*()_+.,-]+$/',
             'password_confirm'=>'required|same:password|min:6'
            
         ];

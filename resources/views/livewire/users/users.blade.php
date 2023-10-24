@@ -1,6 +1,6 @@
 <div>
    
-    <div>
+    <div class="px-4">
         <div class="py-4">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
@@ -179,6 +179,44 @@
                 </div>
             </div>
         </div>
+        <div wire:ignore.self class="modal fade" id="empresasModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close btn-cerrar7" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-md-5">
+                        <h2 class="h4 text-center titulo">Empresas-Usuarios</h2>
+                        <p class="text-center mb-4">Asignar Empresas</p>
+                       
+                        <form wire:submit.prevent="asignarEmpresas" action="#" method="POST">                         
+                                                       
+                            <div class="form-group mb-4">
+                                <label for="permiso">Empresas*</label>                                
+                                <div class="input-group">                                
+                                    <select wire:model="empresa_id" name="empresa_id" id="empresa_id" class="form-control form-select">
+                                        <option value="">Seleccione</option>
+                                        @foreach($empresas as $empre)
+                                            <option value={{$empre->id}}>{{ $empre->razon_social }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('empresa_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                                </div>
+                            </div>
+                            
+                            <!-- End of Form -->                        
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btnModal">Asignar</button>
+                            </div>
+                       </form> 
+                     
+                    </div>         
+                                      
+                    </div>
+                </div>
+            </div>
+        </div>
+       
     </div>
     <script>
        

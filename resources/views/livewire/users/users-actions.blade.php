@@ -1,5 +1,5 @@
 <div>
-
+    @canany(['control-total','editar-usuarios'])
     <button type="button" wire:click="$emitTo('users.users','editPermission', {{ $row->id }})" class="btn btn-success d-inline-flex align-items-center btn-xs">
 
         <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83z"/></svg>Editar</button>
@@ -9,6 +9,7 @@
     <button type="button" wire:click="$emit('eliminarJs', {{ $row->id }})" class="btn btn-danger d-inline-flex align-items-center btn-xs">
 
         <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9M7 6h10v13H7V6m2 2v9h2V8H9m4 0v9h2V8h-2Z"/></svg>Eliminar</button>
+    @endcan
 
 
 
@@ -18,8 +19,11 @@
 
     </button>
     <button type="button" wire:click="$emitTo('users.users','showPermisos', {{ $row->id }})" class="btn btn-info d-inline-flex align-items-center btn-xs">
-
         <svg width="16" height="16" viewBox="0 0 32 32"><circle cx="21.5" cy="7.5" r="1.5" fill="currentColor"/><path fill="currentColor" d="M14.414 20H9v-5.414l6.03-6.03A5.352 5.352 0 0 1 15 8a6 6 0 1 1 6 6a5.358 5.358 0 0 1-.556-.03zM11 18h2.586l6.17-6.17l.518.095A3.935 3.935 0 0 0 21 12a4.05 4.05 0 1 0-3.925-3.273l.095.517l-6.17 6.17zm17 2h-9v2h9v6H4v-6h2v-2H4a2.002 2.002 0 0 0-2 2v6a2.002 2.002 0 0 0 2 2h24a2.002 2.002 0 0 0 2-2v-6a2.002 2.002 0 0 0-2-2z"/><circle cx="7" cy="25" r="1" fill="currentColor"/></svg>Permisos
+
+    </button>
+    <button type="button" wire:click="$emitTo('users.users','showEmpresas', {{ $row->id }})" class="btn btn-tertiary d-inline-flex align-items-center btn-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M1 11v10h5v-6h4v6h5V11L8 6z"/><path fill="currentColor" d="M10 3v1.97l7 5V11h2v2h-2v2h2v2h-2v4h6V3H10zm9 6h-2V7h2v2z"/></svg>Empresas
 
     </button>
 
@@ -52,31 +56,19 @@
                     cancelButtonText: 'Cancelar',
 
                 }).then((result) => {
-
                     if (result.isConfirmed) {
-
                         Livewire.emitTo('users.users', 'eliminar', $rol);
-
                         Swal.fire(
-
                             'Registro eliminado!',
-
                             'Registro eliminado correctamente.',
-
                             'success',
-
                         )
-
                     }
-
                 })
-
             });
 
             Livewire.on('restablecerPass', ($user) => {
-
                 Swal.fire({
-
                     title: '¿Quieres Reiniciar la contraseña de este usuario?',
 
                     text: "El usuario recibirá un correo con su nueva contraseña de ingreso a la plataforma",

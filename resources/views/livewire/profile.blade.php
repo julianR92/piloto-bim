@@ -1,5 +1,5 @@
 
-<div>
+<div class="px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"></div>
     <div class="row">
         <div class="col-12 col-xl-12">         
@@ -18,7 +18,7 @@
                             <div>
                                 <label for="last_name">Apellidos*</label>
                                 <input wire:model="last_name" class="form-control" id="last_name" type="text"
-                                    placeholder="Also your last name">
+                                    placeholder="Also your last name" required>
                                     @error('last_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                         @error('user.ZIP') <div class="invalid-feedback">{{ $message }}</div> @enderror --}}
                     </div>
                     <div class="mt-3">
-                        <button class="btn btn-gray-800 mt-2">Actualizar Perfil</button>
+                        <button class="btn btn-info mt-2">Actualizar Perfil</button>
                     </div>
                 </form>
               

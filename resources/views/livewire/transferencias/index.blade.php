@@ -61,15 +61,15 @@
                             <td>{{$tra->verificado ? 'Verficado ✔️': 'No Verficado⛔'}}</td>                          
                             <td>{{$tra->created_at}}</td>                       
                             <td>
+                                @canany(['control-total']) 
                               @if($tra->verificado)                          
-
                               <button type="button" class="btn btn-danger d-inline-flex align-items-center noVerficarPay verificarPay" data-id="{{$tra->id}}">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ebe5e5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>No Verificar</button>
                                 @else    
                                 <button type="button" class="btn btn-success d-inline-flex align-items-center verificarPay text-white" data-id="{{$tra->id}}">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ebe5e5" d="m10.6 16.6l7.05-7.05l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4l4.25 4.25ZM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>Verificar Pago</button>            
-                          
-                            @endif
+                                 @endif
+                                 @endcanany
                             </td>
                          </tr>
                         @endforeach

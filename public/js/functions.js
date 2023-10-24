@@ -36,6 +36,22 @@ Livewire.on('toast-per', function(e) {
           
     });
 });
+Livewire.on('toast-empresa', function(e) {
+    let myModalEl = document.getElementById('empresasModal');
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+    Swal.fire({
+       title: e.title,
+       text: e.text,
+       icon: e.icon,
+       toast:true,
+       timer: 5000,                        
+       showConfirmButton: false,
+       timerProgressBar: true,
+       position: 'top-right',
+          
+    });
+});
 
 
     Livewire.on('toast-info', function(e) {
@@ -63,6 +79,14 @@ Livewire.on('toast-per', function(e) {
           myModalEl.show();
         
     });
+    doc.addEventListener('empresa-modal', event =>{
+      
+        let myModalEl = new bootstrap.Modal(document.getElementById(event.detail.idModal), {
+            keyboard: false
+          });
+          myModalEl.show();
+        
+    });
 
     doc.addEventListener('click', (e)=>{
         if(e.target.matches('.btn-modal')|| e.target.matches('.btn-close')){
@@ -79,6 +103,9 @@ Livewire.on('toast-per', function(e) {
         }
         if(e.target.matches('.btn-modal5')|| e.target.matches('.btn-cerrar5')){
             Livewire.emitTo('procesos.procesos', 'limpiarCampos');
+        }
+        if(e.target.matches('.btn-modal7')|| e.target.matches('.btn-cerrar7')){
+            Livewire.emitTo('users.users', 'limpiarCamposEmpresas');
         }
 
     })

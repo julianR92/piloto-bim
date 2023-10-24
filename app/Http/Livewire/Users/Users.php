@@ -11,18 +11,22 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Notificaciones;
+use App\Mail\Notify;
+use App\Models\Empresa;
 
 class Users extends Component
 {
     protected $listeners = [
         'editPermission',
         'limpiarCampos',
+        'limpiarCamposEmpresas',
         'eliminar',
         'showRoles', 
         'refreshParent' => '$refresh',
         'resetPassword',
         'changeState',
-        'showPermisos'
+        'showPermisos',
+        'showEmpresas'
         
     ];
 
@@ -37,6 +41,8 @@ class Users extends Component
     public $idUser='';
     public $password;
     public $permisos =[];
+    public $empresas =[];
+    public $empresa_id;
    
 
     protected $messages = [
@@ -49,7 +55,7 @@ class Users extends Component
         return [
             'first_name' => 'required|max:20|regex:/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ]{3,20}$/',
             'last_name' => 'required|max:20|regex:/^[a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ ]{3,20}$/',
-            'email' => ['required','max:80', 'email', Rule::unique('users', 'email')->ignore($this->idUser)->whereNull('deleted_at'), 'regex:/^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z0-9\.]{2,12}$/'],
+            'email' => ['required','max:80', 'email', Rule::unique('users', 'email')->ignore($this->idUser)->whereNull('deleted_at'), 'regex:/^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z0-9\.]{1,12}$/'],
             'number' => 'required|digits_between:7,10',
             'roles'=>['required']
             
@@ -66,12 +72,19 @@ class Users extends Component
         $this->resetValidation();
         $this->resetExcept('user');
     }
+    public function limpiarCamposEmpresas(){
+        $this->empresas = [];
+        $this->empresa_id = '';
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->resetExcept('user');
+    }
 
     public function render()
     {   $usuario = User::findOrFail(auth()->user()->id);        
-        if($usuario->getRoleNames()[0] == 'ADMIN'){
+        if($usuario->getRoleNames()[0] == 'ADMIN-CAMARA'){
             $data =  Role::where('name','!=','SUPER-ADMIN')->get();
-            $permissions = Permisos::get();
+            $permissions = Permisos::where('id','!=',1)->get();
             return view('livewire.users.users', compact('data','permissions'));
         }else{
             $data =  Role::get();
@@ -136,7 +149,6 @@ class Users extends Component
         $username->estado = 1;
         if ($username->save()){
         $username->assignRole($this->roles);
-
         $auditoria = Auditoria::create([
                         'usuario' => auth()->user()->first_name,
                         'correo' => auth()->user()->email,
@@ -149,7 +161,7 @@ class Users extends Component
                         'name' => $this->first_name, 
                         'usuario'=> $this->email, 
                         'password'=>$this->password,         
-                        'Subject' => 'Notificacion de Registro Aplicativo EMA',
+                        'Subject' => 'Notificacion de Registro Aplicativo CLUSTER PILOTO-BIM',
                         'modulo'=>'I'                     
                        
             
@@ -228,7 +240,7 @@ class Users extends Component
             'name' => $usuario->first_name, 
             'usuario'=> $usuario->email, 
             'password'=>$this->password,         
-            'Subject' => 'Restablecimiento de contraseña Aplicativo SOS',                     
+            'Subject' => 'Restablecimiento de contraseña Piloto-BIM',                     
             'modulo'=>'U'
 
         ];
@@ -254,9 +266,9 @@ class Users extends Component
     public function changeState(User $user){
 
         $usuario = $user;
-       if($user->estado){       
+       if($user->estado == 'ACTIVO'){       
             $user->update([
-            'estado'=> 0
+            'estado'=> 'INACTIVO'
         ]);
         $auditoria = Auditoria::create([
             'usuario' => auth()->user()->first_name,
@@ -265,12 +277,13 @@ class Users extends Component
             'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
 
         ]);
+        $this->emitTo('permisos-table', 'updateTable');
 
-        $this->emit('toast-info', ['title' => 'Proceso exitoso!', 'text' => 'Usuario Desactivado','icon'=>'success']);
+        // $this->emit('toast-info', ['title' => 'Proceso exitoso!', 'text' => 'Usuario Desactivado','icon'=>'success']);
       
        }else{
         $user->update([
-            'estado'=>1
+            'estado'=>'ACTIVO'
         ]);
         $auditoria = Auditoria::create([
             'usuario' => auth()->user()->first_name,
@@ -279,7 +292,13 @@ class Users extends Component
             'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
 
         ]);
-        $this->emit('toast-info', ['title' => 'Proceso exitoso!', 'text' => 'Usuario Activado','icon'=>'success']);
+        $detalleCorreo = [
+            'email' => $user->email,          
+            'Subject' => 'Activacion de usuario CLUSTER-BGA',  
+            'tipo'=>'AU'      
+        ];
+          Mail::to($user->email)->send(new Notify($detalleCorreo));
+          $this->emitTo('permisos-table', 'updateTable');
 
        
 
@@ -315,6 +334,30 @@ class Users extends Component
        }else{       
         $this->emit('toast-per', ['title' => 'Ocurrio un Error!', 'text' => 'Problemas al actualizar los permisos','icon'=>'error']);
     }
+  }
+
+    public function showEmpresas(User $user){       
+            
+        $this->idUser = $user->id;     
+        $this->empresas = Empresa::all();     
+        $this->dispatchBrowserEvent('empresa-modal', ['idModal' => 'empresasModal']);
+        
+    }
+
+    public function asignarEmpresas(){
+        
+        $user = User::findOrFail($this->idUser); 
+        $user->empresa_id = $this->empresa_id; 
+         
+       if($user->save()){ 
+        $this->limpiarCamposEmpresas();      
+        $this->emit('toast-empresa', ['title' => 'Proceso exitoso!', 'text' => 'Empresa asignada correctamente','icon'=>'success']);      
+        
+       }else{       
+        $this->emit('toast-empresa', ['title' => 'Ocurrio un Error!', 'text' => 'Problemas al actualizar los permisos','icon'=>'error']);
+    }
+  }
+
 
  
 
@@ -323,4 +366,4 @@ class Users extends Component
 
 
     
-}
+

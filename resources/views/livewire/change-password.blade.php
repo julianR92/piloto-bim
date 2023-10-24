@@ -28,7 +28,7 @@
                     </div>
                 </div>                 
                 <div class="mt-3">
-                    <button class="btn btn-gray-800 mt-2">Actualizar Contraseña</button>
+                    <button class="btn btn-info">Actualizar Contraseña</button>
                 </div>
             </form>
           

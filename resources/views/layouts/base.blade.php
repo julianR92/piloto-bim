@@ -3,8 +3,8 @@
 <head>
    
     <!-- Favicons -->
-    <link href="{{asset('assets/img/sos/logo-sos-circular.jpeg')}}" rel="icon">
-   <link href="{{asset('/assets/img/sos/logo-sos-circular.jpeg')}}" rel="apple-touch-icon">
+    <link href="{{asset('assets/img/region-green.png')}}" rel="icon">
+   <link href="{{asset('/assets/img/region-green.png')}}" rel="apple-touch-icon">
    
     <meta name="msapplication-config" content="../../assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">

@@ -4,8 +4,8 @@
 <head>
 
    <!-- Favicons -->
-   <link href="{{asset('assets/img/sos/logo-sos-circular.jpeg')}}" rel="icon">
-   <link href="{{asset('/assets/img/sos/logo-sos-circular.jpeg')}}" rel="apple-touch-icon">
+   <link href="{{asset('assets/img/region-green.png')}}" rel="icon">
+   <link href="{{asset('/assets/img/region-green.png')}}" rel="apple-touch-icon">
 
    <meta name="msapplication-config" content="../../assets/img/favicons/browserconfig.xml">
    <meta name="theme-color" content="#563d7c">
@@ -106,13 +106,13 @@
 
    <script src="/js/validaciones.js" type="text/javascript"></script>
    @stack('functions-js')
-   @stack('scripts-parametrizacion')
-   @stack('scripts-profesionales')  
-   @stack('scripts-clientes')  
+   @stack('scripts-users-company')  
+   @stack('scripts-gestion')
+   {{--@stack('scripts-profesionales')  
    @stack('scripts-pagos')  
    @stack('scripts-inventarios')  
    @stack('scripts-procedimientos') 
-   @stack('scripts-reportes') 
+   @stack('scripts-reportes')  --}}
 
 
    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -130,67 +130,34 @@
 </head>
 
 <body>
+   @livewire('loader')
    @if (in_array(request()->route()->getName(),
        [
            'dashboard',
            'profile',
            'profile-example',
+           'profile.empresa',
            'usersdos',
            'bootstrap-tables',
            'transactions',
            'buttons',
            'permisos.index',
            'roles.index',
-           'user.index',
-           'eje.index',
-           'areas.index',
-           'procesos.index',
-           'programas.index',
-           'programas.areas',
-           'instrumentos.index',
-           'asignaturas.index',
-           'asignaturas.areas',
-           'mallas.asignaturas',
-           'mallas.colectivos',
-           'mallas.index',
-           'mallas.areas',
-           'profesional.index',
-           'profesional.create',
-           'profesional.edit',
+           'user.index',          
            'forms',
            'modals',
            'notifications',
            'typography',
            'upgrade-to-pro',
            'prueba',
-           'tipo.index',
-           'servicio.index',
-           'tallas.index',
-           'precios.index',
-           'descuentos.index',
-           'agenda.index',
-           'clientes.index',
-           'abonos.index',
-           'abonos.cliente',
-           'transferencias.index',
-           'medios-pago.index',
-           'cuentas-pagos.index',
-           'calificacion.index',
-           'productos.index',
-           'producto-semana.index',
-           'producto-semana.buscar',
-           'productos-servicios.index',
-           'procedimientos.index',
-           'procedimientos.cierre.index',
-           'reportes-comision.index',
-           'reportes-comision-agrupado.index',
-           'servicio-adicional.index',
-           'procedimientos.adicionales.index',
-           'reportes-comision-adicionales.index',
-           'transferencias-validaciones.index',
-           'reporte-cierre.index',
-           'reportes-procedimientos.index',
-           'reportes-servicios.index'
+            //piloto-bim
+            'users-company.index',
+            'fases.index',
+            'hitos.index',
+            'indicadores.index'
+
+          
+           
 
            
 
@@ -216,6 +183,7 @@
            'forgot-password-example',
            'reset-password',
            'reset-password-example',
+           'two-factor'
        ]))
       @yield('content')
       {{-- Footer --}}

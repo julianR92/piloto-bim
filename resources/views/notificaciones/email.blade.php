@@ -10,7 +10,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Notificación APP SOS</title>
+    <title>Notificación PILOTO BIM</title>
 
 </head>
 
@@ -24,7 +24,7 @@
 
     @if($detalleCorreo['modulo']== 'I')
 
-    <p style="text-align: justify;"> Usted ha sido registrado en la plataforma de la <b>SOS</b>, sus credenciales de ingreso son las siguientes:<br>
+    <p style="text-align: justify;"> Usted ha sido registrado en la plataforma de la CLUSTER <b> PILOTO BIM</b>, sus credenciales de ingreso son las siguientes:<br>
 
      <strong> Usuario:</strong> {{$detalleCorreo['usuario']}} <br>
 
@@ -32,7 +32,7 @@
 
      @elseif($detalleCorreo['modulo']=='U')
 
-     <p style="text-align: justify;"> Se ha restablecido su contraseña, estas son sus credenciales de ingreso a la plataforma:<br>
+     <p style="text-align: justify;"> Se ha restablecido su contraseña en la Plataforma CLUSTER PILOTO-BIM, estas son sus credenciales de ingreso a la plataforma:<br>
 
         <strong> Usuario:</strong> {{$detalleCorreo['usuario']}} <br>
 
@@ -42,7 +42,7 @@
 
 
 
-     Para ingresar a la la plataforma ingrese <a href="https://cursos.ema.imct.gov.co/login" target="_blank">Clic aqui</a> 
+     Para ingresar a la la plataforma ingrese <a href="{{env('APP_URL')}}" target="_blank">Clic aqui</a> 
 
      
 
@@ -58,7 +58,7 @@
 
     
 
-    &copy; <small>SOS - HEIDY DAYANA</small><br>
+    &copy; <small>PILOTO-BIM</small><br>
 
     
 

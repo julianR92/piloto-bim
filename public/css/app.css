@@ -47,31 +47,18 @@ border: 3px solid #FFF;
 /* footer */
 
 .page__footer {
-
     padding-bottom: 20px!important;
-
-    padding-top: 77px;
-
-    margin-top: 1.8%;
-
-    background-color: #212529!important;
-
+    padding-top: 5px;
+    margin-top: 5px;
+    background-color: #f2f4f6!important;
     color: white !important;
-
-
-
 }
 
 
-
 .page__footer .container {
-
     width: 100%;
-
     max-width: inherit;
-
     padding-right: 0;
-
     padding-left: 0;
 
 }

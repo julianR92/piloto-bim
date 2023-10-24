@@ -46,7 +46,7 @@ class ResetPassword extends Notification
     {
         $url = URL::signedRoute('reset-password', ['id' => $this->token]);
         return (new MailMessage)
-                    ->subject('Restablecer su contraseña App SOS')
+                    ->subject('Restablecer su contraseña Piloto BIM')
                     ->line('Oye, ¿olvidaste tu contraseña? Haga clic en el botón para restablecerlo.')
                     ->action('Restablecer Contraseña', $url)
                     ->line('¡Gracias por usar nuestra aplicación!');

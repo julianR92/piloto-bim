@@ -1,10 +1,11 @@
 <x-layouts.base>
 
-
+    @livewire('loader')
    @if (in_array(request()->route()->getName(),
        [
            'dashboard',
            'profile',
+           'profile.empresa',           
            'profile-example',
            'usersdos',
            'bootstrap-tables',
@@ -37,6 +38,7 @@
            'fecha-convocatoria.index',
            'inscripciones.index',
           
+          
        ]))
       {{-- Nav --}}
       @include('layouts.nav')
@@ -59,6 +61,7 @@
            'forgot-password-example',
            'reset-password',
            'reset-password-example',
+           'two-factor'
        ]))
       {{ $slot }}
       {{-- Footer --}}
