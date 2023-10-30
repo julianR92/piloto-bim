@@ -40,6 +40,7 @@
                             <th data-field="nombre_fase" class="border-0 text-center">Nombre Fase</th>
                             <th data-field="descripcion" class="border-0 text-center">Descripcion</th>
                             <th data-field="duracion" class="border-0 text-center">Duracion</th>                      
+                            <th data-field="responsable" class="border-0 text-center">Responsable</th>                      
                             <th data-field="hitos" class="border-0 text-center">Hitos</th>                      
                             <th class="border-0 text-center">Acciones</th>
                            
@@ -102,6 +103,18 @@
                                 <input name="duracion" type="text" class="form-control border-gray-300" placeholder="Ej: 10" id="duracion" required data-pristine-required-message="Campo Requerido" onkeypress="return Numeros(event)" data-pristine-type="integer" maxlength="6">
                                 @error('duracion') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                             </div> 
+                        </div> 
+                        <div class="form-group mb-4">
+                            <label for="descripcion">Responsable</label>
+                            <div class="input-group">                                
+                                <select name="responsable_id" id="responsable_id" class=" form-control form-select  select" >
+                                    <option value="">Seleccione..</option>
+                                    @foreach($responsables as $responsable)
+                                        <option value={{$responsable->id}}>{{ $responsable->first_name }} {{ $responsable->last_name }} <small style="font-size:8px;">user: {{$responsable->email}}</small></option>
+                                    @endforeach
+                                </select>
+                                @error('responsable_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
                         </div> 
                         
                         

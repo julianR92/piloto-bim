@@ -23,6 +23,9 @@ doc.addEventListener("DOMContentLoaded", function (e) {
             align: "left",
         },
         {
+            formatter: responsable,
+        },
+        {
             formatter: hitos,
         },
         {
@@ -55,6 +58,10 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         } else {
             return ['<span style="font-size: 10px;">Sin hitos</span>'].join("");
         }
+    }
+
+    function responsable(value,row,index){
+      return[ `${row.first_name || ''} ${row.last_name || ''}`].join('')
     }
 
     loadData();
@@ -157,6 +164,10 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                         response.data.data.descripcion;
                     document.getElementById("duracion").value =
                         response.data.data.duracion;
+                        if(response.data.data.responsable_id){
+                    document.getElementById("responsable_id").value =
+                        response.data.data.responsable_id;
+                        }
                     document.getElementById("id").value = response.data.data.id;
                 })
                 .catch(function (error) {});

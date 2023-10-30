@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Fase;
 use App\Models\Empresa;
+use App\Models\User;
 use App\Models\Auditoria;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -13,15 +14,16 @@ use Illuminate\Support\Facades\Validator;
 class FasesController extends Controller
 {
     public function index()
-    {
-        return view('livewire.fases.index');
+    {    
+        $responsables = User::where('empresa_id', auth()->user()->empresa_id)->get();
+        return view('livewire.fases.index', compact('responsables'));
     }
 
     public function cargarDatos()
     {
 
         $empresa_id = auth()->user()->empresa_id ? auth()->user()->empresa_id : '%';
-        $datos = Fase::with('hitos')->where('empresa_id', 'LIKE', $empresa_id)->get();
+        $datos = Fase::with('hitos')->select('fases.id', 'fases.empresa_id', 'fases.nombre_fase', 'fases.descripcion','fases.duracion', 'fases.created_at','fases.updated_at','users.first_name', 'users.last_name', 'users.id as user_id')->leftjoin('users', 'users.id', '=', 'fases.responsable_id')->where('fases.empresa_id', 'LIKE', $empresa_id)->get();
         return response()->json(['success' => true, 'datos' => $datos]);
     }
 
@@ -47,6 +49,7 @@ class FasesController extends Controller
             $fase->descripcion = $request->descripcion;
             $fase->duracion = $request->duracion;
             $fase->empresa_id  = $empresa_id;
+            $fase->responsable_id  = $request->responsable_id;
             if ($fase->save()) {
                 $auditoria = Auditoria::create([
                     'usuario' => auth()->user()->first_name,
@@ -62,6 +65,7 @@ class FasesController extends Controller
             $fase->nombre_fase = $request->nombre_fase;
             $fase->descripcion = $request->descripcion;
             $fase->duracion = $request->duracion;
+            $fase->responsable_id  = $request->responsable_id;
             if ($fase->save()) {
                 $auditoria = Auditoria::create([
                     'usuario' => auth()->user()->first_name,
