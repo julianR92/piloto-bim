@@ -27,7 +27,7 @@ class UsersCompanyController extends Controller
     
     public function index(){          
          
-        $roles = Role::whereIn('id',[4,5,6,7,8])->get();
+        $roles = Role::whereIn('id',[4,5])->get();
         $empresa = Empresa::findOrFail(auth()->user()->empresa_id);
         $usuarios = $this->cargarDatos();          
         return view('livewire.users-company.index',compact('usuarios', 'empresa', 'roles'));        

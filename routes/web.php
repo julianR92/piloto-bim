@@ -15,6 +15,7 @@ use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\FasesController;
 use App\Http\Controllers\IndicadoresController;
 use App\Http\Controllers\MediosPagoController;
+use App\Http\Controllers\MetodologiasController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfesionalController;
@@ -43,6 +44,8 @@ use App\Http\Livewire\Roles\Roles;
 use App\Http\Livewire\TwoFactor\TwoFactorAuth;
 use App\Http\Livewire\Users\Users;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\User;
+
 
 
 /*
@@ -85,6 +88,13 @@ Route::middleware('auth')->group(function () {
         return redirect('/login');
     });
     
+    Route::post('/close/logout', function () {
+        $user = User::find(auth()->user()->id);
+        $user->session_id = null;
+        $user->save();
+        auth()->logout();
+    });
+    
     //tasks
 
     Route::get('/tasks', [TareasController::class, 'load'])->name('tareas.index');
@@ -116,16 +126,25 @@ Route::middleware('auth')->group(function () {
        
     });
 
-    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|empresa-gestion|admin-camara']], function () {
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
+        //fases
+        Route::get('/metodologias', [MetodologiasController::class, 'index'])->name('metodologias.index');
+        Route::get('/metodologias/loadData', [MetodologiasController::class, 'cargarDatos'])->name('metodologias.data');
+        Route::get('/edit/metodologia/{id}', [MetodologiasController::class, 'edit'])->name('metodologias.editar');
+        Route::get('/structure/metodologias/{id}', [MetodologiasController::class, 'structure'])->name('metodologias.structure');
+        Route::delete('/delete/metodologia/{id}', [MetodologiasController::class, 'delete'])->name('metodologias.delete');
+        Route::post('/metodologias', [MetodologiasController::class, 'store'])->name('descuentos.store');
+    });
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //fases
         Route::get('/fases', [FasesController::class, 'index'])->name('fases.index');
         Route::get('/fases/loadData', [FasesController::class, 'cargarDatos'])->name('fases.data');
         Route::get('/edit/fases/{id}', [FasesController::class, 'edit'])->name('fases.editar');
-        Route::get('/structure/fases/{id}', [FasesController::class, 'structure'])->name('fases.structure');
+        // Route::get('/structure/fases/{id}', [FasesController::class, 'structure'])->name('fases.structure');
         Route::delete('/delete/fases/{id}', [FasesController::class, 'delete'])->name('fases.delete');
         Route::post('/fases', [FasesController::class, 'store'])->name('descuentos.store');
     });
-    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|empresa-gestion|admin-camara']], function () {
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //hitos
         Route::get('/hitos', [HitosController::class, 'index'])->name('hitos.index');
         Route::get('/hitos/loadData', [HitosController::class, 'cargarDatos'])->name('hitos.data');
@@ -133,7 +152,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/hito/{id}', [HitosController::class, 'delete'])->name('hitos.delete');
         Route::post('/hitos', [HitosController::class, 'store'])->name('hitos.store');
     });
-    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|empresa-gestion|admin-camara']], function () {
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //hitos
         Route::get('/indicadores', [IndicadoresController::class, 'index'])->name('indicadores.index');
         Route::get('/indicadores/loadData', [IndicadoresController::class, 'cargarDatos'])->name('indicadores.data');

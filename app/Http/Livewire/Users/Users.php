@@ -264,9 +264,27 @@ class Users extends Component
     }
 
     public function changeState(User $user){
-
+        
+        
         $usuario = $user;
-       if($user->estado == 'ACTIVO'){       
+        $role = Role::find($user->role_id);
+       if($user->estado == 'ACTIVO'){  
+          if($role->name == 'EMPRESA'){
+            $empresaUsuarios = User::where('empresa_id',$user->empresa_id)->get();
+            foreach($empresaUsuarios as $empresa){
+                $usuarioEmpresa = User::where('id',$empresa->id)->update([
+                    'estado'=> 'INACTIVO'
+                ]);
+                $auditoria = Auditoria::create([
+                    'usuario' => auth()->user()->first_name,
+                    'correo' => auth()->user()->email,
+                    'observaciones'=> 'Usuario : '. $empresa->email .' desactivado en la plataforma',
+                    'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
+        
+                ]);
+            }
+
+          }else{     
             $user->update([
             'estado'=> 'INACTIVO'
         ]);
@@ -277,21 +295,40 @@ class Users extends Component
             'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
 
         ]);
+      }
         $this->emitTo('permisos-table', 'updateTable');
 
         // $this->emit('toast-info', ['title' => 'Proceso exitoso!', 'text' => 'Usuario Desactivado','icon'=>'success']);
       
        }else{
+        if($role->name == 'EMPRESA'){
+            $empresaUsuarios = User::where('empresa_id',$user->empresa_id)->get();
+            foreach($empresaUsuarios as $empresa){
+                $usuarioEmpresa = User::where('id',$empresa->id)->update([
+                    'estado'=> 'ACTIVO'
+                ]);
+                $auditoria = Auditoria::create([
+                    'usuario' => auth()->user()->first_name,
+                    'correo' => auth()->user()->email,
+                    'observaciones'=> 'Usuario : '. $empresa->email .' Activado en la plataforma',
+                    'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
+        
+                ]);
+            }
+
+          }else{
+
         $user->update([
             'estado'=>'ACTIVO'
         ]);
         $auditoria = Auditoria::create([
             'usuario' => auth()->user()->first_name,
             'correo' => auth()->user()->email,
-            'observaciones'=> 'Usuario: '. $usuario->email .'activado en la plataforma',
+            'observaciones'=> 'Usuario: '. $usuario->email .' Activado en la plataforma',
             'direccion_ip'=> $_SERVER['REMOTE_ADDR'],           
 
         ]);
+       }
         $detalleCorreo = [
             'email' => $user->email,          
             'Subject' => 'Activacion de usuario CLUSTER-BGA',  

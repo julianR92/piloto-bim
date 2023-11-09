@@ -9,28 +9,16 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         {
             field: "id",
             align: "left",
-        },
-        {
-            field: "nombre_fase",
-            align: "left",
-        },
+        },       
         {
             field: "descripcion",
             align: "left",
-        },
+        },        
         {
-            field: "duracion",
-            align: "left",
-        },
+            formatter:estado
+        },        
         {
-            field: "metodologia",
-            align: "left",
-        },
-        {
-            formatter: responsable,
-        },
-        {
-            formatter: hitos,
+            formatter: fases,
         },
         {
             formatter: botones,
@@ -45,27 +33,31 @@ doc.addEventListener("DOMContentLoaded", function (e) {
             '<button type="button" class="btn btn-danger d-inline-flex align-items-center eliminarData mx-1" data-id="' +
                 row.id +
                 '"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9M7 6h10v13H7V6m2 2v9h2V8H9m4 0v9h2V8h-2Z"/></svg>Eliminar</button>',
-            // '<button type="button" class="btn btn-info d-inline-flex align-items-center structureData" data-id="' +
-            //     row.id +
-            //     '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="4"><circle cx="10" cy="24" r="4"/><circle cx="38" cy="10" r="4"/><circle cx="38" cy="24" r="4"/><circle cx="38" cy="38" r="4"/><path stroke-linecap="round" stroke-linejoin="round" d="M34 38H22V10h12M14 24h20"/></g></svg>Estructura</button>',
+            '<button type="button" class="btn btn-info d-inline-flex align-items-center structureData" data-id="' +
+                row.id +
+                '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="4"><circle cx="10" cy="24" r="4"/><circle cx="38" cy="10" r="4"/><circle cx="38" cy="24" r="4"/><circle cx="38" cy="38" r="4"/><path stroke-linecap="round" stroke-linejoin="round" d="M34 38H22V10h12M14 24h20"/></g></svg>Estructura</button>',
         ].join("");
     }
 
-    function hitos(value, row, index) {
-        if (row.hitos.length > 0) {
+    function fases(value, row, index) {
+        if (row.fases.length > 0) {
             let content = '<ul style="font-size: 10px;">';
-            row.hitos.forEach((hito) => {
-                content += `<li style="font-size: 10px;"> ${hito.nombre_hito}</li>`;
+            row.fases.forEach((fase) => {
+                content += `<li style="font-size: 10px;"> ${fase.nombre_fase}</li>`;
             });
             content += "</ul>";
             return [content].join("");
         } else {
-            return ['<span style="font-size: 10px;">Sin hitos</span>'].join("");
+            return ['<span style="font-size: 10px;">Sin Fases Asociadas</span>'].join("");
         }
     }
-
-    function responsable(value,row,index){
-      return[ `${row.first_name || ''} ${row.last_name || ''}`].join('')
+    
+    function estado(value,row,index){
+        if(parseInt(row.estado) == 1){
+         return [`Activo ✔️`].join("");
+        }else{
+            return [`Inactivo ❌`].join("");
+        }
     }
 
     loadData();
@@ -78,7 +70,7 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         if (valid) {
             let datos = getData(e.target);
             axios
-                .post("/fases", datos)
+                .post("/metodologias", datos)
                 .then(function (response) {
                     if (response.data.success) {
                         let myModalEl = document.getElementById("modalSignIn");
@@ -147,10 +139,34 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         )
     );
 
+    myDiagram.add(
+        $$(go.Part, "Auto",
+            { position: new go.Point(200, 100), selectable: false },
+            $$(go.Panel, "Vertical",
+                $$(go.Panel, "Horizontal",
+                    $$(go.Shape, "Circle", { width: 20, height: 20, fill: "turquoise" }),
+                    $$(go.TextBlock, "Metodologia", { width: 120, textAlign: "left" }) // Ancho fijo y alineación a la izquierda
+                ),
+                $$(go.Panel, "Horizontal",
+                    $$(go.Shape, "Circle", { width: 20, height: 20, fill: "lightgreen" }),
+                    $$(go.TextBlock, "Fases", { width: 120, textAlign: "left" }) // Ancho fijo y alineación a la izquierda
+                ),
+                $$(go.Panel, "Horizontal",
+                    $$(go.Shape, "Circle", { width: 20, height: 20, fill: "indigo" }),
+                    $$(go.TextBlock, "Hitos", { width: 120, textAlign: "left" }) // Ancho fijo y alineación a la izquierda
+                ),
+                $$(go.Panel, "Horizontal",
+                    $$(go.Shape, "Circle", { width: 20, height: 20, fill: "goldenrod" }),
+                    $$(go.TextBlock, "Indicadores", { width: 120, textAlign: "left" }) // Ancho fijo y alineación a la izquierda
+                )
+            )
+        )
+    );
+    
     document.addEventListener("click", (e) => {
         if (e.target.matches(".editarData")) {
             axios
-                .get(`/edit/fases/${e.target.dataset.id}`)
+                .get(`/edit/metodologia/${e.target.dataset.id}`)
                 .then(function (response) {
                     let myModalEl = new bootstrap.Modal(
                         document.getElementById("modalSignIn"),
@@ -160,20 +176,13 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                     );
                     myModalEl.show();
                     document.querySelector(".titulo-modal").textContent =
-                        "Editar Fase";
+                        "Editar Metodologia";
                     document.querySelector(".btnModal").textContent = "Editar";
-                    document.getElementById("nombre_fase").value =
-                        response.data.data.nombre_fase;
                     document.getElementById("descripcion").value =
                         response.data.data.descripcion;
-                    document.getElementById("duracion").value =
-                        response.data.data.duracion;
-                    document.getElementById("metodologia_id").value =
-                        response.data.data.metodologia_id;
-                        if(response.data.data.responsable_id){
-                    document.getElementById("responsable_id").value =
-                        response.data.data.responsable_id;
-                        }
+                    document.getElementById("estado").value =
+                        response.data.data.estado;                
+                     
                     document.getElementById("id").value = response.data.data.id;
                 })
                 .catch(function (error) {});
@@ -183,7 +192,7 @@ doc.addEventListener("DOMContentLoaded", function (e) {
             var nodeDataArray;
             var linkDataArray;           
             axios
-                .get(`/structure/fases/${e.target.dataset.id}`)
+                .get(`/structure/metodologias/${e.target.dataset.id}`)
                 .then(function (response) {
                     if (response.data.success) {
                         let myModalEl = new bootstrap.Modal(
@@ -222,8 +231,8 @@ doc.addEventListener("DOMContentLoaded", function (e) {
 
         if (e.target.matches(".eliminarData")) {
             Swal.fire({
-                title: "¿Esta seguro de eliminar esta fase?",
-                text: "Se Eliminara este registro de la base de datos y todos los hitos e indicadores asociados a ellos",
+                title: "¿Esta seguro de eliminar esta metodologia?",
+                text: "Se Eliminara este registro de la base de datos",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -233,7 +242,7 @@ doc.addEventListener("DOMContentLoaded", function (e) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios
-                        .delete(`/delete/fases/${e.target.dataset.id}`)
+                        .delete(`/delete/metodologia/${e.target.dataset.id}`)
                         .then(function (response) {
                             notifications(
                                 "Proceso exitoso!",
@@ -250,7 +259,7 @@ doc.addEventListener("DOMContentLoaded", function (e) {
         if (e.target.matches(".btn-modal") || e.target.matches(".btn-cerrar")) {
             $myForm.reset();
             pristine.reset();
-            document.querySelector(".titulo-modal").textContent = "Crear Fase";
+            document.querySelector(".titulo-modal").textContent = "Crear Metodologia";
             document.querySelector(".btnModal").textContent = "Crear";
             document.getElementById("id").value = "";
         }
@@ -298,7 +307,7 @@ function loadData() {
     document.querySelector(".loader").style.display = "block";
     document.querySelector(".loader-container").classList.remove("d-none");
     axios
-        .get(`/fases/loadData`)
+        .get(`/metodologias/loadData`)
         .then(function (response) {
             setTimeout(() => {
                 document.querySelector(".loader").style.display = "none";

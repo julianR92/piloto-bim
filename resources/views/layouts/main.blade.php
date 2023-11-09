@@ -152,9 +152,11 @@
            'prueba',
             //piloto-bim
             'users-company.index',
+            'metodologias.index',
             'fases.index',
             'hitos.index',
-            'indicadores.index'
+            'indicadores.index',
+            ''
 
           
            

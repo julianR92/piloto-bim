@@ -10,13 +10,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Precios extends Model
+class Metodologia extends Model
 
 {
 
     use HasFactory;
-    protected $table = 'precios';
+    protected $table = 'metodologia';
     protected $primaryKey = 'id';
+
+    public function fases()
+    {
+        return $this->hasMany(Fase::class, 'metodologia_id');
+    }
 
    
 

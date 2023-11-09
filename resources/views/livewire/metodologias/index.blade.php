@@ -14,16 +14,16 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">Modulo de Gestión </a></li>
-                <li class="breadcrumb-item active" aria-current="page">Fases</li>
+                <li class="breadcrumb-item active" aria-current="page">Metodologias</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Administración de Fases</h1>
+                <h1 class="h4">Administración de Metodologias</h1>
             </div>   
             <div>
                 <a type="button" href="" class="btn btn-outline-gray-600 d-inline-flex align-items-center btn-modal" data-bs-toggle="modal" data-bs-target="#modalSignIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 15.5L7.5 20h-5L5 15.5M9 19h12v-2H9v2zM5 9.5L7.5 14h-5L5 9.5M9 13h12v-2H9v2zM5 3.5L7.5 8h-5L5 3.5M9 7h12V5H9v2z" fill="currentColor"/></svg>Crear Fase
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 14"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="3.5" height="3.5" x=".5" y="10" rx=".5"/><rect width="3.5" height="3.5" x="10" y="10" rx=".5"/><rect width="4" height="4" x="5" y=".5" rx=".5"/><path d="M4 12h6M5.09 4.29L2.5 10m6.41-5.71L11.5 10"/></g></svg>Crear Metodologia
                 </a>
             </div>         
         </div>
@@ -36,13 +36,10 @@
                 <table class="table table-centered table-nowrap mb-0 rounded" id="myTable" data-toggle="table" data-search="true" data-pagination="true" data-page-size="10" >
                     <thead class="thead-light">
                         <tr>
-                            <th data-field="id" data-sortable="true" class="border-0 text-center rounded-start">#</th>
-                            <th data-field="nombre_fase" class="border-0 text-center">Nombre Fase</th>
-                            <th data-field="descripcion" class="border-0 text-center">Descripcion</th>
-                            <th data-field="duracion" class="border-0 text-center">Duracion</th>                      
-                            <th data-field="metodologia" class="border-0 text-center">Metodologia</th>                      
-                            <th data-field="responsable" class="border-0 text-center">Responsable</th>                      
-                            <th data-field="hitos" class="border-0 text-center">Hitos</th>                      
+                            <th data-field="id" data-sortable="true" class="border-0 text-center rounded-start">#</th>                       
+                            <th data-field="descripcion" class="border-0 text-center">Descripcion</th>                                               
+                            <th data-field="estado" class="border-0 text-center">Estado</th>                                               
+                            <th data-field="fases" class="border-0 text-center">Fases</th>                      
                             <th class="border-0 text-center">Acciones</th>
                            
                         </tr>
@@ -78,63 +75,39 @@
                     <button type="button" class="btn-close btn-cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body px-md-5">
-                    <h2 class="h4 text-center titulo-modal">Crear Fase</h2>
+                    <h2 class="h4 text-center titulo-modal">Crear Metodologia</h2>
                     <form action="#" method="" id="myForm">                        
                        
                         <div class="form-group mb-2">
-                            <label for="nombre_fase">Nombre Fase *</label>
+                            <label for="nombre_fase">Nombre Metodologia *</label>
                             <div class="input-group">
                                 <span class="input-group-text border-gray-300" id="basic-addon3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M5 15.5L7.5 20h-5L5 15.5M9 19h12v-2H9v2zM5 9.5L7.5 14h-5L5 9.5M9 13h12v-2H9v2zM5 3.5L7.5 8h-5L5 3.5M9 7h12V5H9v2z" fill="currentColor"/></svg>
                                 </span>
-                                <input name="nombre_fase" type="text" class="form-control border-gray-300" placeholder="Ej: FASE DE ADQUISICION" id="nombre_fase" required data-pristine-required-message="Campo Requerido" maxlength="100" onkeyup="aMayusculas(this.value,this.id)" onkeypress="return NumDoc(event)">
-                                @error('nombre_fase') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
-                            </div> 
-                        </div> 
-                        <div class="form-group mb-2">
-                            <label for="descripcion">Descripcion *</label>
-                            <div class="input-group">                               
-                                <textarea name="descripcion" type="text" class="form-control border-gray-300" placeholder="Ej: Esta fase consiste en ..." id="descripcion" rows="3" required data-pristine-required-message="Campo Requerido" onkeyup="aMayusculas(this.value,this.id)" onkeypress="return Letras(event)" maxlenght="255" style="resize: none"></textarea>
+                                <input name="descripcion" type="text" class="form-control border-gray-300" placeholder="Ej: METODOLOGIA MIXTA" id="descripcion" required data-pristine-required-message="Campo Requerido" maxlength="100" onkeyup="aMayusculas(this.value,this.id)" onkeypress="return NumDoc(event)" autofocus>
                                 @error('descripcion') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                             </div> 
-                        </div> 
-                        <div class="form-group mb-4">
-                            <label for="descripcion">Duracion(en dias) *</label>
-                            <div class="input-group">                               
-                                <input name="duracion" type="text" class="form-control border-gray-300" placeholder="Ej: 10" id="duracion" required data-pristine-required-message="Campo Requerido" onkeypress="return Numeros(event)" data-pristine-type="integer" maxlength="6">
-                                @error('duracion') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
-                            </div> 
-                        </div> 
-                        <div class="form-group mb-4">
-                            <label for="descripcion">Metodologia*</label>
-                            <div class="input-group">                                
-                                <select name="metodologia_id" id="metodologia_id" class=" form-control form-select  select" data-pristine-required-message="Campo Requerido" required>
-                                    <option value="">Seleccione..</option>
-                                    @foreach($metodologias as $metodologia)
-                                        <option value={{$metodologia->id}}>{{ $metodologia->descripcion }} </option>
-                                    @endforeach
-                                </select>
-                                @error('metodologia_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
-                            </div>
-                        </div> 
-                        <div class="form-group mb-4">
-                            <label for="descripcion">Responsable</label>
-                            <div class="input-group">                                
-                                <select name="responsable_id" id="responsable_id" class=" form-control form-select  select" >
-                                    <option value="">Seleccione..</option>
-                                    @foreach($responsables as $responsable)
-                                        <option value={{$responsable->id}}>{{ $responsable->first_name }} {{ $responsable->last_name }} <small style="font-size:8px;">user: {{$responsable->email}}</small></option>
-                                    @endforeach
-                                </select>
-                                @error('responsable_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
-                            </div>
-                        </div> 
+                        </div>   
                         
+                        <div class="form-group mb-2">
+                            <label for="estado">Estado*</label>
+                            <div>
+                            <div class="input-group">                                
+                                <select name="estado" id="estado" class=" form-control form-select  select" required data-pristine-required-message="Campo Requerido">
+                                    <option value="">Seleccione..</option>
+                                    <option value="1">ACTIVO</option>
+                                    <option value="2">INACTIVO</option>
+                                </select>
+                                @error('estado') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
+                            </div>
+                        </div>
+                                       
                         
                         <!-- End of Form -->                        
                         <div class="d-grid mt-3">
                             <input type="hidden" name="id" id="id">
-                            <button type="submit" class="btn btn-info btnModal">Crear Fase</button>
+                            <button type="submit" class="btn btn-info btnModal">Crear Metodologia</button>
                         </div>
                    </form>          
                                   
@@ -159,7 +132,7 @@
 </div>
 @push('scripts-gestion')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.1.18/go-debug.js"></script>
-<script src="{{asset('js/fases.js')}}" type="module"></script>
+<script src="{{asset('js/metodologias.js')}}" type="module"></script>
 @endpush
 
 

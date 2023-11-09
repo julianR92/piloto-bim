@@ -78,6 +78,8 @@ class TwoFactorAuth extends Component
               
                 $usuario->two_factor = null;
                 $usuario->two_factor_date = null;
+                $usuario->session_id = session()->getId();
+
                 $usuario->save();
                 
                 $auditoria = Auditoria::create([
