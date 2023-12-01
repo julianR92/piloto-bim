@@ -193,7 +193,7 @@
                     </a>
                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
 
-                        @role('SUPER-ADMIN|ADMIN-CAMARA|EMPRESA-GESTOR|EMPRESA-SEGUIMIENTO|EMPRESA-INDICADORES|EMPRESA-LINEA-BASE')
+                        @role('SUPER-ADMIN|ADMIN-CAMARA|EMPRESA-RESPONSABLE|EMPRESA-CALIDAD|EMPRESA-INDICADORES|EMPRESA-LINEA-BASE')
                             <a class="dropdown-item d-flex align-items-center" href="/profile">
                                 <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -306,7 +306,7 @@
     }
 
     function cargarTareas(tasks) {
-        console.log(tasks);
+        // console.log(tasks);
         // Reemplaza 'tuElementoPadre' con el ID correcto
         let content = '';
         // Recorre los datos y crea dinámicamente elementos <a> usando innerHTML y template strings

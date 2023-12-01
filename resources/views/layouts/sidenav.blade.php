@@ -212,6 +212,84 @@
 
             @endcanany
 
+            @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'empresa-gestion'])
+            <li class="nav-item">
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"
+                    data-bs-toggle="collapse" data-bs-target="#submenu-seguimiento" aria-expanded="false">
+                    <span>
+                        <span class="sidebar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="currentColor" d="M6 2.75A.75.75 0 0 1 6.75 2H9v3H6V2.75ZM2.75 6a.75.75 0 0 0-.75.75v1.5c0 .414.336.75.75.75H5V6H2.75ZM9 6H6v3h2.25A.75.75 0 0 0 9 8.25V6Zm3.25-4H10v3h2.25a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 0-.75-.75ZM3 11.75a.75.75 0 0 1 .75-.75H6v3H3.75a.75.75 0 0 1-.75-.75v-1.5Zm7-.75H7v3h3v-3Zm1 0h3v2.25a.75.75 0 0 1-.75.75H11v-3Zm.75-4a.75.75 0 0 0-.75.75V10h3V7.75a.75.75 0 0 0-.75-.75h-1.5Z"/></svg></span>
+                        <span class="sidebar-text text-link">Modulo de Seguimiento</span>
+                    </span>
+                    <span class="link-arrow"><svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd"></path>
+                        </svg></span>
+                </span>
+                <div class="multi-level collapse" role="list" id="submenu-seguimiento" aria-expanded="false">
+                    <ul class="flex-column nav">
+                        @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'admin-camara'])
+                            <li class="nav-item {{ Request::segment(1) == 'proyectos' ? 'active' : '' }}">
+                                <a href="/proyectos" class="nav-link">
+                                    <span class="sidebar-text text-link">Proyectos</span>
+                                </a>
+                            </li>
+                        @endcanany
+                        @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'admin-camara', 'empresa-gestion'])
+                            <li class="nav-item {{ Request::segment(1) == 'gestion-proyectos' ? 'active' : '' }}">
+                                <a href="/gestion-proyectos" class="nav-link">
+                                    <span class="sidebar-text text-link">Gestion de Proyectos</span>
+                                </a>
+                            </li>
+                        @endcanany
+                        {{-- @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'admin-camara'])
+                            <li class="nav-item {{ Request::segment(1) == 'fases' ? 'active' : '' }}">
+                                <a href="/fases" class="nav-link">
+                                    <span class="sidebar-text text-link">Fases</span>
+                                </a>
+                            </li>
+                        @endcanany
+                        @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'admin-camara'])
+                            <li class="nav-item {{ Request::segment(1) == 'hitos' ? 'active' : '' }}">
+                                <a href="/hitos" class="nav-link">
+                                    <span class="sidebar-text text-link">Hitos</span>
+                                </a>
+                            </li>
+                        @endcanany
+                        @canany(['control-total', 'admin-camara', 'empresa-usuarios', 'admin-camara'])
+                            <li class="nav-item {{ Request::segment(1) == 'indicadores' ? 'active' : '' }}">
+                                <a href="/indicadores" class="nav-link">
+                                    <span class="sidebar-text text-link">Indicadores</span>
+                                </a>
+                            </li>
+                        @endcanany --}}
+                        {{-- <li class="nav-item {{ Request::segment(1) == 'procesos' ? 'active' : '' }}">
+                    <a href="/procesos" class="nav-link">
+                       <span class="sidebar-text">Procesos</span>
+                    </a>
+                 </li>
+                 <li class="nav-item {{ Request::segment(1) == 'ejes' ? 'active' : '' }}">
+                    <a href="/ejes" class="nav-link">
+                       <span class="sidebar-text">Ejes</span>
+                    </a>
+                 </li>
+                 <li class="nav-item {{ Request::segment(1) == 'programas' ? 'active' : '' }}">
+                    <a href="/programas" class="nav-link">
+                       <span class="sidebar-text">Programas</span>
+                    </a>
+                 </li>
+                 <li class="nav-item {{ Request::segment(1) == 'mallas' ? 'active' : '' }}">
+                    <a href="/mallas" class="nav-link">
+                       <span class="sidebar-text">Mallas</span>
+                    </a>
+                 </li> --}}
+                    </ul>
+                </div>
+            </li>
+
+        @endcanany
+
             {{-- @canany(['control-total'])
             <li class="nav-item">
                <span class="nav-link collapsed d-flex justify-content-between align-items-center collapsed"

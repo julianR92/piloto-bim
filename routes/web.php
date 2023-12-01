@@ -19,7 +19,9 @@ use App\Http\Controllers\MetodologiasController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfesionalController;
+use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\SemanarioController;
 use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\ServiciosProductosController;
@@ -159,6 +161,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/indicador/{id}', [IndicadoresController::class, 'edit'])->name('indicadores.editar');
         Route::delete('/delete/indicador/{id}', [IndicadoresController::class, 'delete'])->name('indicadores.delete');
         Route::post('/indicadores', [IndicadoresController::class, 'store'])->name('indicadores.store');
+    });
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
+        //hitos
+        Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
+        Route::get('/proyectos/loadData', [ProyectosController::class, 'cargarDatos'])->name('proyectos.data');
+        Route::get('/edit/indicador/{id}', [ProyectosController::class, 'edit'])->name('proyectos.editar');
+        Route::delete('/delete/indicador/{id}', [ProyectosController::class, 'delete'])->name('proyectos.delete');
+        Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
+    });
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara|empresa-gestion']], function () {
+        //hitos
+        Route::get('/gestion-proyectos', [SeguimientoController::class, 'index'])->name('gestion-proyectos.index');
+        Route::get('/gestion-proyectos/loadData', [SeguimientoController::class, 'cargarDatos'])->name('gestion-proyectos.data');
+        Route::get('/edit/indicador/{id}', [SeguimientoController::class, 'edit'])->name('gestion-proyectos.editar');
+        Route::delete('/delete/indicador/{id}', [SeguimientoController::class, 'delete'])->name('gestion-proyectos.delete');
+        Route::post('/gestion-proyectos', [SeguimientoController::class, 'store'])->name('proyectos.store');
     });
         // //tipo-servicio
         // Route::get('/tipo-servicio', [TipoServicioController::class, 'index'])->name('tipo.index');

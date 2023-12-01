@@ -14594,7 +14594,8 @@ textarea.form-control-lg {
 
 .sidebar-inner {
   position: relative;
-  overflow-y: hidden; }
+  /* overflow-y: hidden; */
+} 
 
 .sidebar-heading {
   font-size: .75rem;
@@ -14614,7 +14615,7 @@ textarea.form-control-lg {
 
 .content {
   overflow: hidden;
-  height: 100vh;;
+  /* height: 100vh;; */
   /* padding: 0 1rem 0 1rem; */
   transition: all 0.3s; }
   @media (prefers-reduced-motion: reduce) {

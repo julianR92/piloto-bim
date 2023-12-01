@@ -23,6 +23,11 @@ class Metodologia extends Model
         return $this->hasMany(Fase::class, 'metodologia_id');
     }
 
+    public function proyectos()
+    {
+        return $this->hasMany(Proyecto::class, 'metodologia_id');
+    }
+
    
 
 }

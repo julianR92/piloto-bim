@@ -108,6 +108,7 @@
    @stack('functions-js')
    @stack('scripts-users-company')  
    @stack('scripts-gestion')
+   @stack('scripts-seguimiento')
    {{--@stack('scripts-profesionales')  
    @stack('scripts-pagos')  
    @stack('scripts-inventarios')  
@@ -156,7 +157,8 @@
             'fases.index',
             'hitos.index',
             'indicadores.index',
-            ''
+            'proyectos.index',
+            'gestion-proyectos.index'
 
           
            
