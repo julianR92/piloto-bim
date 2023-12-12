@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ServicioAdicional;
 use App\Models\Seguimiento;
 use App\Models\Proyecto;
 use App\Models\Auditoria;
@@ -29,6 +28,8 @@ class SeguimientoController extends Controller
         $proyectos = Proyecto::where('estado', 1)->whereHas('seguimientos.fase', function ($query) use ($responsableId) {
             $query->where('responsable_id', $responsableId);
         })->with('seguimientos.detalles.documentos', 'metodologia', 'seguimientos.fase', 'seguimientos.hito', 'seguimientos.indicador')->get();
+        
+       
         return response()->json(['success' => true, 'datos' => $proyectos]);
     }
 
@@ -62,6 +63,7 @@ class SeguimientoController extends Controller
                 'fecha_registro' => date('Y-m-d'),
                 'user_id' => auth()->user()->id,
                 'estado' => 0,
+                'rol' => 'RESPONSABLE',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
 

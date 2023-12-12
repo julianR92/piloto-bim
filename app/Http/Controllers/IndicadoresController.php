@@ -15,7 +15,6 @@ class IndicadoresController extends Controller
 
     public function index()
     {
-
         $hitos = $this->cargarDatosHitos();
         return view('livewire.indicadores.index', compact('hitos'));
     }
@@ -29,7 +28,7 @@ class IndicadoresController extends Controller
     {
 
         $empresa_id = auth()->user()->empresa_id ? auth()->user()->empresa_id : '%';
-        $datos = Indicador::select(['indicadores.id', 'indicadores.hito_id', 'indicadores.nombre_indicador', 'indicadores.descripcion', 'indicadores.valor','hitos.nombre_hito'])->leftJoin('hitos', 'hitos.id', '=', 'indicadores.hito_id')->where('indicadores.empresa_id', 'LIKE', $empresa_id)->orderBy('hitos.id')->get();
+        $datos = Indicador::select(['indicadores.id','indicadores.nombre_indicador', 'indicadores.descripcion', 'indicadores.valor','indicadores.formula','indicadores.periocidad','indicadores.bueno','indicadores.regular','indicadores.bajo'])->where('indicadores.empresa_id', 'LIKE', $empresa_id)->get();
         return response()->json(['success' => true, 'datos' => $datos]);
     }
 
@@ -39,13 +38,16 @@ class IndicadoresController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombre_indicador' => ['required', 'max:100', 'required', Rule::unique('indicadores')->where(function ($query) use ($request) {
-                return $query->where('empresa_id', auth()->user()->empresa_id)->where('hito_id', $request->hito_id);
+                return $query->where('empresa_id', auth()->user()->empresa_id)->where('nombre_indicador', $request->nombre_indicador);
             })->ignore($request->id, 'id')],
             'descripcion' => 'required|string|max:255|',
-            'hito_id' => 'required',
-            'valor'=>'required|numeric|max:999'
+            'valor'=>'required|numeric|max:999',
+            'formula'=>'required|string|max:100',
+            'periocidad'=>'required|string|max:50',
+            'bueno'=>'required|string|max:10',
+            'regular'=>'required|string|max:10',
+            'bajo'=>'required|string|max:10'
         ]);
-
 
         if ($validator->fails()) {
             //devuelve errores a la vista
@@ -55,17 +57,23 @@ class IndicadoresController extends Controller
         $validacion = array();        
 
         if (!$request->id) {
+            /*
             $validacion = $this->validacionPorcentajes($request->hito_id, $request->valor);        
             if($validacion['status']){
                 return response()->json(['success' => false, 'errors' => [$validacion['mensaje']]]);
             }
-            $validacionMessage = ($validacion['mensaje']) ? $validacion['mensaje'] : '';
-
+            */
+            //$validacionMessage = ($validacion['mensaje']) ? $validacion['mensaje'] : '';
+            $validacionMessage="";
             $indicador = new Indicador();
             $indicador->nombre_indicador = $request->nombre_indicador;
             $indicador->descripcion = $request->descripcion;
-            $indicador->hito_id = $request->hito_id;
             $indicador->valor = $request->valor;
+            $indicador->formula = $request->formula;
+            $indicador->periocidad = $request->periocidad;
+            $indicador->bueno = $request->bueno;
+            $indicador->regular = $request->regular;
+            $indicador->bajo = $request->bajo;
             $indicador->empresa_id  = $empresa_id;
             if ($indicador->save()) {
                 $auditoria = Auditoria::create([
@@ -78,17 +86,23 @@ class IndicadoresController extends Controller
                 return response()->json(['success' => true, 'message' => "Indicador Creado  $validacionMessage"]);
             }
         } else {
+            /*
             $validacion = $this->validacionPorcentajesEdit($request->hito_id, $request->valor, $request->id);        
-        if($validacion['status']){
-            return response()->json(['success' => false, 'errors' => [$validacion['mensaje']]]);
-        }
-        $validacionMessage = ($validacion['mensaje']) ? $validacion['mensaje'] : '';
-
+            if($validacion['status']){
+                return response()->json(['success' => false, 'errors' => [$validacion['mensaje']]]);
+            }
+            */
+            //$validacionMessage = ($validacion['mensaje']) ? $validacion['mensaje'] : '';
+            $validacionMessage="";
             $indicador = Indicador::findOrFail($request->id);
             $indicador->nombre_indicador = $request->nombre_indicador;
             $indicador->descripcion = $request->descripcion;
-            $indicador->hito_id = $request->hito_id;
             $indicador->valor = $request->valor;
+            $indicador->formula = $request->formula;
+            $indicador->periocidad = $request->periocidad;
+            $indicador->bueno = $request->bueno;
+            $indicador->regular = $request->regular;
+            $indicador->bajo = $request->bajo;
             if ($indicador->save()) {
                 $auditoria = Auditoria::create([
                     'usuario' => auth()->user()->first_name,
@@ -122,6 +136,7 @@ class IndicadoresController extends Controller
         return response()->json(['success' => true, 'message' => 'Indicador Eliminado']);
     }
 
+    /*
     function validacionPorcentajes($hito_id, $porcentaje){
 
         $dataIndi = Indicador::where('hito_id', $hito_id)->get();
@@ -149,9 +164,8 @@ class IndicadoresController extends Controller
                 return $data;
             }
         }
-
-
     }
+    
     function validacionPorcentajesEdit($hito_id, $porcentaje, $id = null){
         
         $dataIndi = Indicador::where('hito_id', $hito_id)->get();
@@ -181,7 +195,7 @@ class IndicadoresController extends Controller
                 return $data;
             }
         }
-
-
     }
+    */
+    
 }

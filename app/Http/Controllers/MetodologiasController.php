@@ -85,6 +85,7 @@ class MetodologiasController extends Controller
     public function structure($id)
     {
         $metodologia = Metodologia::with('fases','fases.hitos', 'fases.hitos.indicadores')->where('id', $id)->get();
+  
         $nodeDataArray = [];
         $linkDataArray = [];
 
@@ -119,7 +120,7 @@ class MetodologiasController extends Controller
 
                 foreach ($hito["indicadores"] as $indicador) {
                     $node = [
-                        "key" => "INDICADOR_" . $indicador["id"],
+                        "key" => "INDICADOR_" . $indicador['pivot']["id"],
                         "name" => $indicador["nombre_indicador"] . ' %' . $indicador['valor'],
                         "color" => "goldenrod",
                     ];
@@ -149,7 +150,7 @@ class MetodologiasController extends Controller
                 ];
 
                 foreach ($hito["indicadores"] as $indicador) {
-                    $indicadorKey = "INDICADOR_" . $indicador["id"];
+                    $indicadorKey = "INDICADOR_" . $indicador['pivot']["id"];
                     $linkDataArray[] = [
                         "from" => $hitoKey,
                         "to" => $indicadorKey,
@@ -158,6 +159,7 @@ class MetodologiasController extends Controller
             }
           }
         }
+
         return response()->json(['success' => true, 'links' => $linkDataArray, 'nodes' => $nodeDataArray]);
     }
 

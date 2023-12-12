@@ -23,6 +23,9 @@ class Fase extends Model
     }
 
     
-
+    public function metodologia()
+    {
+        return $this->belongsTo(Metodologia::class);
+    }
 }
 

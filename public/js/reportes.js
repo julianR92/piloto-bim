@@ -1,176 +1,469 @@
 import { initTable, getData, notifications, notyfError } from "./general.js";
 const doc = document;
-let profesional_id = "";
-let producto_id = "";
-let cierre = 0;
+var dataTable;
+var columnas;
+
 doc.addEventListener("DOMContentLoaded", function (e) {
-    localStorage.clear();
-    let dataTable = $("#myTable");
+    loadData();
 
-    //
+    document.addEventListener("change", (e) => {
+        if (e.target.matches("#proyecto_id")) {
+            console.log(e.target.value);
+            if (e.target.value && e.target.value.trim() !== "") {
+                document.querySelector(".loader").style.display = "block";
+                document
+                    .querySelector(".loader-container")
+                    .classList.remove("d-none");
+                axios
+                    .get(`/getData/reporte/${e.target.value}`)
+                    .then(function (response) {
+                        if (response.data.success) {
+                            document.querySelector(".loader").style.display =
+                                "none";
+                            document
+                                .querySelector(".loader-container")
+                                .classList.add("d-none");
+                           let tab = document.getElementById("myTabs");
+                           tab.classList.remove("d-none");
+                           let content = document.getElementById("contentTabs");
+                           content.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    document.addEventListener("click", (e) => {      
-
-      
-
-       
-
-        if (e.target.matches(".btnBuscar")) {
-            let profesional = document.getElementById("profesional");
-            let fecha_inicial = document.getElementById("fecha_inicial");
-            let fecha_fin = document.getElementById("fecha_fin");
-            let table = document.getElementById("myTableWeekly");
-            let profesionalMessage = document.getElementById("mensajeProfesional");
-            
-            document.getElementById("tbodyView").innerHTML = "";
-            if (profesional.value == "") {
-                Swal.fire(
-                    "Atencion!",
-                    "Debe seleccionar un profesional",
-                    "warning"
-                );
-                return;
-            }
-            if (fecha_inicial.value == "") {
-                Swal.fire(
-                    "Atencion!",
-                    "Debe seleccionar una fecha inicial",
-                    "warning"
-                );
-                return;
-            }
-            if (fecha_fin.value == "") {
-                Swal.fire(
-                    "Atencion!",
-                    "Debe seleccionar una fecha fin",
-                    "warning"
-                );
-                return;
-            }
-            if (fecha_inicial.value > fecha_fin.value) {
-                Swal.fire(
-                    "Atencion!",
-                    "La fecha inicial no puede ser mayor que la fecha final",
-                    "warning"
-                );
-                fecha_fin.value = "";
-                return;
-            }
-
-            let datos = {
-                profesional: profesional.value,
-                fecha_inicial: fecha_inicial.value,
-                fecha_fin: fecha_fin.value,
-            };
-            axios
-                .post("/reportes-comision/query", datos)
-                .then(function (response) {
-                    if (response.data.success) {
-                        let bodyTable = ``;
-                        let total = 0;
-                        response.data.data.forEach((el, index) => {
-                            let tipo_servicio = "Unico";
-                            if (el.porcentaje == "50%") {
-                                tipo_servicio = "Compartido";
-                            }
-                            total += parseInt(el.comision)
-
-                            const fecha = new Date(el.created_at);
-                            // Obtener el año, el mes y el día de la fecha
-                            const year = fecha.getFullYear();
-                            const month = String(fecha.getMonth() + 1).padStart(
-                                2,
-                                "0"
-                            ); 
-                            // Sumamos 1 al mes ya que en JavaScript los meses van de 0 a 11
-                            const day = String(fecha.getDate()).padStart(
-                                2,
-                                "0"
+                            let ultimosPorcentajes = getLastData(
+                                response.data.datos
                             );
-                            // Formatear la fecha en el formato deseado (YYYY-MM-DD)
-                            const fechaFormateada = `${year}-${month}-${day}`;
+                            let calculo = getPorcentajes(
+                                response.data.datos[0].seguimientos,
+                                ultimosPorcentajes
+                            );
+                            let promedioHito = calculoPromedioHito(calculo);
 
-                            bodyTable += `
-                        <tr>
-                        <td>
-                        ${index+1}
-                        </td>
-                        <td>
-                         <b>Fecha:</b> ${fechaFormateada}
-                        </td>
-                        <td>
-                        ${el.nombres} ${el.apellidos}
-                        </td>
-                        <td>
-                        ${el.talla}
-                        </td>
-                        <td>
-                        ${el.servicio}
-                        </td>
-                        <td>
-                        $${money(el.comision)}
-                        </td>
-                        <td>
-                        ${tipo_servicio}
-                        </td>
-                        </tr> `;
-                        });
-                        profesionalMessage.innerText = `${response.data.profesional.nombres} ${response.data.profesional.apellidos} # ${response.data.data.length} servicios 💇 realizados`
-                        profesionalMessage.classList.remove('d-none');
+                            let promedioFase =
+                                calculoPromedioFase(promedioHito);
+                            let porcentajeProyecto =
+                                calculoPorcentajeProyecto(promedioFase);
+                            createGraphProject(
+                                response.data.datos[0].descripcion,
+                                porcentajeProyecto
+                            );
+                            createGraphFases(
+                                response.data.datos[0].descripcion,
+                                promedioFase
+                            );
+                            createGraphIndicadores(
+                                response.data.datos[0].descripcion,
+                                calculo
+                            );
+                        } else {
+                            document
+                                .getElementById("myTabs")
+                                .classList.add("d-none");
+                            document.querySelector(".loader").style.display =
+                                "none";
+                            document
+                                .querySelector(".loader-container")
+                                .classList.add("d-none");
+                            document.getElementById(
+                                "graficoProyecto"
+                            ).innerHTML = "";
+                            document.getElementById(
+                                "graficoIndicadores"
+                            ).innerHTML = "";
+                            document.getElementById("graficoFases").innerHTML =
+                                "";
+
+                            notyfError.open({
+                                type: "error",
+                                message:
+                                    "No se encontrarn datos de este proyecto",
+                                duration: 8000,
+                            });
+                        }
+                    })
+                    .catch(function (error) {
                         document
-                            .getElementById("tbodyView")
-                            .insertAdjacentHTML("afterbegin", bodyTable);
-                        table.classList.remove("d-none");
-                        document.querySelector('.divValorGanado').classList.remove("d-none");
-                        document.querySelector('.divSalida').classList.remove("d-none");
-                        document.getElementById('total_cuenta').innerText=`$${money(total)}`
-                        fecha_fin.value = "";
-                        profesional.value = "";
-                        fecha_inicial.value = "";
-                        
-                    } else {
-                        Swal.fire(
-                            "Atencion!",
-                            "No hay resultados para esta busqueda",
-                            "warning"
-                        );
-                        table.classList.add("d-none");
-                        document.getElementById("tbodyView").innerHTML = "";
-                        fecha_fin.value = "";
-                        profesional.value = "";
-                        fecha_inicial.value = "";
-                        document.querySelector('.divValorGanado').classList.add("d-none");
-                        profesionalMessage.classList.add('d-none');
-                        document.getElementById('total_cuenta').innerText=null
-                        document.querySelector('.divSalida').classList.add("d-none");
-                        return;
-                    }
+                            .getElementById("myTabs")
+                            .classList.add("d-none");
+                        document.querySelector(".loader").style.display =
+                            "none";
+                        document
+                            .querySelector(".loader-container")
+                            .classList.add("d-none");
+                        document.getElementById("graficoProyecto").innerHTML =
+                            "";
+                        document.getElementById(
+                            "graficoIndicadores"
+                        ).innerHTML = "";
+                        document.getElementById("graficoFases").innerHTML = "";
 
-                 
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
+                        notyfError.open({
+                            type: "error",
+                            message: "Ocurrio un error al cargar los datos",
+                            duration: 8000,
+                        });
+                    });
+            }
+        } else {
+            document.getElementById("myTabs").classList.add("d-none");
+            document.getElementById("graficoProyecto").innerHTML = "";
+            document.getElementById("graficoIndicadores").innerHTML = "";
+            document.getElementById("graficoFases").innerHTML = "";
         }
-       
-        if (e.target.matches(".btnSalir")) {
-            localStorage.clear();
-            location.reload();
-        }
-       
     });
+});
 
-    function money(valor) {
-        let valueConversion = new Intl.NumberFormat("es-CO").format(valor);
-        return valueConversion;
+function loadData() {
+    document.querySelector(".loader").style.display = "block";
+    document.querySelector(".loader-container").classList.remove("d-none");
+    axios
+        .get(`/reporte-indicadores/loadData`)
+        .then(function (response) {
+            setTimeout(() => {
+                document.querySelector(".loader").style.display = "none";
+                document
+                    .querySelector(".loader-container")
+                    .classList.add("d-none");
+                let indicador = document.getElementById("textIndicador");
+                let hitos = document.getElementById("textHito");
+                let fases = document.getElementById("textFase");
+                let metodologias = document.getElementById("textMetodologia");
+                let proyectosIni = document.getElementById("textProyectoIni");
+                let proyectosFina = document.getElementById("textProyectoFina");
+                iniciarConteo(
+                    parseInt(response.data.indicadores),
+                    indicador,
+                    "rangeIndicador"
+                );
+                iniciarConteo(
+                    parseInt(response.data.hitos),
+                    hitos,
+                    "rangeHito"
+                );
+                iniciarConteo(
+                    parseInt(response.data.fases),
+                    fases,
+                    "rangeFase"
+                );
+                iniciarConteo(
+                    parseInt(response.data.metodologia),
+                    metodologias,
+                    "rangeMetodologia"
+                );
+                iniciarConteo(
+                    parseInt(response.data.proyecto_inicializado),
+                    proyectosIni,
+                    "proyectoIni"
+                );
+                iniciarConteo(
+                    parseInt(response.data.proyecto_finalizado),
+                    proyectosFina,
+                    "proyectoFin"
+                );
+            }, 2000);
+        })
+        .catch(function (error) {
+            document.querySelector(".loader").style.display = "none";
+            document.querySelector(".loader-container").classList.add("d-none");
+            notyfError.open({
+                type: "error",
+                message: "Ocurrio un error al cargar los datos",
+                duration: 8000,
+            });
+        });
+}
+function iniciarConteo(final, element, rangeElement) {
+    var contador = 0;
+    let substract = 100 / parseInt(final);
+    let range = document.getElementById(rangeElement);
+    var intervalo = setInterval(function () {
+        element.innerText = contador;
+        range.style.width = substract + "%";
+
+        contador++;
+        if (contador > final) {
+            clearInterval(intervalo);
+            range.style.width = "100%";
+        }
+    }, 300); // Intervalo de 100 milisegundos, puedes ajustarlo según tu preferencia
+}
+//esta funcion obtiene los ultimos registros en seguimiento_detalle con  valor de auditoria
+function getLastData(datos) {
+    return datos.flatMap((proyecto) => {
+        return proyecto.seguimientos.flatMap((seguimiento) => {
+            const detallesAuditoria = seguimiento.detalles.filter(
+                (detalle) => detalle.rol === "AUDITORIA"
+            );
+
+            if (detallesAuditoria.length > 0) {
+                detallesAuditoria.sort(
+                    (a, b) =>
+                        new Date(b.fecha_registro) - new Date(a.fecha_registro)
+                );
+                const ultimoDetalleAuditoria = detallesAuditoria[0];
+                return {
+                    id_seguimiento: ultimoDetalleAuditoria.seguimiento_id,
+                    hito_id: seguimiento.hito_id,
+                    fase_id: seguimiento.fase_id,
+                    porcentaje_real:
+                        ultimoDetalleAuditoria.porcentaje_real || 0,
+                };
+            } else {
+                // No hay detalles de auditoría para este seguimiento, asignar id: 0 y porcentaje: 0
+                return {
+                    id_seguimiento: seguimiento.id,
+                    hito_id: seguimiento.hito_id,
+                    fase_id: seguimiento.fase_id,
+                    porcentaje_real: 0,
+                };
+            }
+        });
+    });
+}
+
+//me saca los % con respecto al porcentaje de seguimiento
+
+function getPorcentajes(seguimientos, hitos) {
+    const resultados = [];
+
+    for (const seguimiento of seguimientos) {
+        for (const hito of hitos) {
+            if (
+                seguimiento.hito_id === hito.hito_id &&
+                seguimiento.id == hito.id_seguimiento
+            ) {
+                let porcentaje =
+                    (parseInt(seguimiento.porcentaje) *
+                        parseInt(hito.porcentaje_real)) /
+                    100;
+                resultados.push({
+                    id_seguimiento: seguimiento.id,
+                    hito_id: seguimiento.hito_id,
+                    fase_id: seguimiento.fase_id,
+                    nombre_indicador: seguimiento.indicador.nombre_indicador,
+                    nombre_fase: seguimiento.fase.nombre_fase,
+                    porcentaje: porcentaje,
+                });
+            }
+        }
     }
 
-    document.querySelectorAll("#format").forEach((el) => {
-        let valueConversion = new Intl.NumberFormat("es-CO").format(
-            el.innerText
-        );
-        el.innerText = `$ ${valueConversion}`;
+    return resultados;
+}
+//saco el promedio * hitos de los hitos
+function calculoPromedioHito(datos) {
+    const resultado = {};
+
+    datos.forEach((item) => {
+        const key = `${item.hito_id}_${item.fase_id}`;
+
+        if (!resultado[key]) {
+            resultado[key] = {
+                hito_id: item.hito_id,
+                fase_id: item.fase_id,
+                nombre_fase: item.nombre_fase,
+                porcentaje: 0,
+            };
+        }
+
+        resultado[key].porcentaje += item.porcentaje;
     });
 
-   
-});
+    const resultadoArray = Object.values(resultado);
+
+    return resultadoArray;
+}
+
+function calculoPromedioFase(datos) {
+    // Objeto para almacenar la suma y el contador por fase
+    let promedioPorFase = {};
+
+    // Calcular suma y contador por fase
+    datos.forEach((elemento) => {
+        const faseId = elemento.fase_id;
+        const porcentaje = elemento.porcentaje;
+
+        if (!promedioPorFase[faseId]) {
+            promedioPorFase[faseId] = { suma: 0, contador: 0 };
+        }
+
+        promedioPorFase[faseId].suma += porcentaje;
+        promedioPorFase[faseId].contador += 1;
+    });
+
+    // Calcular el promedio por fase y construir el resultado final
+    const resultadoFinal = [];
+
+    datos.forEach((elemento) => {
+        const faseId = elemento.fase_id;
+
+        // Verificar si ya se ha agregado este fase_id al resultadoFinal
+        const existeEnResultado = resultadoFinal.some(
+            (item) => item.fase_id === faseId
+        );
+
+        if (!existeEnResultado) {
+            const promedio =
+                promedioPorFase[faseId].suma / promedioPorFase[faseId].contador;
+
+            resultadoFinal.push({
+                fase_id: faseId,
+                nombre_fase: elemento.nombre_fase,
+                promedio_por_fase: promedio,
+            });
+        }
+    });
+
+    return resultadoFinal;
+}
+
+function calculoPorcentajeProyecto(datos) {
+    const resultados = [];
+    let suma = 0;
+    let numero = datos.length;
+
+    for (var i = 0; i < numero; i++) {
+        var objeto = datos[i];
+
+        suma += parseInt(datos[i].promedio_por_fase);
+    }
+    let promedio = parseInt(suma) / parseInt(numero);
+    return promedio;
+}
+
+//graficos
+
+function createGraphProject(proyecto, porcentaje) {
+    let divProyecto = document.getElementById("graficoProyecto");
+    divProyecto.innerHTML = "";
+    var divGraphProyecto = document.createElement("div");
+    divGraphProyecto.id = "chartProyecto";
+    divGraphProyecto.style.height = "350px";
+    divGraphProyecto.style.marginTop = "30px";
+    divProyecto.appendChild(divGraphProyecto);
+
+    Highcharts.chart("chartProyecto", {
+        chart: {
+            type: "bar",
+        },
+        title: {
+            text: `Proyecto ${proyecto}`,
+        },
+        xAxis: {
+            categories: ["Proyecto"],
+        },
+        yAxis: {
+            title: {
+                text: "%",
+            },
+            max: 100,
+            min: 0,
+        },
+        plotOptions: {
+            bar: {
+                animation: {
+                    duration: 1000,
+                },
+                color: "#7cb5ec",
+            },
+        },
+        series: [
+            {
+                name: "% Avance",
+                data: [porcentaje],
+            },
+        ],
+    });
+}
+function createGraphFases(proyecto, datos) {
+    let labelFase = datos.map((el) => {
+        return el.nombre_fase;
+    });
+    let fases = datos.map((el) => {
+        return el.promedio_por_fase;
+    });
+    let divProyecto = document.getElementById("graficoFases");
+    divProyecto.innerHTML = "";
+    var divGraphFases = document.createElement("div");
+    divGraphFases.id = "chartFases";
+    divGraphFases.style.height = "350px";
+    divGraphFases.style.marginTop = "30px";
+    divProyecto.appendChild(divGraphFases);
+
+    Highcharts.chart("chartFases", {
+        chart: {
+            type: "bar",
+        },
+        title: {
+            text: `Proyecto ${proyecto}`,
+        },
+        xAxis: {
+            categories: labelFase,
+        },
+        yAxis: {
+            title: {
+                text: "%",
+            },
+            max: 100,
+            min: 0,
+        },
+        plotOptions: {
+            bar: {
+                animation: {
+                    duration: 1000,
+                },
+                color: "#D22FEC",
+            },
+        },
+        series: [
+            {
+                name: "% Avance por Fase",
+                data: fases,
+            },
+        ],
+    });
+}
+
+function createGraphIndicadores(proyecto, datos) {
+    let divProyecto = document.getElementById("graficoIndicadores");
+    divProyecto.innerHTML = "";
+    var divGraphFases = document.createElement("div");
+    divGraphFases.id = "chartIndicadores";
+    divGraphFases.style.height = "350px";
+    divGraphFases.style.marginTop = "30px";
+    divProyecto.appendChild(divGraphFases);
+
+    Highcharts.chart("chartIndicadores", {
+        chart: {
+            type: "column",
+        },
+        title: {
+            text: `Proyecto ${proyecto}`,
+        },
+        xAxis: {
+            categories: datos.map((item) => item.nombre_indicador),
+            crosshair: true,
+        },
+        yAxis: {
+            title: {
+                text: "%",
+            },
+            max: 100,
+            min: 0,
+        },
+        plotOptions: {
+            bar: {
+                animation: {
+                    duration: 1000,
+                },
+                color: "#88FC52",
+            },
+        },
+        series: [
+            {
+                name: "% Avance por Indicadores",
+                data: datos.map((item) => item.porcentaje),
+            },
+        ],
+    });
+}
+
+// Cambia este número al valor que desees

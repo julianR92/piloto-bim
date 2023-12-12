@@ -40,7 +40,12 @@
                             <th data-field="nombre_indicador" class="border-0 text-center">Nombre Indicador</th>
                             <th data-field="descripcion" class="border-0 text-center">Descripción</th>
                             <th data-field="valor" class="border-0 text-center">Valor</th>
-                            <th data-field="hito" class="border-0 text-center">Hito</th>                      
+                            <th data-field="valor" class="border-0 text-center">Formula</th>
+                            <th data-field="valor" class="border-0 text-center">Periocidad (meses)</th>
+                            <th data-field="valor" class="border-0 text-center">Bueno</th>
+                            <th data-field="valor" class="border-0 text-center">Regular</th>
+                            <th data-field="valor" class="border-0 text-center">Bajo</th>
+                                                 
                             <th class="border-0 text-center">Acciones</th>
                            
                         </tr>
@@ -75,7 +80,7 @@
                 <div class="modal-header border-0">
                     <button type="button" class="btn-close btn-cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body px-md-5">
+                <div class="modal-body px-md-4">
                     <h2 class="h4 text-center titulo-modal">Crear Indicador</h2>
                     <form action="#" method="" id="myForm">                        
                        
@@ -96,30 +101,78 @@
                                 @error('descripcion') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                             </div> 
                         </div> 
-                        <div class="form-group mb-4">
-                            <label for="permiso">Valor *<small>(Equivale en %)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text border-gray-300" id="basic-addon3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M17.503 4.498L4.499 17.503a1.411 1.411 0 0 0 1.996 1.996L19.499 6.495a1.412 1.412 0 0 0-1.996-1.997zM7.002 5a2 2 0 1 0-.004 4a2 2 0 0 0 .004-4zm10 10a2 2 0 1 0-.004 4a2 2 0 0 0 .004-4z"/></svg>
-                                </span>
-                                <input name="valor" type="text" class="form-control border-gray-300" placeholder="Ej: 30" id="valor" required data-pristine-required-message="Campo Requerido" onkeypress="return Numeros(event)" data-pristine-type="integer" maxlength=3 minlength="1" max="100">
-                                @error('valor') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
-                            </div> 
-                        </div> 
-                        <div class="form-group mb-4">
-                            <label for="descripcion">Hito *</label>
-                            <div class="input-group">                                
-                                <select name="hito_id" id="hito_id" class=" form-control form-select  select" required data-pristine-required-message="Campo Requerido" >
-                                    <option value="">Seleccione..</option>
-                                    @foreach($hitos as $hito)
-                                        <option value={{$hito->id}}>{{ $hito->nombre_hito }} - {{ $hito->nombre_fase }}</option>
-                                    @endforeach
-                                </select>
-                                @error('hito_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                        <div class="form-group mb-2">
+                            <div class="row">    
+                                <div class="col-md-6">    
+                                    <label for="permiso">Valor *<small>(Equivale en %)</small></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text border-gray-300" id="basic-addon3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M17.503 4.498L4.499 17.503a1.411 1.411 0 0 0 1.996 1.996L19.499 6.495a1.412 1.412 0 0 0-1.996-1.997zM7.002 5a2 2 0 1 0-.004 4a2 2 0 0 0 .004-4zm10 10a2 2 0 1 0-.004 4a2 2 0 0 0 .004-4z"/></svg>
+                                        </span>
+                                        <input name="valor" type="text" class="form-control border-gray-300" placeholder="Ej: 30" id="valor" required data-pristine-required-message="Campo Requerido" onkeypress="return Numeros(event)" data-pristine-type="integer" maxlength=3 minlength="1" max="100">
+                                        @error('valor') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">    
+                                    <label for="periocidad">Periocidad (meses) *</label>
+                                    <div class="input-group">                                
+                                        <select name="periocidad" id="periocidad" class="form-control form-select  select" required data-pristine-required-message="Campo Requerido" >
+                                            <option value="">Seleccione..</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                        @error('periocidad') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                                    </div>
+                                </div> 
                             </div>
                         </div> 
-                        
-                        
+                        <div class="form-group mb-3">
+                            <label for="formula">Formula *</label>
+                            <div class="input-group">
+                                <span class="input-group-text border-gray-300" id="basic-addon3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M7 13v-1h2.82c-.07-.47-.16-.9-.25-1.3c-.19-.88-.36-1.7-.32-2.7c.08-1.82.67-3.07 1.78-3.73c1.68-1.02 4.02-.27 4.97.09l-.15 1.01c-.64-.27-2.89-1.1-4.31-.24c-.8.47-1.23 1.45-1.29 2.87c-.04.9.12 1.64.3 2.5c.1.45.2.94.29 1.5H15v1h-4.05c.05.38.05.8.05 1.25C11 17.43 9.53 19 8.35 20H17v1H6.5v-1l.81-.43c1.13-.95 2.69-2.24 2.69-5.32c0-.45 0-.87-.05-1.25H7Z"/></svg>
+                                </span>
+                                <input name="formula" type="text" class="form-control border-gray-300" placeholder="Ej: formula abc" id="formula" required data-pristine-required-message="Campo Requerido">
+                                @error('formula') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                            </div> 
+                        </div> 
+                        <p class="mb-1 text-decoration-underline">Umbral de calificación</p>
+                        <div class="form-group mb-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="bueno">Bueno *</label>
+                                    <div class="input-group">
+                                        <input name="bueno" type="text" class="form-control border-gray-300" placeholder="Ej: >80" id="bueno" required data-pristine-required-message="Campo Requerido">
+                                        @error('bueno') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                                    </div> 
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="regular">Regular *</label>
+                                    <div class="input-group">
+                                        <input name="regular" type="text" class="form-control border-gray-300" placeholder="Ej: >50, <80" id="regular" required data-pristine-required-message="Campo Requerido">
+                                        @error('regular') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="bajo">Bajo *</label>
+                                    <div class="input-group">
+                                        <input name="bajo" type="text" class="form-control border-gray-300" placeholder="Ej: <50" id="bajo" required data-pristine-required-message="Campo Requerido">
+                                        @error('bajo') <div class="invalid-feedback" > {{ $message }} </div> @enderror 
+                                    </div>
+                                </div>
+                            </div>    
+                        </div> 
+
                         <!-- End of Form -->                        
                         <div class="d-grid mt-3">
                             <input type="hidden" name="id" id="id">

@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Abono;
 use Illuminate\Http\Request;
+use App\Models\Abono;
+use App\Models\Seguimiento;
+use App\Models\Proyecto;
 use App\Models\Auditoria;
-use App\Models\Profesional;
-use App\Models\Cliente;
-use App\Models\Servicio;
-use App\Models\Talla;
-use App\Models\Descuento;
-use App\Models\Pago;
-use App\Models\ServicioAdicional;
-use App\Models\Comision;
-use App\Models\Transferencia;
-use App\Models\AdicionalComision;
-use App\Models\PagoAdicional;
+use App\Models\Empresa;
+use App\Models\Hito;
+use App\Models\Fase;
+use App\Models\Metodologia;
+use App\Models\Indicador;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
@@ -27,30 +23,43 @@ class ReportesController extends Controller
 
     public function index()
     {
-        $profesionales = Profesional::where('id', '<>', 1)->orderBy('nombres', 'ASC')->get();
-        return view('livewire.reportes.comision', compact('profesionales'));
+
+        return view('livewire.reportes.indicadores');
     }
 
-    public function queryComision(Request $request)
+    public function cargarDatos()
     {
+        $empresa_id = auth()->user()->empresa_id ? auth()->user()->empresa_id : '%';
+        $indicadores = Indicador::where('empresa_id', 'LIKE', $empresa_id)->get()->count();
+        $hitos = Hito::where('empresa_id', 'LIKE', $empresa_id)->get()->count();
+        $fases = Fase::where('empresa_id',  'LIKE', $empresa_id)->get()->count();
+        $metodologia = Metodologia::where('empresa_id',  'LIKE', $empresa_id)->where('estado', 1)->get()->count();
+        $proyecto_inicializado = Proyecto::where('empresa_id',  'LIKE', $empresa_id)->where('estado', 1)->get()->count();
+        $proyecto_finalizado = Proyecto::where('empresa_id',  'LIKE', $empresa_id)->where('estado', 2)->get()->count();
 
 
-        $query = Comision::select('procedimiento_profesional.id', 'procedimiento_profesional.procedimiento_id', 'procedimiento_profesional.comision', 'procedimiento_profesional.porcentaje', 'servicio.servicio', 'tallas.talla', 'clientes.nombres', 'clientes.apellidos', 'clientes.documento', 'pago_procedimiento.created_at', 'pago_procedimiento.precio', 'pago_procedimiento.valor_pagar')->join('pago_procedimiento', 'pago_procedimiento.id', '=', 'procedimiento_profesional.procedimiento_id')->join('servicio', 'servicio.id', '=', 'pago_procedimiento.servicio_id')->join('tallas', 'tallas.id', '=', 'pago_procedimiento.talla_id')->join('clientes', 'clientes.id', '=', 'pago_procedimiento.cliente_id')->where('procedimiento_profesional.profesional_id', $request->profesional)->where('pago_procedimiento.estado', 'CERRADO')->whereBetween('procedimiento_profesional.fecha', [$request->fecha_inicial, $request->fecha_fin])->orderBy('procedimiento_profesional.id', 'DESC')->get();
+        return response()->json(['success' => true, 'indicadores' => $indicadores, 'hitos' => $hitos, 'fases' => $fases, 'metodologia' => $metodologia, 'proyecto_inicializado' => $proyecto_inicializado, 'proyecto_finalizado' => $proyecto_finalizado]);
+    }
+    public function indexReportes()
+    {
+        $empresa_id = auth()->user()->empresa_id ? auth()->user()->empresa_id : '%';
+        $proyectos = Proyecto::whereIn('estado', [1, 2])->where('empresa_id',  'LIKE', $empresa_id)->get();
+        return view('livewire.reportes.reportes', compact('proyectos'));
+    }
 
-        $profesional = Profesional::where('id', $request->profesional)->get()->first();
-
-        if (isset($query) && $query->count() > 0) {
-            return response()->json(['success' => true, 'data' => $query, 'profesional' => $profesional]);
+    public function getReporte($id)
+    {
+        $proyectos = Proyecto::where('id', $id)
+            ->with('seguimientos.detalles', 'metodologia', 'seguimientos.fase', 'seguimientos.hito', 'seguimientos.indicador')
+            ->get();
+        if ($proyectos->count() > 0) {
+            return response()->json(['success' => true, 'datos' => $proyectos]);
         } else {
             return response()->json(['success' => false]);
         }
     }
 
-    public function indexAgrupado()
-    {
-        $profesionales = Profesional::where('id', '<>', 1)->orderBy('nombres', 'ASC')->get();
-        return view('livewire.reportes.comision_agrupada', compact('profesionales'));
-    }
+
 
     public function queryComisionAgrupada(Request $request)
     {
@@ -187,7 +196,7 @@ class ReportesController extends Controller
 
     public function reporteProcedimientos(Request $request)
     {
-  
+
         $pago = Pago::select('pago_procedimiento.id', 'pago_procedimiento.precio', 'pago_procedimiento.valor_pagar', 'pago_procedimiento.comision', 'pago_procedimiento.medio_pago', 'pago_procedimiento.estado', 'pago_procedimiento.created_at', 'clientes.nombres', 'clientes.apellidos', 'servicio.servicio', 'tallas.talla', 'abonos.valor', 'abonos.fecha_pago', 'planes_dcto.plan', 'profesionales.nombres as nombres_profesional', 'profesionales.apellidos as apellidos_profesional')->join('clientes', 'clientes.id', '=', 'pago_procedimiento.cliente_id')->join('servicio', 'servicio.id', '=', 'pago_procedimiento.servicio_id')->leftJoin('tallas', 'tallas.id', '=', 'pago_procedimiento.talla_id')->leftJoin('abonos', 'abonos.id', '=', 'pago_procedimiento.abonos_id')->leftJoin('planes_dcto', 'planes_dcto.id', '=', 'pago_procedimiento.planes_id')->leftJoin('procedimiento_profesional', 'procedimiento_profesional.procedimiento_id', '=', 'pago_procedimiento.id')->leftJoin('profesionales', 'profesionales.id', '=', 'procedimiento_profesional.profesional_id')->where('pago_procedimiento.cliente_id', 'LIKE', $request->cliente)
             ->where('pago_procedimiento.estado', 'CERRADO')
             ->where('pago_procedimiento.servicio_id', 'LIKE', $request->servicio)
@@ -197,8 +206,8 @@ class ReportesController extends Controller
             ->whereBetween(DB::raw("DATE(pago_procedimiento.created_at)"), [$request->fecha_inicial, $request->fecha_fin])
             ->orderBy('pago_procedimiento.id', 'DESC')
             ->limit(1000)
-            ->get();    
-                          
+            ->get();
+
 
         if (isset($pago) && $pago->count() > 0) {
             return response()->json(['success' => true, 'datos' => $pago]);
@@ -211,7 +220,7 @@ class ReportesController extends Controller
     {
 
         $profesionales = Profesional::where('id', '<>', 1)->orderBy('nombres', 'ASC')->get();
-        $clientes = Cliente::orderBy('nombres', 'ASC')->get();       
+        $clientes = Cliente::orderBy('nombres', 'ASC')->get();
         $servicios = ServicioAdicional::orderBy('nombre', 'ASC')->get();
 
         return view('livewire.reportes.reporte_servicios', compact('profesionales', 'clientes', 'servicios'));
@@ -219,16 +228,16 @@ class ReportesController extends Controller
 
     public function reporteServicios(Request $request)
     {
-  
-        $pago = PagoAdicional::select('pago_adicionales.id',  'pago_adicionales.valor_pagar', 'pago_adicionales.comision', 'pago_adicionales.medio_pago', 'pago_adicionales.created_at', 'clientes.nombres', 'clientes.apellidos', 'servicios_adicionales.nombre','profesionales.nombres as nombres_profesional', 'profesionales.apellidos as apellidos_profesional')->join('clientes', 'clientes.id', '=', 'pago_adicionales.cliente_id')->join('servicios_adicionales', 'servicios_adicionales.id', '=', 'pago_adicionales.servicio_adicional_id')->leftJoin('adicional_profesional', 'adicional_profesional.adicional_id', '=', 'pago_adicionales.id')->leftJoin('profesionales', 'profesionales.id', '=', 'adicional_profesional.profesional_id')
-            ->where('pago_adicionales.cliente_id', 'LIKE', $request->cliente)         
-            ->where('pago_adicionales.servicio_adicional_id', 'LIKE', $request->servicio)          
-           ->where('adicional_profesional.profesional_id', 'LIKE', $request->profesional)
+
+        $pago = PagoAdicional::select('pago_adicionales.id',  'pago_adicionales.valor_pagar', 'pago_adicionales.comision', 'pago_adicionales.medio_pago', 'pago_adicionales.created_at', 'clientes.nombres', 'clientes.apellidos', 'servicios_adicionales.nombre', 'profesionales.nombres as nombres_profesional', 'profesionales.apellidos as apellidos_profesional')->join('clientes', 'clientes.id', '=', 'pago_adicionales.cliente_id')->join('servicios_adicionales', 'servicios_adicionales.id', '=', 'pago_adicionales.servicio_adicional_id')->leftJoin('adicional_profesional', 'adicional_profesional.adicional_id', '=', 'pago_adicionales.id')->leftJoin('profesionales', 'profesionales.id', '=', 'adicional_profesional.profesional_id')
+            ->where('pago_adicionales.cliente_id', 'LIKE', $request->cliente)
+            ->where('pago_adicionales.servicio_adicional_id', 'LIKE', $request->servicio)
+            ->where('adicional_profesional.profesional_id', 'LIKE', $request->profesional)
             ->whereBetween(DB::raw("DATE(pago_adicionales.created_at)"), [$request->fecha_inicial, $request->fecha_fin])
             ->orderBy('pago_adicionales.id', 'DESC')
             ->limit(1000)
-            ->get();    
-                          
+            ->get();
+
 
         if (isset($pago) && $pago->count() > 0) {
             return response()->json(['success' => true, 'datos' => $pago]);

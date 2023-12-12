@@ -41,6 +41,7 @@
                             <th data-field="descripcion" class="border-0 text-center">Descripcion</th>
                             <th data-field="fase" class="border-0 text-center">Fase</th>                      
                             <th data-field="indicadores" class="border-0 text-center">Indicadores</th>                      
+                            <th data-field="responsable" class="border-0 text-center">Responsable</th>                      
                             <th class="border-0 text-center">Acciones</th>
                            
                         </tr>
@@ -97,15 +98,51 @@
                             </div> 
                         </div> 
                         <div class="form-group mb-4">
-                            <label for="descripcion">Fase *</label>
+                            <label for="metodologia_id">Metodologia *</label>
                             <div class="input-group">                                
-                                <select name="fase_id" id="fase_id" class=" form-control form-select  select" required data-pristine-required-message="Campo Requerido" >
+                                <select name="metodologia_id" id="metodologia_id" class=" form-control form-select  select" required data-pristine-required-message="Campo Requerido" >
                                     <option value="">Seleccione..</option>
-                                    @foreach($fases as $fase)
-                                        <option value={{$fase->id}}>{{ $fase->nombre_fase }}</option>
+                                    @foreach($metodologias as $item)
+                                        <option value={{$item->id}}>{{ $item->descripcion }}</option>
                                     @endforeach
                                 </select>
+                                @error('metodologia_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
+                        </div> 
+                     
+                        <div class="form-group mb-4">
+                            <label for="fase_id">Fase *</label>
+                            <div class="input-group">                                
+                                <select name="fase_id" id="fase_id" class=" form-control form-select  select" required data-pristine-required-message="Campo Requerido" >
+                                </select>
                                 @error('fase_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
+                        </div> 
+                        
+                        <div class="form-group mb-4">
+                            <label for="indicador_id">Indicador *</label>
+                            <div class="input-group">                                
+                                <select name="indicador_id[]" id="indicador_id" class="form-control form-select select" required data-pristine-required-message="Campo Requerido" multiple="multiple" >
+                                    <option value="">Seleccione..</option>
+                                    @foreach($indicadores as $item)
+                                        <option value="{{$item->id}}" >{{ $item->nombre_indicador }}</option>
+                                    @endforeach
+                                </select>
+                             
+                                @error('indicador_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
+                            </div>
+                        </div> 
+                        
+                         <div class="form-group mb-4">
+                            <label for="descripcion">Responsable</label>
+                            <div class="input-group">                                
+                                <select name="responsable_id" id="responsable_id" class=" form-control form-select  select" >
+                                    <option value="">Seleccione..</option>
+                                    @foreach($responsables as $responsable)
+                                        <option value={{$responsable->id}}>{{ $responsable->first_name }} {{ $responsable->last_name }} <small style="font-size:8px!important;">user: {{$responsable->email}}</small></option>
+                                    @endforeach
+                                </select>
+                                @error('responsable_id') <div class="invalid-feedback"> {{ $message }} </div> @enderror 
                             </div>
                         </div> 
                         

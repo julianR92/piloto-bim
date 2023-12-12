@@ -236,7 +236,7 @@
          <tr class="collapse" id="detail-${index+1}-${idx}">
                  <td colspan="5" style="padding-left:0!important; padding-right:0!important;">`;
 
-                    if (el.estado) {
+                    if (parseInt(el.estado) == 1) {
 
                         body += `
 
@@ -304,7 +304,7 @@
                     <th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">% Avance</th>    
                     <th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">% Evaluado</th>    
                     <th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">Fecha</th>    
-                    <th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">Estado</th>    
+                    <!--<th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">Estado</th>-->
                     <th class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">Documentos</th>    
                     </thead>
 
@@ -313,13 +313,13 @@
 
                         body +=
                             `
-                            <tr>
+                            <tr style="background-color:${  parseInt(el.estado) === 0 ? "#F67069" : parseInt(el.estado) === 1 ? "#6CF387" : "#13B7F0 "}">
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">${idxx+1}</td>
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">${el.observacion}</td>
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">%${el.porcentaje_avance}</td>
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">${el.porcentaje_real || 'SIN EVALUAR'}</td>
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">${el.fecha_registro}</td>
-                            <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;">${el.estado ? 'EVALUADO ✅': 'SIN EVALUAR ❌'}</td>
+                            
                             <td class="text-center" style="white-space:normal!important; widht:150px!important; word-wrap: break-word!important;"> <ul>`
                         row.seguimientos[index].detalles[idxx].documentos.forEach((elm, idxx) => {
                             body +=
@@ -564,7 +564,7 @@
 
 
 
-                            }, 3000)
+                            }, 2500)
 
 
 
@@ -575,7 +575,7 @@
                             notyfError.open({
                                 type: 'error',
                                 message: 'Ocurrio un error al cargar los datos',
-                                duration: 8000,
+                                duration: 6000,
                             });
 
                         })
@@ -655,7 +655,7 @@
                                         notyfError.open({
                                             type: 'error',
                                             message: 'Ocurrio un error al realizar esta accion por favor intente mas tarde',
-                                            duration: 8000,
+                                            duration: 6000,
                                         });
                                     });
 

@@ -23,9 +23,26 @@ doc.addEventListener("DOMContentLoaded",function(e){
             formatter: valor
          },
          {
-            field:"nombre_hito",
+            field:"formula",
             align: 'left'
-         },                
+         },
+         {
+            field:"periocidad",
+            align: 'left'
+         },
+         {
+            field:"bueno",
+            align: 'left'
+         },
+         {
+            field:"regular",
+            align: 'left'
+         },
+         {
+            field:"bajo",
+            align: 'left'
+         },
+                       
          {
             formatter: botones
          },
@@ -100,8 +117,12 @@ doc.addEventListener("DOMContentLoaded",function(e){
               document.querySelector('.btnModal').textContent = 'Editar';
               document.getElementById('nombre_indicador').value = response.data.data.nombre_indicador;
               document.getElementById('descripcion').value = response.data.data.descripcion;
-              document.getElementById('hito_id').value = response.data.data.hito_id;
               document.getElementById('valor').value = response.data.data.valor;
+              document.getElementById('formula').value = response.data.data.formula;
+              document.getElementById('periocidad').value = response.data.data.periocidad;
+              document.getElementById('bueno').value = response.data.data.bueno;
+              document.getElementById('regular').value = response.data.data.regular;
+              document.getElementById('bajo').value = response.data.data.bajo;
               document.getElementById('id').value = response.data.data.id;
            
         }).catch(function(error){

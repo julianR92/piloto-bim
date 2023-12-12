@@ -22,10 +22,13 @@ doc.addEventListener("DOMContentLoaded",function(e){
          {
             field:"nombre_fase",
             align: 'left'
-         }, 
+         },
          {
             formatter: indicadores,
          },               
+        {
+            formatter: responsable,
+        },
          {
             formatter: botones
          },
@@ -53,18 +56,37 @@ doc.addEventListener("DOMContentLoaded",function(e){
                 return ['<span style="font-size: 10px;">Sin Indicadores</span>'].join('');
             }
         }
-       
+        
+        function responsable(value,row,index){
+            
+          return[ `${row.first_name || ''} ${row.last_name || ''}`].join('')
+        }
 
     loadData();
       
     
     let $myForm = doc.getElementById('myForm');
     let pristine = new Pristine($myForm);     
-     $myForm.addEventListener('submit',(e)=>{
+    $myForm.addEventListener('submit',(e)=>{
         e.preventDefault();
         let valid = pristine.validate();
         if(valid){
-            let datos = getData(e.target);
+            //let datos = getData(e.target);
+            let formData = new FormData(e.target);
+            let datos = {};
+            formData.forEach((value, key) => {
+            // Si el campo tiene corchetes, se trata de un campo m«âltiple
+                if (key.endsWith('[]')) {
+                    key = key.slice(0, -2); // Eliminar los corchetes
+                    if (!datos[key]) {
+                        datos[key] = [];
+                    }
+                    datos[key].push(value);
+                } else {
+                    datos[key] = value;
+                }
+            });
+            
             axios.post('/hitos',datos)
             .then(function(response){
                 if(response.data.success){
@@ -110,7 +132,16 @@ doc.addEventListener("DOMContentLoaded",function(e){
               document.querySelector('.btnModal').textContent = 'Editar';
               document.getElementById('nombre_hito').value = response.data.data.nombre_hito;
               document.getElementById('descripcion').value = response.data.data.descripcion;
+              document.getElementById('metodologia_id').value = response.data.data.fase.metodologia.id;
+              var event = new Event('change');
+              document.getElementById('metodologia_id').dispatchEvent(event);
+              setTimeout(()=>{ 
               document.getElementById('fase_id').value = response.data.data.fase_id;
+                },1000)
+              document.getElementById('responsable_id').value = response.data.data.responsable_id;
+              $('#indicador_id').val(response.data.indAsocidos);
+              $('#indicador_id').trigger('change');
+              
               document.getElementById('id').value = response.data.data.id;
            
         }).catch(function(error){
@@ -151,10 +182,46 @@ doc.addEventListener("DOMContentLoaded",function(e){
         document.querySelector('.btnModal').textContent = 'Crear';
         document.getElementById('id').value ='';
       }
-
-          
     });
   
+    let metodologia=doc.getElementById('metodologia_id');
+    
+    metodologia.addEventListener('change', (e)=>{
+    
+        // Realiza una solicitud Axios para obtener las fases relacionadas
+        axios.get(`/hitos/cargarFases/${e.target.value}`)
+         .then(function(response){
+            //setTimeout(()=>{ 
+                document.querySelector('.loader').style.display = 'none';
+                document.querySelector('.loader-container').classList.add('d-none');
+                
+                var fase_id = document.getElementById('fase_id');
+                fase_id.innerHTML = '';  // Limpiar opciones anteriores
+                var option = document.createElement('option');
+                option.value = "";
+                option.text = "Seleccione..";
+                fase_id.appendChild(option);
+                response.data.datos.forEach(function (fase) {
+                    option = document.createElement('option');
+                    option.value = fase.id;
+                    option.text = fase.nombre_fase;
+                    fase_id.appendChild(option);
+                });
+             //  },2000)
+
+        }).catch(function(error){
+            document.querySelector('.loader').style.display = 'none';
+            document.querySelector('.loader-container').classList.add('d-none'); 
+            notyfError.open({
+                type: 'error',
+                message: 'Ocurrio un error al cargar los datos '+ error,
+                duration: 8000,
+            });
+         
+        });
+        
+    });
+        
 
     // $('.valor_boleteria').each(function () {
     //     var input = $(this).text();
@@ -190,6 +257,11 @@ doc.addEventListener("DOMContentLoaded",function(e){
     //     })
          
     //   }
+    
+      $('#indicador_id').select2({
+         width: '100%',
+         placeholder: 'Seleccione...'
+      })    
     });
 
     function loadData(){

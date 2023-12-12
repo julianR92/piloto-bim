@@ -11,10 +11,18 @@ class Hito extends Model
     protected $table = 'hitos';
     protected $primaryKey = 'id';
 
-    
+   
+  
+     public function fase()
+    {
+        return $this->belongsTo(Fase::class);
+    }
+
     public function indicadores()
     {
-        return $this->hasMany(Indicador::class, 'hito_id');
+        //return $this->belongsToMany(Indicador::class, 'hito_indicador', 'hito_id', 'indicador_id');
+        return $this->belongsToMany(Indicador::class)->withPivot('id');
+
     }
 }
 

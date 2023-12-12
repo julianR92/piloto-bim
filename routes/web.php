@@ -14,14 +14,14 @@ use App\Http\Controllers\CoevaluacionController;
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\FasesController;
 use App\Http\Controllers\IndicadoresController;
+use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\MediosPagoController;
 use App\Http\Controllers\MetodologiasController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfesionalController;
-use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\ReportesController;
-use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\SemanarioController;
 use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\ServiciosProductosController;
@@ -90,7 +90,7 @@ Route::middleware('auth')->group(function () {
         return redirect('/login');
     });
     
-    Route::post('/close/logout', function () {
+     Route::post('/close/logout/', function () {
         $user = User::find(auth()->user()->id);
         $user->session_id = null;
         $user->save();
@@ -127,7 +127,6 @@ Route::middleware('auth')->group(function () {
       
        
     });
-
     Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //fases
         Route::get('/metodologias', [MetodologiasController::class, 'index'])->name('metodologias.index');
@@ -137,6 +136,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/metodologia/{id}', [MetodologiasController::class, 'delete'])->name('metodologias.delete');
         Route::post('/metodologias', [MetodologiasController::class, 'store'])->name('descuentos.store');
     });
+
     Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //fases
         Route::get('/fases', [FasesController::class, 'index'])->name('fases.index');
@@ -153,6 +153,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/hito/{id}', [HitosController::class, 'edit'])->name('hitos.editar');
         Route::delete('/delete/hito/{id}', [HitosController::class, 'delete'])->name('hitos.delete');
         Route::post('/hitos', [HitosController::class, 'store'])->name('hitos.store');
+        
+        Route::get('/hitos/cargarFases/{id}', [HitosController::class, 'cargarDatosFases'])->name('hitos.cargarFases');
     });
     Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //hitos
@@ -162,7 +164,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/indicador/{id}', [IndicadoresController::class, 'delete'])->name('indicadores.delete');
         Route::post('/indicadores', [IndicadoresController::class, 'store'])->name('indicadores.store');
     });
-    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
+    
+     Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
         //hitos
         Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
         Route::get('/proyectos/loadData', [ProyectosController::class, 'cargarDatos'])->name('proyectos.data');
@@ -177,6 +180,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/indicador/{id}', [SeguimientoController::class, 'edit'])->name('gestion-proyectos.editar');
         Route::delete('/delete/indicador/{id}', [SeguimientoController::class, 'delete'])->name('gestion-proyectos.delete');
         Route::post('/gestion-proyectos', [SeguimientoController::class, 'store'])->name('proyectos.store');
+    });
+    Route::group(['middleware' => ['permission:control-total|empresa-usuarios|admin-camara']], function () {
+        //reportes
+        Route::get('/reporte-indicadores', [ReportesController::class, 'index'])->name('reportes.indicadores');
+        Route::get('/reporte-indicadores/loadData', [ReportesController::class, 'cargarDatos'])->name('indicadores.data');
+        Route::get('/reportes', [ReportesController::class, 'indexReportes'])->name('indicadores-reportes');
+        Route::get('/getData/reporte/{id}', [ReportesController::class, 'getReporte'])->name('indicadores.getData');
+        // Route::post('/reportes-comision/query', [ReportesController::class, 'queryComision'])->name('reportes-comision.query');
+        // Route::get('/reportes-comision-agrupado', [ReportesController::class, 'indexAgrupado'])->name('reportes-comision-agrupado.index');
+        // Route::post('/reportes-comision-agrupado/query', [ReportesController::class, 'queryComisionAgrupada'])->name('reportes-comision-agrupada.query');
     });
         // //tipo-servicio
         // Route::get('/tipo-servicio', [TipoServicioController::class, 'index'])->name('tipo.index');

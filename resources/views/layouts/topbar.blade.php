@@ -227,16 +227,6 @@
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-
-// document.addEventListener('visibilitychange', function() {
-//   if (document.hidden) {
-//     // La página se ha vuelto invisible (puede ser que el usuario cambió de pestaña o minimizó la ventana)
-//     console.log('La página se ha vuelto invisible');
-//   } else {
-//     // La página se ha vuelto visible nuevamente
-//     console.log('La página se ha vuelto visible');
-//   }
-// });
     const doc = document;
     doc.addEventListener("DOMContentLoaded", function(e) {
         loadTasks();
@@ -306,7 +296,7 @@
     }
 
     function cargarTareas(tasks) {
-        // console.log(tasks);
+        console.log(tasks);
         // Reemplaza 'tuElementoPadre' con el ID correcto
         let content = '';
         // Recorre los datos y crea dinámicamente elementos <a> usando innerHTML y template strings
@@ -362,12 +352,4 @@
             return "justo ahora";
         }
     }
-    
 </script>
-<script type="text/javascript">
-    window.onunload = unloadPage;
-    function unloadPage()
-    {
-     alert("unload event detected!");
-    }
-    </script>
