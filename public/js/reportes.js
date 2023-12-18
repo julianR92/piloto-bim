@@ -8,7 +8,6 @@ doc.addEventListener("DOMContentLoaded", function (e) {
 
     document.addEventListener("change", (e) => {
         if (e.target.matches("#proyecto_id")) {
-            console.log(e.target.value);
             if (e.target.value && e.target.value.trim() !== "") {
                 document.querySelector(".loader").style.display = "block";
                 document
@@ -23,10 +22,35 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                             document
                                 .querySelector(".loader-container")
                                 .classList.add("d-none");
-                           let tab = document.getElementById("myTabs");
-                           tab.classList.remove("d-none");
-                           let content = document.getElementById("contentTabs");
-                           content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                                let indicador = document.getElementById("textIndicador");
+                                let hitos = document.getElementById("textHito");
+                                let fases = document.getElementById("textFase");
+    
+                                iniciarConteo(
+                                    parseInt(response.data.datos[0].total_indicadores),
+                                    indicador,
+                                    "rangeIndicador"
+                                );
+                                iniciarConteo(
+                                    parseInt(response.data.datos[0].total_hitos),
+                                    hitos,
+                                    "rangeHito"
+                                );
+                                iniciarConteo(
+                                    parseInt(response.data.datos[0].total_fases),
+                                    fases,
+                                    "rangeFase"
+                                );
+
+                            let tab = document.getElementById("myTabs");
+                            tab.classList.remove("d-none");
+                            let content =
+                                document.getElementById("contentTabs");
+                            content.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                            });
 
                             let ultimosPorcentajes = getLastData(
                                 response.data.datos
@@ -34,7 +58,8 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                             let calculo = getPorcentajes(
                                 response.data.datos[0].seguimientos,
                                 ultimosPorcentajes
-                            );
+                                );
+
                             let promedioHito = calculoPromedioHito(calculo);
 
                             let promedioFase =
@@ -53,47 +78,22 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                                 response.data.datos[0].descripcion,
                                 calculo
                             );
+                            createGraphHitos(
+                                response.data.datos[0].descripcion,
+                                promedioHito
+                            );
                         } else {
-                            document
-                                .getElementById("myTabs")
-                                .classList.add("d-none");
-                            document.querySelector(".loader").style.display =
-                                "none";
-                            document
-                                .querySelector(".loader-container")
-                                .classList.add("d-none");
-                            document.getElementById(
-                                "graficoProyecto"
-                            ).innerHTML = "";
-                            document.getElementById(
-                                "graficoIndicadores"
-                            ).innerHTML = "";
-                            document.getElementById("graficoFases").innerHTML =
-                                "";
-
+                            clearSet();
                             notyfError.open({
                                 type: "error",
                                 message:
-                                    "No se encontrarn datos de este proyecto",
+                                    "No se encontraron datos de este proyecto",
                                 duration: 8000,
                             });
                         }
                     })
                     .catch(function (error) {
-                        document
-                            .getElementById("myTabs")
-                            .classList.add("d-none");
-                        document.querySelector(".loader").style.display =
-                            "none";
-                        document
-                            .querySelector(".loader-container")
-                            .classList.add("d-none");
-                        document.getElementById("graficoProyecto").innerHTML =
-                            "";
-                        document.getElementById(
-                            "graficoIndicadores"
-                        ).innerHTML = "";
-                        document.getElementById("graficoFases").innerHTML = "";
+                        clearSet();
 
                         notyfError.open({
                             type: "error",
@@ -101,13 +101,55 @@ doc.addEventListener("DOMContentLoaded", function (e) {
                             duration: 8000,
                         });
                     });
+            }else{
+                clearSet();
             }
-        } else {
-            document.getElementById("myTabs").classList.add("d-none");
-            document.getElementById("graficoProyecto").innerHTML = "";
-            document.getElementById("graficoIndicadores").innerHTML = "";
-            document.getElementById("graficoFases").innerHTML = "";
         }
+
+        if (e.target.matches("#metodologia_id")) {
+          if(e.target.value){
+            axios
+                .get(`/getData/projects/${e.target.value}`)
+                .then(function (response) {
+                    if (response.data.success) {
+                        let selectElement =
+                            document.getElementById("proyecto_id");
+                        selectElement.innerHTML = "";
+                        let optionVacia = document.createElement("option");
+                        optionVacia.value = "";
+                        optionVacia.text = "Seleccione..";
+                        selectElement.appendChild(optionVacia);
+                        response.data.datos.forEach((opcion) => {
+                            var optionElement =
+                                document.createElement("option");
+                            optionElement.value = opcion.id;
+                            optionElement.text = opcion.descripcion;
+                            selectElement.appendChild(optionElement);
+
+                            
+                        });
+                    } else {
+                        clearSet();
+                        notyfError.open({
+                            type: "error",
+                            message:
+                                "No se encontraron proyectos asociados a esta metodologia",
+                            duration: 8000,
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    clearSet();
+                    notyfError.open({
+                        type: "error",
+                        message: "Error al cargar los datos",
+                        duration: 8000,
+                    });
+                });
+        }else{
+            clearSet();
+        }
+     }
     });
 });
 
@@ -122,42 +164,7 @@ function loadData() {
                 document
                     .querySelector(".loader-container")
                     .classList.add("d-none");
-                let indicador = document.getElementById("textIndicador");
-                let hitos = document.getElementById("textHito");
-                let fases = document.getElementById("textFase");
-                let metodologias = document.getElementById("textMetodologia");
-                let proyectosIni = document.getElementById("textProyectoIni");
-                let proyectosFina = document.getElementById("textProyectoFina");
-                iniciarConteo(
-                    parseInt(response.data.indicadores),
-                    indicador,
-                    "rangeIndicador"
-                );
-                iniciarConteo(
-                    parseInt(response.data.hitos),
-                    hitos,
-                    "rangeHito"
-                );
-                iniciarConteo(
-                    parseInt(response.data.fases),
-                    fases,
-                    "rangeFase"
-                );
-                iniciarConteo(
-                    parseInt(response.data.metodologia),
-                    metodologias,
-                    "rangeMetodologia"
-                );
-                iniciarConteo(
-                    parseInt(response.data.proyecto_inicializado),
-                    proyectosIni,
-                    "proyectoIni"
-                );
-                iniciarConteo(
-                    parseInt(response.data.proyecto_finalizado),
-                    proyectosFina,
-                    "proyectoFin"
-                );
+                
             }, 2000);
         })
         .catch(function (error) {
@@ -240,6 +247,7 @@ function getPorcentajes(seguimientos, hitos) {
                     fase_id: seguimiento.fase_id,
                     nombre_indicador: seguimiento.indicador.nombre_indicador,
                     nombre_fase: seguimiento.fase.nombre_fase,
+                    nombre_hito: seguimiento.hito.nombre_hito,
                     porcentaje: porcentaje,
                 });
             }
@@ -260,6 +268,7 @@ function calculoPromedioHito(datos) {
                 hito_id: item.hito_id,
                 fase_id: item.fase_id,
                 nombre_fase: item.nombre_fase,
+                nombre_hito: item.nombre_hito,
                 porcentaje: 0,
             };
         }
@@ -339,38 +348,49 @@ function createGraphProject(proyecto, porcentaje) {
     divGraphProyecto.style.height = "350px";
     divGraphProyecto.style.marginTop = "30px";
     divProyecto.appendChild(divGraphProyecto);
-
+    let substract = 100 - parseFloat(porcentaje);
     Highcharts.chart("chartProyecto", {
         chart: {
-            type: "bar",
+            type: "pie",
         },
         title: {
-            text: `Proyecto ${proyecto}`,
+            text: `${proyecto}`,
+            align: 'left'
         },
-        xAxis: {
-            categories: ["Proyecto"],
-        },
-        yAxis: {
-            title: {
-                text: "%",
-            },
-            max: 100,
-            min: 0,
+        subtitle:{
+            text: 'Piloto BIM',
+            align: 'left'
         },
         plotOptions: {
-            bar: {
-                animation: {
-                    duration: 1000,
-                },
-                color: "#7cb5ec",
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
             },
+            showInLegend: true
+            }
+             
+          },
+          tooltip: {
+            valueSuffix: '%'
         },
-        series: [
-            {
-                name: "% Avance",
-                data: [porcentaje],
-            },
-        ],
+          series: [
+              {
+                  name: "%Ejecucion",
+                  data:[
+                    {
+                      name: 'Avance',
+                      y:porcentaje
+                    },
+                    {
+                      name: 'Faltante',
+                      y:substract
+                    }
+                  ]
+              },
+          ],
     });
 }
 function createGraphFases(proyecto, datos) {
@@ -393,10 +413,20 @@ function createGraphFases(proyecto, datos) {
             type: "bar",
         },
         title: {
-            text: `Proyecto ${proyecto}`,
+            text: `${proyecto}`,
+            align: 'left'
+        },
+        subtitle:{
+            text: 'Piloto BIM',
+            align: 'left'
         },
         xAxis: {
             categories: labelFase,
+            gridLineWidth: 1,
+            lineWidth: 0
+        },
+        tooltip: {
+            valueSuffix: '%'
         },
         yAxis: {
             title: {
@@ -404,19 +434,105 @@ function createGraphFases(proyecto, datos) {
             },
             max: 100,
             min: 0,
+            crosshair: true,
+
         },
+        
         plotOptions: {
             bar: {
+                borderRadius: '50%',
                 animation: {
                     duration: 1000,
                 },
-                color: "#D22FEC",
+                color: "#FDFD5E",
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.1f}%", // Formato de las etiquetas de datos
+                    style: {
+                        color: "black", // Color del texto de las etiquetas de datos
+                    },
+                },
+                cursor: 'pointer',
+
             },
         },
+        
         series: [
             {
                 name: "% Avance por Fase",
                 data: fases,
+            },
+        ],
+    });
+}
+function createGraphHitos(proyecto, datos) {
+    let labelHito = datos.map((el) => {
+        return el.nombre_hito;
+    });
+    let hitos = datos.map((el) => {
+        return el.porcentaje;
+    });
+    let divProyecto = document.getElementById("graficoHitos");
+    divProyecto.innerHTML = "";
+    var divGraphFases = document.createElement("div");
+    divGraphFases.id = "chartHitos";
+    divGraphFases.style.height = "350px";
+    divGraphFases.style.marginTop = "30px";
+    divProyecto.appendChild(divGraphFases);
+
+    Highcharts.chart("chartHitos", {
+        chart: {
+            type: "bar",
+        },
+        title: {
+            text: `${proyecto}`,
+            align: 'left'
+        },
+        subtitle:{
+            text: 'Piloto BIM',
+            align: 'left'
+        },
+        xAxis: {
+            categories: labelHito,
+            gridLineWidth: 1,
+            lineWidth: 0
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        yAxis: {
+            title: {
+                text: "%",
+            },
+            max: 100,
+            min: 0,
+            crosshair: true,
+
+        },
+        
+        plotOptions: {
+            bar: {
+                borderRadius: '50%',
+                animation: {
+                    duration: 1000,
+                },
+                color: "#10B981",
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.1f}%", // Formato de las etiquetas de datos
+                    style: {
+                        color: "black", // Color del texto de las etiquetas de datos
+                    },
+                },
+                cursor: 'pointer',
+
+            },
+        },
+        
+        series: [
+            {
+                name: "% Avance por hito",
+                data: hitos,
             },
         ],
     });
@@ -436,11 +552,19 @@ function createGraphIndicadores(proyecto, datos) {
             type: "column",
         },
         title: {
-            text: `Proyecto ${proyecto}`,
+            text: `${proyecto}`,
+            align: 'left'
+        },
+        subtitle:{
+            text: 'Piloto BIM',
+            align: 'left'
         },
         xAxis: {
             categories: datos.map((item) => item.nombre_indicador),
             crosshair: true,
+        },
+        tooltip: {
+            valueSuffix: '%'
         },
         yAxis: {
             title: {
@@ -450,20 +574,46 @@ function createGraphIndicadores(proyecto, datos) {
             min: 0,
         },
         plotOptions: {
-            bar: {
-                animation: {
-                    duration: 1000,
-                },
-                color: "#88FC52",
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                borderRadius: 5,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.1f}%", // Formato de las etiquetas de datos
+                    style: {
+                        color: "black", // Color del texto de las etiquetas de datos
+                    },
             },
+            cursor: "pointer",
         },
+            },
         series: [
             {
                 name: "% Avance por Indicadores",
                 data: datos.map((item) => item.porcentaje),
+                color:'#D22FEC'
             },
         ],
     });
+}
+
+function clearSet(){
+    document.getElementById("myTabs").classList.add("d-none");
+    document.getElementById("graficoProyecto").innerHTML = "";
+    document.getElementById("graficoIndicadores").innerHTML = "";
+    document.getElementById("graficoFases").innerHTML = "";
+    document.getElementById("graficoHitos").innerHTML = "";
+    document.getElementById("proyecto_id").innerHTML = "";
+    document.getElementById("proyecto_id").innerHTML = "";
+    document.getElementById("metodologia_id").value= "";
+    document.getElementById("textHito").innerHTML="0";
+    document.getElementById("textIndicador").innerHTML="0";
+    document.getElementById("textFase").innerHTML="0";
+    document.getElementById("rangeIndicador").style.width="0%";
+    document.getElementById("rangeFase").style.width="0%";
+    document.getElementById("rangeHito").style.width="0%";
+
 }
 
 // Cambia este número al valor que desees

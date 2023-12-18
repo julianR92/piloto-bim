@@ -187,6 +187,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/reporte-indicadores/loadData', [ReportesController::class, 'cargarDatos'])->name('indicadores.data');
         Route::get('/reportes', [ReportesController::class, 'indexReportes'])->name('indicadores-reportes');
         Route::get('/getData/reporte/{id}', [ReportesController::class, 'getReporte'])->name('indicadores.getData');
+        Route::get('/getData/projects/{id}', [ReportesController::class, 'getProjects'])->name('indicadores.getProjects');
         // Route::post('/reportes-comision/query', [ReportesController::class, 'queryComision'])->name('reportes-comision.query');
         // Route::get('/reportes-comision-agrupado', [ReportesController::class, 'indexAgrupado'])->name('reportes-comision-agrupado.index');
         // Route::post('/reportes-comision-agrupado/query', [ReportesController::class, 'queryComisionAgrupada'])->name('reportes-comision-agrupada.query');

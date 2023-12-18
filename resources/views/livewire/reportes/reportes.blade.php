@@ -131,7 +131,37 @@
                 <div class="card-body">
                     <div class="table-responsive" style="overflow-x:inherit!important;">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-6 mb-5">
+                                <div class="form-group">
+                                    <label for="descripcion">Metodologias</label>
+                                    <div class="input-group">
+                                        <select name="metodologia_id" id="metodologia_id"
+                                            class=" form-control form-select  select">
+                                            <option value="">Seleccione..</option>
+                                            @foreach ($metodologias as $metodo)
+                                                <option value={{ $metodo->id }}>{{ $metodo->descripcion }}</option>
+                                            @endforeach
+                                        </select>
+                                       
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <div class="form-group">
+                                    <label for="descripcion">Proyecto</label>
+                                    <div class="input-group">
+                                        <select name="proyecto_id" id="proyecto_id"
+                                            class=" form-control form-select  select">
+                                            
+                                        </select>
+                                       
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
 
                                 <div class="card-new">
                                     <div class="title">
@@ -166,7 +196,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
 
                                 <div class="card-new">
                                     <div class="title">
@@ -201,7 +231,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
 
                                 <div class="card-new">
                                     <div class="title">
@@ -235,112 +265,9 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-2">
-
-                                <div class="card-new">
-                                    <div class="title">
-                                        <span style="background-color: #FC6B3D">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24">
-                                                <path fill="#ffffff"
-                                                    d="M19.5 17c-.13 0-.26 0-.39.04l-1.61-3.25a2.5 2.5 0 0 0-1.75-4.29c-.13 0-.25 0-.39.04l-1.63-3.25c.48-.45.77-1.08.77-1.79a2.5 2.5 0 0 0-5 0c0 .71.29 1.34.76 1.79L8.64 9.54c-.14-.04-.26-.04-.39-.04a2.5 2.5 0 0 0-1.75 4.29l-1.61 3.25C4.76 17 4.63 17 4.5 17a2.5 2.5 0 0 0 0 5A2.5 2.5 0 0 0 7 19.5c0-.7-.29-1.34-.76-1.79l1.62-3.25c.14.04.26.04.39.04s.25 0 .39-.04l1.63 3.25c-.47.45-.77 1.09-.77 1.79a2.5 2.5 0 0 0 5 0A2.5 2.5 0 0 0 12 17c-.13 0-.26 0-.39.04L10 13.79c.46-.45.75-1.08.75-1.79s-.29-1.34-.75-1.79l1.61-3.25c.13.04.26.04.39.04s.26 0 .39-.04L14 10.21c-.45.45-.75 1.09-.75 1.79a2.5 2.5 0 0 0 2.5 2.5c.13 0 .25 0 .39-.04l1.63 3.25c-.47.45-.77 1.09-.77 1.79a2.5 2.5 0 0 0 5 0a2.5 2.5 0 0 0-2.5-2.5Z" />
-                                            </svg>
-                                        </span>
-                                        <p class="title-text">
-                                            Metodologias
-                                        </p>
-                                        {{-- <p class="percent">
-                                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
-                                                </path>
-                                            </svg> 20%
-                                        </p> --}}
-                                    </div>
-                                    <div class="data">
-                                        <p id="textMetodologia" style="text-align: center">
-                                            0
-                                        </p>
-
-                                        <div class="range">
-                                            <div class="fill" id="rangeMetodologia"
-                                                style="background-color: #FC6B3D;width:0%">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <div class="card-new">
-                                    <div class="title">
-                                        <span style="background-color: #FD5B79">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                                viewBox="0 0 24 24">
-                                                <path fill="#ffffff"
-                                                    d="M8 16h2V8H8v8Zm4 0l6-4l-6-4v8Zm0 6q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20Zm0-8Z" />
-                                            </svg>
-                                        </span>
-                                        <p class="title-text">
-                                            Proyectos Iniciados
-                                        </p>
-                                        {{-- <p class="percent">
-                                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
-                                                </path>
-                                            </svg> 20%
-                                        </p> --}}
-                                    </div>
-                                    <div class="data">
-                                        <p id="textProyectoIni" style="text-align: center">
-                                            0
-                                        </p>
-
-                                        <div class="range">
-                                            <div class="fill" id="proyectoIni"
-                                                style="background-color: #FD5B79;width:0%">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <div class="card-new">
-                                    <div class="title">
-                                        <span style="background-color: #5B98FD">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 100 100">
-                                                <path fill="#fcfcfc"
-                                                    d="M50 0a3.5 3.5 0 0 0-3.5 3.5V93h-9.57a3.5 3.5 0 0 0-3.5 3.5a3.5 3.5 0 0 0 3.5 3.5h25a3.5 3.5 0 0 0 3.5-3.5a3.5 3.5 0 0 0-3.5-3.5H53.5V47h43a3.5 3.5 0 0 0 3.5-3.5v-40A3.5 3.5 0 0 0 96.5 0h-46a3.5 3.5 0 0 0-.254.01A3.5 3.5 0 0 0 50 0zm13.8 7h9.8v7.43h9.8V7H93v7.43h-9.6v9.799H93v9.8h-9.6V40h-9.8v-5.97h-9.8V40H54v-5.97h9.8v-9.801H54v-9.8h9.8V7zm0 7.43v9.799h9.8v-9.8h-9.8zm9.8 9.799v9.8h9.8v-9.8h-9.8z"
-                                                    color="#fcfcfc" />
-                                            </svg>
-                                        </span>
-                                        <p class="title-text">
-                                            Proyectos Finalizados
-                                        </p>
-                                        {{-- <p class="percent">
-                                           <svg width="20" height="20" fill="currentColor" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
-                                                </path>
-                                            </svg> 20%
-                                        </p> --}}
-                                    </div>
-                                    <div class="data">
-                                        <p id="textProyectoFina" style="text-align: center">
-                                            0
-                                        </p>
-
-                                        <div class="range">
-                                            <div class="fill" id="proyectoFin"
-                                                style="background-color: #5B98FD; width:0%">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                           
+                           
+                            
 
 
                         </div>
@@ -350,26 +277,7 @@
             <div class="card border-0 shadow mb-4 mt-3">
                 <div class="card-body">
                     <div class="table-responsive" style="overflow-x:inherit!important;">
-                        <div class="row justify-content-center">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="descripcion">Proyecto</label>
-                                    <div class="input-group">
-                                        <select name="proyecto_id" id="proyecto_id"
-                                            class=" form-control form-select  select">
-                                            <option value="">Seleccione..</option>
-                                            @foreach ($proyectos as $proyecto)
-                                                <option value={{ $proyecto->id }}>{{ $proyecto->descripcion }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('proyecto_id')
-                                            <div class="invalid-feedback"> {{ $message }} </div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        
                         <div class="row mt-4">
                             <ul class="nav nav-tabs d-none" id="myTabs">
                                 <li class="nav-item " style="">
@@ -379,6 +287,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link border" id="tab2" data-bs-toggle="tab" href="#content2">%
                                         Fases</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link border" id="tab4" data-bs-toggle="tab" href="#content4">%
+                                        Hitos</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link border" id="tab3" data-bs-toggle="tab" href="#content3">%
@@ -397,6 +309,12 @@
                                 </div>
                                 <div class="tab-pane fade" id="content2">
                                     <div class="row" id="graficoFases">
+
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="content4">
+                                    <div class="row" id="graficoHitos">
 
 
                                     </div>

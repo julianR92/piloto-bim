@@ -244,10 +244,8 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-md-3 mt-3">                            
-                                                              
-                            </div>
-                            <div class="col-md-3 mt-3">
+                         
+                            {{-- <div class="col-md-3 mt-3">
                                 
                                 <div class="card-new">
                                     <div class="title">
@@ -262,7 +260,7 @@
                                                 <path d="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
                                                 </path>
                                             </svg> 20%
-                                        </p> --}}
+                                        </p> 
                                     </div>
                                     <div class="data">
                                         <p id="textProyectoIni" style="text-align: center">
@@ -276,8 +274,8 @@
                                     </div>
                                 </div>
                                 
-                            </div>
-                            <div class="col-md-3 mt-3">
+                            </div> --}}
+                            {{-- <div class="col-md-3 mt-3">
                                 
                                 <div class="card-new">
                                     <div class="title">
@@ -292,7 +290,7 @@
                                                 <path d="M1408 1216q0 26-19 45t-45 19h-896q-26 0-45-19t-19-45 19-45l448-448q19-19 45-19t45 19l448 448q19 19 19 45z">
                                                 </path>
                                             </svg> 20%
-                                        </p> --}}
+                                        </p>
                                     </div>
                                     <div class="data">
                                         <p id="textProyectoFina" style="text-align: center">
@@ -306,9 +304,17 @@
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> --}}
+                            
                             
 
+                        </div>
+                        <div class="row justify-content-center mt-5">
+                            <h5 class="h4 text-center">Proyectos</h5>
+                            <div class="col-md-12">
+                                <div id="graficaReportes"></div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -319,6 +325,7 @@
         </div>
     </div>
     @push('scripts-indicadores')
+     <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="{{ asset('js/reporte-indicador.js') }}" type="module"></script>
     @endpush
 @endsection

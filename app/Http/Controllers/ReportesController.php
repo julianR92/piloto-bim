@@ -43,15 +43,37 @@ class ReportesController extends Controller
     public function indexReportes()
     {
         $empresa_id = auth()->user()->empresa_id ? auth()->user()->empresa_id : '%';
-        $proyectos = Proyecto::whereIn('estado', [1, 2])->where('empresa_id',  'LIKE', $empresa_id)->get();
-        return view('livewire.reportes.reportes', compact('proyectos'));
+        // $proyectos = Proyecto::whereIn('estado', [1, 2])->where('empresa_id',  'LIKE', $empresa_id)->get();
+        $metodologias = Metodologia::whereIn('estado', [1])->where('empresa_id',  'LIKE', $empresa_id)->get();
+        return view('livewire.reportes.reportes', compact('metodologias'));
     }
 
     public function getReporte($id)
     {
         $proyectos = Proyecto::where('id', $id)
             ->with('seguimientos.detalles', 'metodologia', 'seguimientos.fase', 'seguimientos.hito', 'seguimientos.indicador')
+            ->withCount([
+                'seguimientos as total_fases' => function ($query) {
+                    $query->select(DB::raw('count(distinct fase_id)'));
+                },
+                'seguimientos as total_hitos' => function ($query) {
+                    $query->select(DB::raw('count(distinct hito_id)'));
+                },
+                'seguimientos as total_indicadores' => function ($query) {
+                    $query->select(DB::raw('count(indicador_id)'));
+                }
+            ])
             ->get();
+        if ($proyectos->count() > 0) {
+            return response()->json(['success' => true, 'datos' => $proyectos]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+    public function getProjects($id)
+    {
+        $proyectos = Proyecto::where('metodologia_id', $id)        
+        ->get();
         if ($proyectos->count() > 0) {
             return response()->json(['success' => true, 'datos' => $proyectos]);
         } else {
